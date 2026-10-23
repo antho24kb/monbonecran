@@ -268,6 +268,7 @@ a.buy::before{content:""; width:16px; height:16px; background:url("data:image/sv
 a.buy:hover{transform:translateY(-1px); box-shadow:0 9px 22px rgba(255,80,60,.5), inset 0 1px 0 rgba(255,255,255,.35)}
 a.buy:active{opacity:.8}
 .acch{margin-top:22px}
+.accsub{font-size:1rem; font-weight:600; color:var(--fg); opacity:.8; margin:6px 0 0; line-height:1.35}
 .accs{display:flex; flex-direction:column; gap:10px; margin-top:10px}
 .acc{position:relative; display:flex; align-items:center; gap:13px; padding:13px 13px 13px 12px; border-radius:20px; background:linear-gradient(rgba(255,255,255,.8),rgba(255,255,255,.8)) padding-box, linear-gradient(120deg,rgba(255,138,31,.75),rgba(139,77,255,.75)) border-box; border:1.5px solid transparent; backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); box-shadow:0 8px 24px rgba(139,77,255,.13); overflow:hidden}
 .acc::after{content:""; position:absolute; right:-30px; top:-30px; width:90px; height:90px; border-radius:50%; background:radial-gradient(circle,rgba(255,138,31,.16),transparent 70%); pointer-events:none}
@@ -2193,7 +2194,7 @@ function accHtml(gamer) {
     ["📺", "Support mural", "Fixez votre télé au mur, sans pied encombrant.", "support mural tv orientable"],
     ["▶️", "Boîtier streaming", "Apple TV, Chromecast : les applis en plus.", "boîtier streaming tv 4K"]
   ];
-  var h = '<h2 class="acch">Pour aller avec votre télé</h2><p class="note">Les accessoires que nous conseillons.</p><div class="accs">';
+  var h = '<h2 class="acch">Pour aller avec votre télé</h2><p class="accsub">Les accessoires que nous vous conseillons.</p><div class="accs">';
   items.forEach(function (i) {
     var u = "https://www.amazon.fr/s?k=" + encodeURIComponent(i[3]);
     if (AFF_TAG) u += "&tag=" + AFF_TAG;
