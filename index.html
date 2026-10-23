@@ -418,7 +418,7 @@ var BRANDS = {
     path: "Réglages > Image > Style d'image",
     models: {
       "2026": [["OLED951","OLED+"],["OLED911","OLED+"],["OLED811","OLED"],["OLED761","OLED"],["MLED981","RGB Mini LED"],["The One PQS9001","QLED"],["QLED 8000 (8701, 8601, 8501)","QLED",1],["PUS8550","QLED",1]],
-      "2025": [["OLED950","OLED+"],["OLED910","OLED+"],["OLED810","OLED"],["OLED760","OLED"],["OLED750","OLED"],["MLED950","Mini LED"],["MLED910","Mini LED"],["The One PUS9000","QLED"]]],
+      "2025": [["OLED950","OLED+"],["OLED910","OLED+"],["OLED810","OLED"],["OLED760","OLED"],["OLED750","OLED"],["MLED950","Mini LED"],["MLED910","Mini LED"],["The One PUS9000","QLED"]],
       "2024": [["OLED959","OLED+"],["OLED909","OLED+"],["OLED809","OLED"],["OLED849","OLED",1],["PML9009 (The Xtra)","Mini LED"],["PML9049 (The Xtra)","Mini LED"],["PUS8909 (The One)","LED"],["PUS8949 (The One)","LED"],["PUS8109","LED",1],["PUS8309","LED",1],["PUS8359","LED",1]],
       "2023": [["OLED908","OLED"],["OLED808","OLED"],["OLED937","OLED"],["PUS8808 (The One)","LED"],["PUS8508 (The One)","LED"],["PML9308 (The Xtra)","Mini LED"],["PML9008 (The Xtra)","Mini LED"],["PUS7608","LED",1]]
     }
@@ -1588,13 +1588,16 @@ function back() {
 
 function modelsHtml(filter) {
   var q = (filter || "").toLowerCase().replace(/\s+/g, "");
+  var q2 = q.replace(/\/\d+$/, "").replace(/^\d{2,3}(?=[a-z])/, "");
+  if (q2.length < 3) q2 = q;
   var b = BRANDS[state.brand];
   var h = "";
   var shown = 0;
   YEARS.forEach(function (y) {
     var items = b.models[y].filter(function (m) {
       if (state.tech && techCat(m[1]) !== state.tech) return false;
-      return !q || m[0].toLowerCase().replace(/\s+/g, "").indexOf(q) !== -1;
+      var nm = m[0].toLowerCase().replace(/\s+/g, "");
+      return !q || nm.indexOf(q) !== -1 || nm.indexOf(q2) !== -1;
     });
     if (!items.length) {
       if (!q && !state.tech && !b.models[y].length) {
@@ -1990,7 +1993,7 @@ function renderBuy() {
 }
 
 var SPEC = {
- "Philips PUS8550": {"ec": "QLED 4K, 60 Hz, HDR10, HDR10+, HLG", "jeu": "3 HDMI (4K 60 Hz), VRR, ALLM", "sm": "Titan OS ; Ambilight 3 côtés ; 20 W, Dolby Atmos, DTS:X", "ta": "43, 50, 55, 65, 75, 85 pouces"},
+ "Philips PUS8550": {"ec": "QLED 4K, 60 Hz, HDR10, HDR10+, HLG", "jeu": "3 HDMI (4K 60 Hz), VRR, ALLM", "sm": "Titan OS ; Ambilight 3 côtés ; 20 W, Dolby Atmos, DTS:X", "ta": "43, 50, 55, 65, 75, 85 pouces (référence sur l'étiquette : 43PUS8550/12 à 85PUS8550/12)"},
  "Philips OLED811": {"ec": "OLED EX 4K, jusqu'à 165 Hz, jusqu'à 2 500 nits, Dolby Vision 2 Max, HDR10+", "jeu": "4 HDMI 2.1, VRR, FreeSync Premium, G-Sync, Dolby Vision 120 Hz Gaming", "sm": "Titan OS ; Ambilight 3 côtés (AmbiScape) ; 2.2, 70 W (50 W en 42 pouces), Dolby Atmos, DTS:X", "ta": "42, 48, 55, 65, 77 pouces"},
  "Philips OLED911": {"ec": "OLED+ Primary RGB Tandem 2.0 4K, jusqu'à 165 Hz, jusqu'à 4 500 nits (annoncé), Dolby Vision 2 Max", "jeu": "4 HDMI 2.1 (4K 165 Hz), VRR, ALLM", "sm": "Titan OS ; Ambilight 4 côtés (AmbiScape) ; Bowers & Wilkins 3.1, 81 W, Dolby Atmos, DTS:X, eARC", "ta": "48, 55, 65, 77 pouces"},
  "Philips The One PQS9001": {"ec": "QLED 4K, 100 Hz natif (120 Hz par interpolation), HDR10, HDR10+, Dolby Vision 2, HLG", "jeu": "4 HDMI 2.1 (4K 120 Hz), VRR jusqu'à 144 Hz, ALLM, Game Bar 2.0", "sm": "Titan OS ; Ambilight 3 côtés (AmbiScape) ; 2 × 20 W, Dolby Atmos, DTS:X", "ta": "43, 50, 55, 65, 75, 85, 100 pouces"},
