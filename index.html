@@ -294,6 +294,11 @@ button.buy{border:0; cursor:pointer; font-family:inherit}
 .accgo{position:relative; z-index:1; flex:0 0 auto; display:inline-flex; align-items:center; gap:4px; padding:9px 14px; border-radius:999px; background:linear-gradient(135deg,#FF8A00 0%,#FF3D6E 100%); color:#fff; font-weight:800; font-size:.82rem; text-decoration:none; box-shadow:0 6px 14px rgba(255,80,60,.35), inset 0 1px 0 rgba(255,255,255,.35)}
 .accgo::after{content:"›"; font-size:1.05rem; line-height:1; margin-top:-1px}
 .accgo:active{opacity:.8}
+.accbtns{position:relative; z-index:1; flex:0 0 auto; display:flex; flex-direction:column; align-items:stretch; gap:6px}
+.accbtns .accgo{justify-content:center}
+.accgo.ed{background:#fff; border:1px solid var(--line); box-shadow:none; padding:6px 10px}
+.accgo.ed::after{display:none}
+.accgo.ed img{display:block; width:70px; height:auto}
 #stage .opt.pick{display:flex!important; flex-direction:row!important; align-items:center!important; justify-content:flex-start!important; gap:14px; cursor:default; text-align:left}
 .opt.pick::after,.opt.pick::before{display:none!important}
 .opt.pick:hover{box-shadow:none}
@@ -2219,16 +2224,16 @@ function pickCard(c, n, sz) {
 }
 function accHtml(gamer) {
   var items = [
-    ["🔊", "Barre de son", "Un son bien plus riche que les haut-parleurs de la télé.", "barre de son pour tv"],
-    gamer ? ["🔌", "Câble HDMI 2.1", "Pour la PS5 et la Xbox en 4K 120 Hz.", "câble HDMI 2.1 8K 4K 120Hz"] : ["⚡", "Multiprise parafoudre", "Protège votre télé des surtensions.", "multiprise parafoudre"],
-    ["📺", "Support mural", "Fixez votre télé au mur, sans pied encombrant.", "support mural tv orientable"],
-    ["▶️", "Boîtier streaming", "Apple TV, Chromecast : les applis en plus.", "boîtier streaming tv 4K"]
+    ["🔊", "Barre de son", "Un son bien plus riche que les haut-parleurs de la télé.", "barre de son pour tv", "barre de son"],
+    gamer ? ["🔌", "Câble HDMI 2.1", "Pour la PS5 et la Xbox en 4K 120 Hz.", "câble HDMI 2.1 8K 4K 120Hz", null] : ["⚡", "Multiprise parafoudre", "Protège votre télé des surtensions.", "multiprise parafoudre", "parafoudre"],
+    ["📺", "Support mural", "Fixez votre télé au mur, sans pied encombrant.", "support mural tv orientable", "support mural tv"],
+    ["▶️", "Boîtier streaming", "Apple TV, Chromecast : les applis en plus.", "boîtier streaming tv 4K", "chromecast"]
   ];
   var h = '<h2 class="acch">Pour aller avec votre télé</h2><p class="accsub">Les accessoires que nous vous conseillons.</p><div class="accs">';
   items.forEach(function (i) {
     var u = "https://www.amazon.fr/s?k=" + encodeURIComponent(i[3]);
     if (AFF_TAG) u += "&tag=" + AFF_TAG;
-    h += '<div class="acc"><span class="acci" aria-hidden="true">' + i[0] + '</span><span class="acct"><b>' + esc(i[1]) + "</b><small>" + esc(i[2]) + '</small></span><a class="accgo" href="' + u + '" target="_blank" rel="sponsored nofollow noopener noreferrer" aria-label="Voir ' + esc(i[1]) + ' sur Amazon">Voir</a></div>';
+    h += '<div class="acc"><span class="acci" aria-hidden="true">' + i[0] + '</span><span class="acct"><b>' + esc(i[1]) + "</b><small>" + esc(i[2]) + '</small></span><span class="accbtns"><a class="accgo" href="' + u + '" target="_blank" rel="sponsored nofollow noopener noreferrer" aria-label="Voir ' + esc(i[1]) + ' sur Amazon">Amazon</a>' + (i[4] ? '<a class="accgo ed" href="' + edLink("https://www.electrodepot.fr/catalogsearch/result/?q=" + encodeURIComponent(i[4])) + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="electrodepot" data-l="' + esc(i[1]) + '" aria-label="Voir ' + esc(i[1]) + ' chez ElectroDepot"><img src="electrodepot-logo.png" alt="ElectroDepot" width="70" height="20" loading="lazy"></a>' : "") + "</span></div>";
   });
   return h + "</div>";
 }
