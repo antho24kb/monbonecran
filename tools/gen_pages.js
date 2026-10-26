@@ -23,7 +23,7 @@ function findModel(brand, model) {
 function sheet(brand, model, usage) {
   ctx.state.brand = brand; ctx.state.model = model; ctx.state.usage = usage;
   const v = A.verifiedFor();
-  return { items: vm.runInContext(`settingsFor(${JSON.stringify(brand)},${JSON.stringify(usage)},55)`, ctx), path: v ? v.path : A.BRANDS[brand].path, verified: !!v };
+  return { items: vm.runInContext(`settingsFor(${JSON.stringify(brand)},${JSON.stringify(usage)},55)`, ctx), path: v ? v.path : A.BRANDS[brand].path, verified: !!v, note: !v ? "Valeurs de départ affichées à titre d'exemple. Les noms de menus changent selon la version du logiciel de votre téléviseur." : v.game ? "Réglages pour le jeu et le sport en direct. Les noms de menus peuvent varier selon la version du logiciel de votre téléviseur." : v.unverified ? "Valeurs tirées d'une vidéo, à tester sur un film que vous connaissez. Les noms de menus peuvent varier selon la version du logiciel." : "Noms de menus relevés sur une vraie télé de ce modèle. Valeurs de départ : ajustez-les selon votre pièce et ce que vous regardez." };
 }
 
 function page(brand, model) {
@@ -41,7 +41,7 @@ function page(brand, model) {
       const val = x.num !== undefined ? x.num : x.val;
       body += `<div class="set"><span>${esc(x.name)}</span><b>${esc(val)}</b></div>` + (x.num !== undefined ? `<div class="meter"><i style="width:${x.num}%"></i></div>` : "");
     }
-    body += `</section>`;
+    body += `<p class="note">${esc(sh.note)}</p></section>`;
   }
   const note = `Valeurs de départ pour un écran de 55 pouces, à ajuster selon votre pièce et vos goûts. Les noms de menus changent selon la version du logiciel de votre téléviseur.`;
   return { slug: s, name, html: `<!doctype html>
