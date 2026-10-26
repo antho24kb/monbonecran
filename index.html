@@ -2022,7 +2022,7 @@ function renderBuy() {
     if (gs2.length) h += '<div class="set"><div class="set-name">Pour vos consoles : ' + esc(gs2.map(function (k) { return k === "Xbox" ? "Xbox Series" : k; }).join(", ")) + '</div><p class="note">' + (gamer ? "Pour la PS5 et la Xbox Series, nous avons gardé des télés compatibles 4K 120 Hz avec VRR. Vérifiez le nombre de ports HDMI 2.1 sur la fiche." : "") + (gs2.indexOf("Switch") >= 0 ? (gamer ? " " : "") + "Pour la Switch, une dalle 60 Hz suffit." : "") + "</p></div>";
     if (!state.btech) h += '<div class="set"><div class="set-name">Technologie conseillée : ' + esc(rec.tech) + '</div><p class="note">' + esc(rec.why) + "</p></div>";
     h += '<div class="list">';
-    rec.picks.slice().sort(function (a, b) { return (scoreOf(b) || 0) - (scoreOf(a) || 0); }).forEach(function (c, n) { h += pickCard(c, n, BSIZES[state.bsize] ? BSIZES[state.bsize].rep : 55); });
+    rec.picks.slice().sort(function (a, b) { return (scoreOf(b) || 0) - (scoreOf(a) || 0); }).slice(0, 3).forEach(function (c, n) { h += pickCard(c, n, BSIZES[state.bsize] ? BSIZES[state.bsize].rep : 55); });
     h += "</div>";
     if (state.budget === 0) h += edBanner();
     h += accHtml(gamer);
