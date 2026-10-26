@@ -2679,6 +2679,17 @@ stage.addEventListener("click", function (e) {
 
 render();
 </script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a6a8e2a782e3430baac75a27b70b5345"}'></script><!-- End Cloudflare Web Analytics -->
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a6a8e2a782e3430baac75a27b70b5345"}'>
+/* Suivi anonyme des clics vers les boutiques (aucune donnée personnelle) */
+document.addEventListener("click", function (e) {
+  try {
+    var a = e.target.closest && e.target.closest("a[rel~=sponsored]");
+    if (!a) return;
+    var m = /[?&]k=([^&]+)/.exec(a.href), l = m ? decodeURIComponent(m[1].replace(/\+/g, " ")) : "?";
+    var kind = a.classList.contains("accgo") ? "accessoire" : "tele";
+    fetch("https://wxmlrnocxrshtlczvpgr.supabase.co/rest/v1/rpc/mbe_track", { method: "POST", keepalive: true, headers: { "Content-Type": "application/json", apikey: "sb_publishable_OaoSIOOYM9_sNsJWtuGc8Q_8U5TDplA" }, body: JSON.stringify({ k: kind, l: l, s: "amazon" }) }).catch(function () {});
+  } catch (x) {}
+}, true);
+</script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
