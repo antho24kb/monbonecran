@@ -278,12 +278,22 @@ button.buy{border:0; cursor:pointer; font-family:inherit}
 .shop .info{flex:1; font-size:.78rem; line-height:1.3; color:var(--muted)}
 .shop .info b{display:block; color:var(--fg); font-size:.84rem}
 .shop .go{flex:0 0 auto; padding:7px 13px; border-radius:999px; background:var(--soft); color:#6D28D9; font-weight:800; font-size:.82rem}
-.edmore{margin:12px 0 4px; background:#fff; border:1px solid var(--line); border-radius:18px; padding:4px 12px}
-.edmore summary{cursor:pointer; padding:10px 0; font-weight:600; font-size:.9rem}
-.edrow{display:flex; align-items:center; gap:10px; padding:10px 0; border-top:1px solid var(--line); text-decoration:none; color:inherit; font-size:.84rem; color:var(--muted)}
-.edrow .n{flex:1}
-.edrow .n b{display:block; color:var(--fg); font-size:.9rem}
-.edrow .go{font-weight:600; color:var(--fg)}
+.edmore{margin:14px 0 4px; border-radius:20px; background:linear-gradient(rgba(255,255,255,.85),rgba(255,255,255,.85)) padding-box, linear-gradient(120deg,rgba(255,138,31,.75),rgba(139,77,255,.75)) border-box; border:1.5px solid transparent; padding:0 14px}
+.edmore summary{list-style:none; display:flex; align-items:center; gap:12px; cursor:pointer; padding:13px 0}
+.edmore summary::-webkit-details-marker{display:none}
+.edmore .st{flex:1 1 auto; min-width:0}
+.edmore .st b{display:block; width:fit-content; font-weight:800; font-size:.98rem; letter-spacing:-.02em; background:linear-gradient(100deg,#5B21B6 0%,#E8590C 100%); -webkit-background-clip:text; background-clip:text; color:transparent; padding-bottom:.06em}
+.edmore .st small{display:block; color:var(--muted); font-size:.78rem; line-height:1.3; margin-top:1px}
+.edmore .lg{flex:0 0 auto; display:grid; place-items:center; background:#fff; border:1px solid var(--line); border-radius:12px; padding:6px 10px}
+.edmore .lg img{display:block; width:78px; height:auto}
+.edmore .chev{flex:0 0 auto; color:var(--muted); font-size:1.1rem; transition:transform .2s}
+.edmore[open] .chev{transform:rotate(90deg)}
+.edmore .note{margin:0 0 6px}
+.edrow{display:flex; align-items:center; gap:10px; padding:10px 0; border-top:1px solid var(--line); text-decoration:none; color:var(--muted); font-size:.82rem}
+.edrow .n{flex:1; min-width:0}
+.edrow .n b{display:block; color:var(--fg); font-size:.92rem}
+.edrow .lg{padding:4px 8px; border-radius:10px}
+.edrow .lg img{width:56px}
 .edban{display:flex; align-items:center; gap:12px; margin:14px 0 4px; padding:12px; background:#fff; border:1px solid var(--line); border-radius:18px; text-decoration:none; color:inherit; box-shadow:0 2px 10px rgba(110,60,200,.06)}
 .edban .tx{flex:1; font-size:.84rem; color:var(--muted); line-height:1.3}
 .edban .tx b{display:block; color:var(--fg); font-size:.92rem}
@@ -1941,15 +1951,15 @@ function edFor(c, sz) {
   return pick ? {url: "https://www.electrodepot.fr/" + o[pick] + ".html", size: pick} : null;
 }
 var ED_CAT = "https://www.electrodepot.fr/tv-image-son/television.html";
-var ED_OTHERS = [["Hisense",40,"40A5S","QLED","qled-hisense-40a5s"],["Philips",40,"40PFS6040","LED HD","led-philips-40pfs6050"],["Tcl",43,"43S4K","QLED","qled-tcl-43s4ka"],["Hisense",50,"50A5S","QLED","qled-hisense-50a5s"],["Lg",50,"50UR78","UHD 4K","led-lg-50ua73006"],["Samsung",50,"50U7005F","UHD 4K","led-samsung-50u7005f"],["Philips",55,"55PUS8401","QLED","qled-philips-55pqs8501-ambilight"],["Samsung",55,"55U7005F","UHD 4K","led-samsung-55u7005f"],["Samsung",55,"55M73H","MINILED","mini-led-samsung-55m73h"],["Tcl",55,"55P8K PRO","MINILED","mini-led-tcl-55p8k-pro"],["Tcl",55,"55P6B","UHD 4K","led-tcl-55p6b"],["Tcl",55,"55QD780","QLED","qled-tcl-55qd780"],["Philips",65,"65PUS8401","QLED","qled-philips-65pqs8501-ambilight"],["Samsung",65,"65U7005F","UHD 4K","led-samsung-65u7005f"],["Samsung",65,"65M73H","MINILED","mini-led-samsung-65m73h"],["Tcl",65,"65MQLED PRO","MINILED","mini-led-tcl-65mqledpro"],["Tcl",65,"65P8K PRO","MINILED","mini-led-tcl-65p8k-pro"],["Samsung",75,"75U7005F","UHD 4K","led-samsung-75u7005f"],["Samsung",75,"75M73H","Miniled","mini-led-samsung-75m73h"],["Tcl",75,"75P71K","QLED","qled-tcl-75p71k"],["Tcl",75,"75QD780","QLED","qled-tcl-75qd780"],["Samsung",85,"85U7005F","UHD 4K","led-samsung-85u7005f"],["Samsung",85,"85M73H","MINILED","mini-led-samsung-85m73h"],["Tcl",85,"85P8K PRO","MINILED","mini-led-tcl-85p8l"],["Tcl",85,"85MQLED75K","MINILED","mini-led-tcl-85mqled75k"],["Tcl",98,"98MQLED75K","MINILED","mini-led-tcl-98mqled75k"]];
+var ED_OTHERS = [["Hisense",40,"40A5S","QLED","qled-hisense-40a5s"],["Philips",40,"40PFS6040","LED HD","led-philips-40pfs6050"],["TCL",43,"43S4K","QLED","qled-tcl-43s4ka"],["Hisense",50,"50A5S","QLED","qled-hisense-50a5s"],["Lg",50,"50UR78","UHD 4K","led-lg-50ua73006"],["Samsung",50,"50U7005F","UHD 4K","led-samsung-50u7005f"],["Philips",55,"55PUS8401","QLED","qled-philips-55pqs8501-ambilight"],["Samsung",55,"55U7005F","UHD 4K","led-samsung-55u7005f"],["Samsung",55,"55M73H","MINILED","mini-led-samsung-55m73h"],["TCL",55,"55P8K PRO","MINILED","mini-led-tcl-55p8k-pro"],["TCL",55,"55P6B","UHD 4K","led-tcl-55p6b"],["TCL",55,"55QD780","QLED","qled-tcl-55qd780"],["Philips",65,"65PUS8401","QLED","qled-philips-65pqs8501-ambilight"],["Samsung",65,"65U7005F","UHD 4K","led-samsung-65u7005f"],["Samsung",65,"65M73H","MINILED","mini-led-samsung-65m73h"],["TCL",65,"65MQLED PRO","MINILED","mini-led-tcl-65mqledpro"],["TCL",65,"65P8K PRO","MINILED","mini-led-tcl-65p8k-pro"],["Samsung",75,"75U7005F","UHD 4K","led-samsung-75u7005f"],["Samsung",75,"75M73H","Miniled","mini-led-samsung-75m73h"],["TCL",75,"75P71K","QLED","qled-tcl-75p71k"],["TCL",75,"75QD780","QLED","qled-tcl-75qd780"],["Samsung",85,"85U7005F","UHD 4K","led-samsung-85u7005f"],["Samsung",85,"85M73H","MINILED","mini-led-samsung-85m73h"],["TCL",85,"85P8K PRO","MINILED","mini-led-tcl-85p8l"],["TCL",85,"85MQLED75K","MINILED","mini-led-tcl-85mqled75k"],["TCL",98,"98MQLED75K","MINILED","mini-led-tcl-98mqled75k"]];
 function edOthers(sz) {
   var lo = sz <= 50 ? 40 : sz, hi = sz <= 50 ? 50 : sz >= 75 ? 999 : sz;
   var l = ED_OTHERS.filter(function (r) { return r[1] >= lo && r[1] <= hi; });
   if (!l.length) return "";
-  var h = '<details class="edmore"><summary>Autres téléviseurs en vente chez ElectroDepot (' + l.length + ")</summary>" +
+  var h = '<details class="edmore"><summary><span class="st"><b>Autres téléviseurs</b><small>' + l.length + ' modèles non testés par nous</small></span><span class="lg"><img src="electrodepot-logo.png" alt="ElectroDepot" width="78" height="22" loading="lazy"></span><span class="chev" aria-hidden="true">›</span></summary>' +
     '<p class="note">Des modèles que nous n\'avons pas testés : nous ne les notons pas. Vérifiez les caractéristiques avant d\'acheter.</p>';
   l.forEach(function (r) {
-    h += '<a class="edrow" href="' + edLink("https://www.electrodepot.fr/" + r[4] + ".html") + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="electrodepot" data-l="' + esc(r[0] + " " + r[2]) + '"><span class="n"><b>' + esc(r[0] + " " + r[2]) + "</b>" + r[1] + " pouces · " + esc(r[3]) + '</span><span class="go">Voir</span></a>';
+    h += '<a class="edrow" href="' + edLink("https://www.electrodepot.fr/" + r[4] + ".html") + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="electrodepot" data-l="' + esc(r[0] + " " + r[2]) + '"><span class="n"><b>' + esc(r[0] + " " + r[2]) + "</b>" + r[1] + " pouces · " + esc(r[3]) + '</span><span class="lg"><img src="electrodepot-logo.png" alt="ElectroDepot" width="56" height="16" loading="lazy"></span></a>';
   });
   return h + "</details>";
 }
