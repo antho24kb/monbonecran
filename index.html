@@ -1916,7 +1916,24 @@ var BTECHS = [
 var AFF_TAG = "antho24kb-21";
 var ED_ID = "23326676";
 function edLink(dest) { return "https://track.effiliation.com/servlet/effi.redir?id_compteur=" + ED_ID + "&url=" + encodeURIComponent(dest); }
-var ED_PICKS = {"Hisense E7S|65": "https://www.electrodepot.fr/qled-hisense-65e7s.html"};
+/* Correspondances exactes (même marque, même référence) relevées sur electrodepot.fr le 26/10/2026. */
+var ED_OFFERS = {
+  "Hisense E7S": {65: "qled-hisense-65e7s", 85: "qled-hisense-85e7s"},
+  "Hisense U7SE": {65: "mini-led-hisense-65u7se-144hz"},
+  "Hisense E8S": {75: "mini-led-hisense-75e8s"},
+  "Hisense U7Q Pro": {55: "mini-led-hisense-55u7q-pro-165hz", 65: "mini-led-hisense-65u7q-pro"},
+  "Hisense E7Q": {98: "qled-hisense-98e7q-144hz"},
+  "Samsung U9005H": {98: "led-samsung-98u9005h"}
+};
+var ED_NOTE = " Nous touchons aussi une commission sur les achats faits via nos liens ElectroDepot, sans surcoût pour vous.";
+function edFor(c, sz) {
+  var o = ED_OFFERS[c[0] + " " + c[1]];
+  if (!o) return null;
+  var sizes = Object.keys(o).map(Number).sort(function (a, b) { return a - b; }), i, pick = null;
+  if (o[sz]) pick = sz;
+  else if (sz >= 75) { for (i = 0; i < sizes.length; i++) if (sizes[i] >= 75) { pick = sizes[i]; break; } }
+  return pick ? {url: "https://www.electrodepot.fr/" + o[pick] + ".html", size: pick} : null;
+}
 var ED_CAT = "https://www.electrodepot.fr/tv-image-son/television.html";
 function edBanner() {
   return '<a class="edban" href="' + edLink(ED_CAT) + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="electrodepot" data-l="rayon television"><span class="lg"><img src="electrodepot-logo.png" alt="ElectroDepot" width="96" height="27" loading="lazy"></span><span class="tx"><b>Comparez avec d\'autres prix</b><span>Des télés d\'entrée de gamme</span></span><span class="chev" aria-hidden="true">›</span></a>';
@@ -2027,7 +2044,7 @@ function renderBuy() {
     if (state.budget === 0) h += edBanner();
     h += accHtml(gamer);
     h += '<p class="note">' + SCORE_NOTE + "</p>";
-    h += '<p class="note">Sélection indicative. Le bouton Acheter ouvre une recherche sur Amazon.fr pour consulter les prix du moment, qui varient selon la taille et les promotions. En tant que Partenaire Amazon, nous réalisons un bénéfice sur les achats remplissant les conditions requises, sans surcoût pour vous. Nous touchons aussi une commission sur les achats faits via nos liens ElectroDepot, sans surcoût pour vous.</p>';
+    h += '<p class="note">Sélection indicative. Le bouton Acheter ouvre une recherche sur Amazon.fr pour consulter les prix du moment, qui varient selon la taille et les promotions. En tant que Partenaire Amazon, nous réalisons un bénéfice sur les achats remplissant les conditions requises, sans surcoût pour vous.' + ED_NOTE + '</p>';
     h += '<div class="row-actions"><button class="btn ghost" type="button" data-act="reset">Recommencer</button></div>';
   }
   stage.innerHTML = h;
@@ -2213,12 +2230,12 @@ var SCORE_NOTE = "Note indicative sur 10 : image 50 %, jeu vidéo 30 %, son 20 %
 function pickCard(c, n, sz) {
   var u = "https://www.amazon.fr/s?k=" + encodeURIComponent(c[0] + " " + c[1] + " " + sz + " pouces");
   if (AFF_TAG) u += "&tag=" + AFF_TAG;
-  var ed = ED_PICKS[c[0] + " " + c[1] + "|" + sz];
+  var ed = edFor(c, sz);
   var buyBtn = ed
     ? '<button class="buy" type="button" data-act="shops" aria-expanded="false">Acheter</button>'
     : '<a class="buy" href="' + u + '" target="_blank" rel="sponsored nofollow noopener noreferrer">Acheter</a>';
   var shops = ed
-    ? '<div class="shops" hidden><a class="shop" href="' + u + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="amazon"><span class="lg"><span class="lgt">Amazon</span></span><span class="info"><b>Amazon</b>Livraison rapide</span><span class="go">Voir</span></a><a class="shop" href="' + edLink(ed) + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="electrodepot" data-l="' + esc(c[0] + " " + c[1]) + '"><span class="lg"><img src="electrodepot-logo.png" alt="ElectroDepot" width="96" height="27" loading="lazy"></span><span class="info"><b>Ce modèle</b>Vérifiez la dispo et le prix</span><span class="go">Voir</span></a></div>'
+    ? '<div class="shops" hidden><a class="shop" href="' + u + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="amazon"><span class="lg"><span class="lgt">Amazon</span></span><span class="info"><b>Amazon</b>Livraison rapide</span><span class="go">Voir</span></a><a class="shop" href="' + edLink(ed.url) + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="electrodepot" data-l="' + esc(c[0] + " " + c[1]) + '"><span class="lg"><img src="electrodepot-logo.png" alt="ElectroDepot" width="96" height="27" loading="lazy"></span><span class="info"><b>' + (ed.size === sz ? "Ce modèle" : "Ce modèle en " + ed.size + " pouces") + '</b>Vérifiez la dispo et le prix</span><span class="go">Voir</span></a></div>'
     : "";
   return '<div class="opt usage pick"><span class="rk">' + (n + 1) + '</span><span><b>' + esc(c[0] + " " + c[1]) + "</b>" + (scoreOf(c) != null ? '<em class="sc">' + fr1(scoreOf(c)) + "/10</em>" : "") + "<small>" + esc(c[2] + " · " + c[3]) + " · " + esc(c[4]) + '</small>' + (BRANDEDGE[c[0]] ? '<small class="edge">★ ' + esc(BRANDEDGE[c[0]]) + "</small>" : "") + '</span><div class="acts">' + buyBtn + (SPEC[c[0] + " " + c[1]] ? '<button class="spect" type="button" data-act="spec" aria-expanded="false">Caractéristiques</button>' : "") + "</div>" + shops + specHtml(c) + "</div>";
 }
@@ -2254,10 +2271,10 @@ function renderRank() {
     h += '<button class="link" data-act="rback" type="button">‹ Retour</button><h2>Top 3 · ' + esc(BUDGETS[state.rb].l) + "</h2>";
     h += '<div class="set"><div class="set-name">Technologie conseillée : ' + esc(rec.tech) + '</div><p class="note">' + esc(rec.why) + "</p></div>";
     h += '<div class="list">';
-    rec.picks.slice().sort(function (a, b) { return (scoreOf(b) || 0) - (scoreOf(a) || 0); }).forEach(function (c, n) { h += pickCard(c, n, 55); });
+    rec.picks.slice().sort(function (a, b) { return (scoreOf(b) || 0) - (scoreOf(a) || 0); }).slice(0, 3).forEach(function (c, n) { h += pickCard(c, n, 55); });
     h += "</div>";
     h += '<p class="note">' + SCORE_NOTE + "</p>";
-    h += '<p class="note">Recherche pour un 55 pouces : adaptez la taille sur la page du marchand. Sélection indicative, les prix varient selon la taille et les promotions. ' + AFF_NOTE + "</p>";
+    h += '<p class="note">Recherche pour un 55 pouces : adaptez la taille sur la page du marchand. Sélection indicative, les prix varient selon la taille et les promotions. ' + AFF_NOTE + ED_NOTE + "</p>";
   }
   stage.innerHTML = h;
 }
