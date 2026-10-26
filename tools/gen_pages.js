@@ -46,7 +46,7 @@ function page(brand, model) {
   const note = `Valeurs de départ pour un écran de 55 pouces, à ajuster selon votre pièce et vos goûts. Les noms de menus changent selon la version du logiciel de votre téléviseur.`;
   return { slug: s, name, html: `<!doctype html>
 <html lang="fr"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>${esc(title)} | Mon Bon Écran</title>
 <meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${url}">
