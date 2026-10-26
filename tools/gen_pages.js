@@ -47,6 +47,8 @@ function page(brand, model) {
   return { slug: s, name, html: `<!doctype html>
 <html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<style>html{touch-action:manipulation;-webkit-text-size-adjust:100%}</style>
+<script>["gesturestart","gesturechange","gestureend"].forEach(function(e){document.addEventListener(e,function(ev){ev.preventDefault()},{passive:false})});var _lt=0;document.addEventListener("touchend",function(ev){var n=Date.now();if(n-_lt<350)ev.preventDefault();_lt=n},{passive:false});document.addEventListener("touchmove",function(ev){if(ev.touches.length>1)ev.preventDefault()},{passive:false});</script>
 <title>${esc(title)} | Mon Bon Écran</title>
 <meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${url}">
