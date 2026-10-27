@@ -367,6 +367,7 @@ body.is-flow #stage .link{padding:4px 0!important; font-size:.84rem}
 body.is-flow #stage .list{gap:7px}
 body.is-flow #stage .opt.usage{padding:10px 14px!important; min-height:0!important}
 body.is-flow #stage .opt.usage small{font-size:.78rem; margin-top:1px; line-height:1.3}
+body.is-home .opt.usage,body.is-flow #stage .opt.usage{padding-right:46px!important}
 body.is-flow #stage > .note{font-size:.78rem; margin:2px 0 4px!important; line-height:1.35}
 body.is-flow .crumbs{margin:0!important; min-height:0!important}
 .tipw{width:100%}
@@ -1752,8 +1753,8 @@ function homeHtml() {
     h += '<button class="opt usage resume" type="button" data-act="resume"><b>Reprendre vos réglages</b><small>' + esc(lbl) + "</small></button>";
     h += '<button class="link" type="button" data-act="forget">Oublier ma sélection</button>';
   }
-  h += '<button class="opt usage" type="button" data-act="mode" data-v="buy"><b>Acheter</b><small>Trouvez le bon téléviseur selon votre budget et la taille</small></button>';
-  h += '<button class="opt usage" type="button" data-act="mode" data-v="set"><b>Régler</b><small>Réglages image de votre téléviseur, console ou box</small></button>';
+  h += '<button class="opt usage" type="button" data-act="mode" data-v="buy"><b>Acheter sa télé</b><small>Trouvez le bon téléviseur selon votre budget et la taille</small></button>';
+  h += '<button class="opt usage" type="button" data-act="mode" data-v="set"><b>Régler sa télé</b><small>Réglages image de votre téléviseur, console ou box</small></button>';
   h += "</div>";
   h += '<div class="more"><button class="link" type="button" data-act="mode" data-v="rank">Classements par budget</button><button class="link" type="button" data-act="mode" data-v="cmp">Comparateur</button><button class="link" type="button" data-act="mode" data-v="tech">Guide des technologies</button></div>';
   h += '<p class="note" style="text-align:center">Nos conseils sont indépendants : aucun constructeur ne les finance. Certains liens sont des liens d\'affiliation (Partenaire Amazon) : ils nous rémunèrent sans surcoût pour vous.</p>';
