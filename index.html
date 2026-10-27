@@ -1979,11 +1979,22 @@ function edOthers(sz) {
 function edBanner() {
   return '<a class="edban" href="' + edLink(ED_CAT) + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="electrodepot" data-l="rayon television"><span class="lg"><img src="electrodepot-logo.png" alt="ElectroDepot" width="96" height="27" loading="lazy"></span><span class="tx"><b>Comparez avec d\'autres prix</b><span>Des télés d\'entrée de gamme</span></span><span class="chev" aria-hidden="true">›</span></a>';
 }
+/* Liens Amazon directs (un lien par modèle, le client choisit la taille sur Amazon). Sans entrée : recherche Amazon. */
+var AMZ_ASIN = {
+  "Hisense A6S": "B0GJFVQDWB",
+  "Hisense E7S": "B0GNDPWJV8",
+  "Hisense E7S Pro": "B0GR7DTKP8",
+  "Hisense U7SE": "B0GKPTBTNP"
+};
+function amzUrl(c, sz) {
+  var a = AMZ_ASIN[c[0] + " " + c[1]];
+  var u = a ? "https://www.amazon.fr/dp/" + a : "https://www.amazon.fr/s?k=" + encodeURIComponent(c[0] + " " + c[1] + " " + sz + " pouces");
+  return u + (u.indexOf("?") < 0 ? "?" : "&") + "tag=" + AFF_TAG;
+}
 function buyLink(c) {
   var sz = BSIZES[state.bsize] ? BSIZES[state.bsize].rep : 55;
-  var u = "https://www.amazon.fr/s?k=" + encodeURIComponent(c[0] + " " + c[1] + " " + sz + " pouces");
-  if (AFF_TAG) u += "&tag=" + AFF_TAG;
-  return '<a class="buy" href="' + u + '" target="_blank" rel="sponsored nofollow noopener noreferrer">Acheter</a>';
+  var u = amzUrl(c, sz);
+  return '<a class="buy" href="' + u + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-l="' + esc(c[0] + " " + c[1]) + '">Acheter</a>';
 }
 var CONSOLES = [
   {k: "PS5", l: "PlayStation 5", h: "4K jusqu'à 120 Hz"},
@@ -2270,14 +2281,13 @@ function scoreOf(c) {
 function fr1(n) { return String(n.toFixed(1)).replace(".", ","); }
 var SCORE_NOTE = "Note indicative sur 10 : image 50 %, jeu vidéo 30 %, son 20 %, calculée d'après la fiche technique (type de dalle, formats HDR, fréquence et HDMI 2.1, audio). Ce ne sont pas des mesures en laboratoire.";
 function pickCard(c, n, sz) {
-  var u = "https://www.amazon.fr/s?k=" + encodeURIComponent(c[0] + " " + c[1] + " " + sz + " pouces");
-  if (AFF_TAG) u += "&tag=" + AFF_TAG;
+  var u = amzUrl(c, sz);
   var ed = edFor(c, sz);
   var buyBtn = ed
     ? '<button class="buy" type="button" data-act="shops" aria-expanded="false">Acheter</button>'
-    : '<a class="buy" href="' + u + '" target="_blank" rel="sponsored nofollow noopener noreferrer">Acheter</a>';
+    : '<a class="buy" href="' + u + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-l="' + esc(c[0] + " " + c[1]) + '">Acheter</a>';
   var shops = ed
-    ? '<div class="shops" hidden><a class="shop" href="' + u + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="amazon"><span class="lg"><span class="lgt">Amazon</span></span><span class="info"><b>Amazon</b>Livraison rapide</span><span class="go">Voir</span></a><a class="shop" href="' + edLink(ed.url) + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="electrodepot" data-l="' + esc(c[0] + " " + c[1]) + '"><span class="lg"><img src="electrodepot-logo.png" alt="ElectroDepot" width="96" height="27" loading="lazy"></span><span class="info"><b>' + (ed.size === sz ? "Ce modèle" : "Ce modèle en " + ed.size + " pouces") + '</b>Vérifiez la dispo et le prix</span><span class="go">Voir</span></a></div>'
+    ? '<div class="shops" hidden><a class="shop" href="' + u + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="amazon" data-l="' + esc(c[0] + " " + c[1]) + '"><span class="lg"><span class="lgt">Amazon</span></span><span class="info"><b>Amazon</b>Livraison rapide</span><span class="go">Voir</span></a><a class="shop" href="' + edLink(ed.url) + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="electrodepot" data-l="' + esc(c[0] + " " + c[1]) + '"><span class="lg"><img src="electrodepot-logo.png" alt="ElectroDepot" width="96" height="27" loading="lazy"></span><span class="info"><b>' + (ed.size === sz ? "Ce modèle" : "Ce modèle en " + ed.size + " pouces") + '</b>Vérifiez la dispo et le prix</span><span class="go">Voir</span></a></div>'
     : "";
   return '<div class="opt usage pick"><span class="rk">' + (n + 1) + '</span><span><b>' + esc(c[0] + " " + c[1]) + "</b>" + (scoreOf(c) != null ? '<em class="sc">' + fr1(scoreOf(c)) + "/10</em>" : "") + "<small>" + esc(c[2] + " · " + c[3]) + " · " + esc(c[4]) + '</small>' + (BRANDEDGE[c[0]] ? '<small class="edge">★ ' + esc(BRANDEDGE[c[0]]) + "</small>" : "") + '</span><div class="acts">' + buyBtn + (SPEC[c[0] + " " + c[1]] ? '<button class="spect" type="button" data-act="spec" aria-expanded="false">Caractéristiques</button>' : "") + "</div>" + shops + specHtml(c) + "</div>";
 }
@@ -2408,8 +2418,8 @@ function renderCmp() {
     row("Points forts", function (m) { return cd(m, 3); });
     row("Points faibles", function (m) { return cd(m, 4); });
     row("", function (m) {
-      var u = "https://www.amazon.fr/s?k=" + encodeURIComponent(m.c[0] + " " + m.c[1] + " 55 pouces") + (AFF_TAG ? "&tag=" + AFF_TAG : "");
-      return '<a class="buy" href="' + u + '" target="_blank" rel="sponsored nofollow noopener noreferrer">Acheter</a>';
+      var u = amzUrl(m.c, 55);
+      return '<a class="buy" href="' + u + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-l="' + esc(m.c[0] + " " + m.c[1]) + '">Acheter</a>';
     });
     h += "</tbody></table>";
     h += '<p class="note">Note indicative sur 10 (image 50 %, jeu 30 %, son 20 %), pas des mesures. ' + AFF_NOTE + "</p>";
