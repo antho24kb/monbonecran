@@ -117,6 +117,9 @@ button{font:inherit; color:inherit; cursor:pointer; -webkit-tap-highlight-color:
 .meter i{position:absolute; inset:0 auto 0 0; background:var(--accent); border-radius:2px}
 .note{font-size:.9rem; color:var(--muted); margin:0}
 .tag{font-family:var(--f-display); font-size:.78rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; background:linear-gradient(100deg,#7C3AED 0%,#A855F7 100%); -webkit-background-clip:text; background-clip:text; color:transparent; width:fit-content}
+.pub{text-align:center; margin:18px auto 8px}
+.pub .publ{display:block; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:6px}
+.pub img{display:block; margin:0 auto; border-radius:10px}
 .ad{background:var(--soft); color:var(--muted); text-align:center; padding:22px 12px; font-size:.85rem; border-radius:14px}
 @media (prefers-reduced-motion: no-preference){
   .meter i{transition:width .5s ease}
@@ -402,7 +405,7 @@ body.is-flow footer{padding:0 12px 6px!important; font-size:.68rem!important}
   <div class="progress" id="progress" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
   <div class="crumbs" id="crumbs"></div>
   <main id="stage" class="list"></main>
-  <aside class="ad" aria-label="Espace publicitaire">Espace publicité (bannière)</aside>
+  <aside class="pub" aria-label="Publicité"><span class="publ">Publicité</span><a href="https://track.effiliation.com/servlet/effi.click?id_compteur=23327026" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="electrodepot" data-l="bannière bas de page"><img src="https://track.effiliation.com/servlet/effi.show?id_compteur=23327026" alt="Publicité ElectroDepot" width="250" height="250" loading="lazy" style="max-width:100%;height:auto"></a></aside>
   </div>
   <footer style="text-align:center; font-size:.76rem; line-height:1.5; color:var(--muted); padding:4px 12px 18px">Marques citées appartenant à leurs propriétaires respectifs. Site indépendant, non affilié.<br><a href="mentions-legales.html" style="color:inherit">Mentions légales</a> · <a href="confidentialite.html" style="color:inherit">Confidentialité</a></footer>
 </div>
