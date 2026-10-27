@@ -1986,10 +1986,12 @@ var AMZ_ASIN = {
   "Hisense E7S Pro": "B0GR7DTKP8",
   "Hisense U7SE": "B0GKPTBTNP",
   "LG OLED evo C6": "B0GYQ4CYGZ",
-  "LG OLED evo G6": "B0H374GQDY"
+  "LG OLED evo G6": "B0H374GQDY",
+  "Panasonic W95C": {55: "B0H8SBRRSB", 65: "B0H8SH5KNN", 75: "B0H8SGS77R", 86: "B0H8SQFG1F"}
 };
 function amzUrl(c, sz) {
   var a = AMZ_ASIN[c[0] + " " + c[1]];
+  if (a && typeof a === "object") a = a[sz]; /* un lien par taille quand on les a ; sinon recherche */
   var u = a ? "https://www.amazon.fr/dp/" + a : "https://www.amazon.fr/s?k=" + encodeURIComponent(c[0] + " " + c[1] + " " + sz + " pouces");
   return u + (u.indexOf("?") < 0 ? "?" : "&") + "tag=" + AFF_TAG;
 }
