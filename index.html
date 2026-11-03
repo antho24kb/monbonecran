@@ -1954,7 +1954,14 @@ var ED_OFFERS = {
   "Hisense E7Q": {98: "qled-hisense-98e7q-144hz"},
   "Samsung U9005H": {98: "led-samsung-98u9005h"}
 };
-var ED_NOTE = " Nous touchons aussi une commission sur les achats faits via nos liens ElectroDepot, sans surcoût pour vous.";
+var ED_NOTE = " Nous touchons aussi une commission sur les achats faits via nos liens ElectroDepot et Joybuy, sans surcoût pour vous.";
+/* Joybuy (Awin) : un lien par modèle relevé sur joybuy.fr ; size = taille de la page liée. */
+var JOY_MID = "123928", JOY_AFF = "3131233";
+function joyLink(dest) { return "https://www.awin1.com/cread.php?awinmid=" + JOY_MID + "&awinaffid=" + JOY_AFF + "&ued=" + encodeURIComponent(dest); }
+var JOY_URL = {
+  "TCL C7L": {size: 55, url: "https://www.joybuy.fr/dp/tcl-55c7l-tv-mini-led-4k/100010190035406?requestIdentity=searchCategory"}
+};
+function joyFor(c) { return JOY_URL[c[0] + " " + c[1]] || null; }
 function edFor(c, sz) {
   var o = ED_OFFERS[c[0] + " " + c[1]];
   if (!o) return null;
@@ -2291,12 +2298,14 @@ function fr1(n) { return String(n.toFixed(1)).replace(".", ","); }
 var SCORE_NOTE = "Note indicative sur 10 : image 50 %, jeu vidéo 30 %, son 20 %, calculée d'après la fiche technique (type de dalle, formats HDR, fréquence et HDMI 2.1, audio). Ce ne sont pas des mesures en laboratoire.";
 function pickCard(c, n, sz) {
   var u = amzUrl(c, sz);
-  var ed = edFor(c, sz);
-  var buyBtn = ed
+  var ed = edFor(c, sz), jy = joyFor(c), nm = esc(c[0] + " " + c[1]);
+  var buyBtn = (ed || jy)
     ? '<button class="buy" type="button" data-act="shops" aria-expanded="false">Acheter</button>'
-    : '<a class="buy" href="' + u + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-l="' + esc(c[0] + " " + c[1]) + '">Acheter</a>';
-  var shops = ed
-    ? '<div class="shops" hidden><a class="shop" href="' + u + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="amazon" data-l="' + esc(c[0] + " " + c[1]) + '"><span class="lg"><span class="lgt">Amazon</span></span><span class="info"><b>Amazon</b>Livraison rapide</span><span class="go">Voir</span></a><a class="shop" href="' + edLink(ed.url) + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="electrodepot" data-l="' + esc(c[0] + " " + c[1]) + '"><span class="lg"><img src="electrodepot-logo.png" alt="ElectroDepot" width="96" height="27" loading="lazy"></span><span class="info"><b>' + (ed.size === sz ? "Ce modèle" : "Ce modèle en " + ed.size + " pouces") + '</b>Vérifiez la dispo et le prix</span><span class="go">Voir</span></a></div>'
+    : '<a class="buy" href="' + u + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-l="' + nm + '">Acheter</a>';
+  var shops = (ed || jy)
+    ? '<div class="shops" hidden><a class="shop" href="' + u + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="amazon" data-l="' + nm + '"><span class="lg"><span class="lgt">Amazon</span></span><span class="info"><b>Amazon</b>Livraison rapide</span><span class="go">Voir</span></a>' +
+      (ed ? '<a class="shop" href="' + edLink(ed.url) + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="electrodepot" data-l="' + nm + '"><span class="lg"><img src="electrodepot-logo.png" alt="ElectroDepot" width="96" height="27" loading="lazy"></span><span class="info"><b>' + (ed.size === sz ? "Ce modèle" : "Ce modèle en " + ed.size + " pouces") + '</b>Vérifiez la dispo et le prix</span><span class="go">Voir</span></a>' : "") +
+      (jy ? '<a class="shop" href="' + joyLink(jy.url) + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="joybuy" data-l="' + nm + '"><span class="lg"><span class="lgt">Joybuy</span></span><span class="info"><b>' + (jy.size === sz ? "Ce modèle" : "Ce modèle en " + jy.size + " pouces") + '</b>Vérifiez la dispo et le prix</span><span class="go">Voir</span></a>' : "") + "</div>"
     : "";
   return '<div class="opt usage pick"><span class="rk">' + (n + 1) + '</span><span><b>' + esc(c[0] + " " + c[1]) + "</b>" + (scoreOf(c) != null ? '<em class="sc">' + fr1(scoreOf(c)) + "/10</em>" : "") + "<small>" + esc(c[2] + " · " + c[3]) + " · " + esc(c[4]) + '</small>' + (BRANDEDGE[c[0]] ? '<small class="edge">★ ' + esc(BRANDEDGE[c[0]]) + "</small>" : "") + '</span><div class="acts">' + buyBtn + (SPEC[c[0] + " " + c[1]] ? '<button class="spect" type="button" data-act="spec" aria-expanded="false">Caractéristiques</button>' : "") + "</div>" + shops + specHtml(c) + "</div>";
 }
