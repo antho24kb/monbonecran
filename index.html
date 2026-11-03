@@ -1990,6 +1990,26 @@ function edOthers(sz) {
   });
   return h + "</details>";
 }
+/* Joybuy : autres tailles et modèles relevés sur joybuy.fr (non notés). [marque, taille, réf., techno, URL] */
+var JOY_OTHERS = [
+  ["LG", 55, "55NU800", "", "https://www.joybuy.fr/dp/100015735226256?requestIdentity=searchCategory&ref_sku=100015730214849"],
+  ["Hisense", 65, "65U7SE", "Mini LED", "https://www.joybuy.fr/dp/100013265201898?requestIdentity=searchCategory&ref_sku=100013265201898"],
+  ["Samsung", 65, "65QN80H", "Neo QLED", "https://www.joybuy.fr/dp/100022485859277?requestIdentity=searchCategory&ref_sku=100022485859277"],
+  ["Hisense", 75, "75E7S", "QLED", "https://www.joybuy.fr/dp/100013085103971?requestIdentity=searchCategory&ref_sku=100013085103971"],
+  ["Samsung", 75, "75QN80H", "Neo QLED", "https://www.joybuy.fr/dp/100022175058764?requestIdentity=searchCategory&ref_sku=100022485859277"],
+  ["Hisense", 100, "100E7S Pro", "QLED", "https://www.joybuy.fr/dp/100021725948797?requestIdentity=searchCategory&ref_sku=102261287"]
+];
+function joyOthers(sz) {
+  var lo = sz <= 50 ? 40 : sz, hi = sz <= 50 ? 50 : sz >= 75 ? 999 : sz;
+  var l = JOY_OTHERS.filter(function (r) { return r[1] >= lo && r[1] <= hi; });
+  if (!l.length) return "";
+  var h = '<details class="edmore"><summary><span class="st"><b>Plus de choix chez Joybuy</b><small>' + l.length + ' modèle' + (l.length > 1 ? "s" : "") + ' non noté' + (l.length > 1 ? "s" : "") + ' par nous</small></span><span class="lg"><span class="lgt">Joybuy</span></span><span class="chev" aria-hidden="true">›</span></summary>' +
+    '<p class="note">Des modèles ou des tailles que nous ne notons pas. Vérifiez les caractéristiques avant d\'acheter.</p>';
+  l.forEach(function (r) {
+    h += '<a class="edrow" href="' + joyLink(r[4]) + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="joybuy" data-l="' + esc(r[0] + " " + r[2]) + '"><span class="n"><b>' + esc(r[0] + " " + r[2]) + "</b>" + r[1] + " pouces" + (r[3] ? " · " + esc(r[3]) : "") + '</span><span class="lg"><span class="lgt">Joybuy</span></span></a>';
+  });
+  return h + "</details>";
+}
 function edBanner() {
   return '<a class="edban" href="' + edLink(ED_CAT) + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="electrodepot" data-l="rayon television"><span class="lg"><img src="electrodepot-logo.png" alt="ElectroDepot" width="96" height="27" loading="lazy"></span><span class="tx"><b>Comparez avec d\'autres prix</b><span>Des télés d\'entrée de gamme</span></span><span class="chev" aria-hidden="true">›</span></a>';
 }
@@ -2118,6 +2138,7 @@ function renderBuy() {
     h += "</div>";
     if (state.budget === 0) h += edBanner();
     h += edOthers(BSIZES[state.bsize] ? BSIZES[state.bsize].rep : 55);
+    h += joyOthers(BSIZES[state.bsize] ? BSIZES[state.bsize].rep : 55);
     h += accHtml(gamer);
     h += '<p class="note">' + SCORE_NOTE + "</p>";
     h += '<p class="note">Sélection indicative. Le bouton Acheter ouvre une recherche sur Amazon.fr pour consulter les prix du moment, qui varient selon la taille et les promotions. En tant que Partenaire Amazon, nous réalisons un bénéfice sur les achats remplissant les conditions requises, sans surcoût pour vous.' + ED_NOTE + '</p>';
