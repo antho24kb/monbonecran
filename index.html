@@ -296,11 +296,12 @@ button.buy{border:0; cursor:pointer; font-family:inherit}
 .edrow .lg{padding:4px 8px; border-radius:10px}
 .edrow .lg img{width:56px}
 .partners{display:none}
-header.home .partners{display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:8px 10px; margin-top:14px; max-width:250px}
+header.home .partners{display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:8px 10px; margin-top:14px; max-width:330px}
 .partners .pl{flex:0 0 100%; text-align:center}
 .partners .pl{font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
-.partners .pa,.partners .pe{display:grid; place-items:center; height:34px; padding:0 14px; background:#fff; border:1px solid var(--line); border-radius:12px; box-shadow:0 2px 8px rgba(110,60,200,.06)}
+.partners .pa,.partners .pe,.partners .pj{display:grid; place-items:center; height:34px; padding:0 14px; background:#fff; border:1px solid var(--line); border-radius:12px; box-shadow:0 2px 8px rgba(110,60,200,.06)}
 .partners .pa{font-weight:800; font-size:.95rem; color:#232F3E; letter-spacing:-.01em}
+.partners .pj{font-weight:800; font-size:.95rem; color:#E1251B; letter-spacing:-.02em}
 .partners .pe{padding:0 10px}
 .partners .pe img{display:block; width:72px; height:auto}
 .partners a{text-decoration:none}
@@ -398,7 +399,7 @@ body.is-flow footer{padding:0 12px 6px!important; font-size:.68rem!important}
     <h1 role="link" tabindex="0" aria-label="Retour à l'accueil"><span>Mon Bon</span> <span class="tv">Écran</span></h1>
     <p class="sub">Bienvenue. Choisissez votre téléviseur, puis réglez-le en quelques étapes simples.</p>
     <span class="pill">Cinéma · Jeu · Sport</span>
-    <div class="partners"><span class="pl">Partenaires</span><a class="pa" href="https://www.amazon.fr/s?k=t%C3%A9l%C3%A9viseur&amp;tag=antho24kb-21" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="amazon" data-l="bande partenaires">Amazon</a><a class="pe" href="https://track.effiliation.com/servlet/effi.redir?id_compteur=23326676&amp;url=https%3A%2F%2Fwww.electrodepot.fr%2Farrivages%2Ftv-image-son%2Ftelevision.html" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="electrodepot" data-l="bande partenaires" aria-label="ElectroDepot"><img src="electrodepot-logo.png" alt="ElectroDepot" width="84" height="23"></a></div>
+    <div class="partners"><span class="pl">Partenaires</span><a class="pa" href="https://www.amazon.fr/s?k=t%C3%A9l%C3%A9viseur&amp;tag=antho24kb-21" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="amazon" data-l="bande partenaires">Amazon</a><a class="pe" href="https://track.effiliation.com/servlet/effi.redir?id_compteur=23326676&amp;url=https%3A%2F%2Fwww.electrodepot.fr%2Farrivages%2Ftv-image-son%2Ftelevision.html" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="electrodepot" data-l="bande partenaires" aria-label="ElectroDepot"><img src="electrodepot-logo.png" alt="ElectroDepot" width="84" height="23"></a><a class="pj" href="https://www.awin1.com/cread.php?awinmid=123928&amp;awinaffid=3131233&amp;ued=https%3A%2F%2Fwww.joybuy.fr%2F" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="joybuy" data-l="bande partenaires">Joybuy</a></div>
   </header>
   <div class="panel">
   <div class="progress" id="progress" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
@@ -1759,7 +1760,7 @@ function homeHtml() {
   h += '<button class="opt usage" type="button" data-act="mode" data-v="set"><b>Régler sa télé</b><small>Réglages image de votre téléviseur, console ou box</small></button>';
   h += "</div>";
   h += '<div class="more"><button class="link" type="button" data-act="mode" data-v="rank">Classements par budget</button><button class="link" type="button" data-act="mode" data-v="cmp">Comparateur</button><button class="link" type="button" data-act="mode" data-v="tech">Guide des technologies</button></div>';
-  h += '<p class="note" style="text-align:center">Nos conseils sont indépendants : aucun constructeur ne les finance. Certains liens sont des liens d\'affiliation (Partenaire Amazon, ElectroDepot) : ils nous rémunèrent sans surcoût pour vous.</p>';
+  h += '<p class="note" style="text-align:center">Nos conseils sont indépendants : aucun constructeur ne les finance. Certains liens sont des liens d\'affiliation (Partenaire Amazon, ElectroDepot, Joybuy) : ils nous rémunèrent sans surcoût pour vous.</p>';
   return h;
 }
 
