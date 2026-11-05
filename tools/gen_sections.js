@@ -120,7 +120,7 @@ function seoRank(d) {
 <p>Notre top 3 pour chacune des cinq tranches de prix, avec la technologie conseillée, la note indicative sur 10 et les atouts de chaque modèle. Les prix varient selon la taille et les promotions : vérifiez toujours chez le marchand.</p>
 ${d.ranks.map(r => `<h3>${esc(r.l)} (${esc(r.h.toLowerCase())})</h3>
 <p>Technologie conseillée : <b>${esc(r.tech)}</b>. ${esc(r.text)}</p>
-<ol>${r.picks.map(p => `<li><b>${esc(p.name)}</b>${p.score ? " : " + esc(fr(p.score)) : ""}. ${esc(p.line)}</li>`).join("")}</ol>`).join("\n")}
+<ol>${r.picks.map(p => `<li><b>${esc(p.name)}</b>${p.score ? " (note " + esc(fr(p.score)) + ")" : ""} : ${esc(p.line)}</li>`).join("")}</ol>`).join("\n")}
 <h3>Comment lire les notes</h3>
 <p>Note indicative sur 10 : image 50 %, jeu vidéo 30 %, son 20 %, calculée d'après la fiche technique (type de dalle, formats HDR, fréquence, HDMI 2.1, audio). Ce ne sont pas des mesures en laboratoire.</p>
 <p>Besoin d'aide pour trancher ? Lisez le <a href="/guide-des-technologies/">guide des technologies</a>, utilisez le <a href="/comparateur/">comparateur</a>, ou laissez-vous guider par <a href="/choisir-sa-tele/">Choisir sa télé</a>.</p>`;
