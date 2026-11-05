@@ -9,6 +9,7 @@
 <title>Mon Bon Écran – Choisir et régler sa télé</title>
 <meta name="description" content="Choisissez votre télé selon votre budget, votre taille et vos jeux, puis réglez-la : réglages image et jeu par modèle, comparateur, classements par budget et guide des technologies.">
 <link rel="canonical" href="https://monbonecran.fr/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Mon Bon Écran","url":"https://monbonecran.fr/","inLanguage":"fr-FR","description":"Choisir et régler sa télé : conseils d'achat, comparateur et réglages image."}</script>
 <meta name="theme-color" content="#FFF8F1">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
@@ -95,6 +96,9 @@ button{font:inherit; color:inherit; cursor:pointer; -webkit-tap-highlight-color:
 .usage::after{content:"\203A"; position:absolute; right:18px; top:50%; transform:translateY(-52%); font-size:1.6rem; color:var(--muted); font-weight:400}
 .row-actions{display:flex; gap:10px; flex-wrap:wrap}
 .link{background:none; border:none; padding:6px 0; color:var(--accent); font-weight:400; text-align:left; font-size:1.05rem}
+a.opt,a.link{text-decoration:none}
+a.opt{color:inherit; -webkit-tap-highlight-color:transparent}
+a.link{display:inline-block; color:var(--accent); font-weight:400; font-size:1.05rem; padding:6px 0; cursor:pointer; -webkit-tap-highlight-color:transparent}
 .btn{background:var(--accent); color:var(--accent-fg); border:none; padding:12px 24px; border-radius:980px; font-weight:500; display:inline-block}
 .btn:active{opacity:.85}
 .btn.ghost{background:var(--soft); color:var(--accent)}
@@ -405,7 +409,7 @@ body.is-flow footer{padding:0 12px 6px!important; font-size:.68rem!important}
   <div class="panel">
   <div class="progress" id="progress" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
   <div class="crumbs" id="crumbs"></div>
-  <main id="stage" class="list"></main>
+  <main id="stage" class="list"><noscript><h2>Que souhaitez-vous faire ?</h2><ul><li><a href="/choisir-sa-tele/">Choisir sa télé</a></li><li><a href="/regler-sa-tele/">Régler sa télé</a></li><li><a href="/classements-par-budget/">Classements par budget</a></li><li><a href="/comparateur/">Comparateur</a></li><li><a href="/guide-des-technologies/">Guide des technologies</a></li></ul><p>Mon Bon Écran vous aide à choisir un téléviseur selon votre budget et à régler l'image de votre télé, de votre console ou de votre box. Ce site nécessite JavaScript.</p></noscript></main>
   <aside class="ad" aria-label="Espace publicitaire">Espace publicité (bannière)</aside>
   </div>
   <footer style="text-align:center; font-size:.76rem; line-height:1.5; color:var(--muted); padding:4px 12px 18px">Marques citées appartenant à leurs propriétaires respectifs. Site indépendant, non affilié.<br><a href="mentions-legales.html" style="color:inherit">Mentions légales</a> · <a href="confidentialite.html" style="color:inherit">Confidentialité</a></footer>
@@ -1757,10 +1761,10 @@ function homeHtml() {
     h += '<button class="opt usage resume" type="button" data-act="resume"><b>Reprendre vos réglages</b><small>' + esc(lbl) + "</small></button>";
     h += '<button class="link" type="button" data-act="forget">Oublier ma sélection</button>';
   }
-  h += '<button class="opt usage" type="button" data-act="mode" data-v="buy"><b>Choisir sa télé</b><small>Trouvez le bon téléviseur selon votre budget et la taille</small></button>';
-  h += '<button class="opt usage" type="button" data-act="mode" data-v="set"><b>Régler sa télé</b><small>Réglages image de votre téléviseur, console ou box</small></button>';
+  h += '<a class="opt usage" href="/choisir-sa-tele/" data-act="mode" data-v="buy"><b>Choisir sa télé</b><small>Trouvez le bon téléviseur selon votre budget et la taille</small></a>';
+  h += '<a class="opt usage" href="/regler-sa-tele/" data-act="mode" data-v="set"><b>Régler sa télé</b><small>Réglages image de votre téléviseur, console ou box</small></a>';
   h += "</div>";
-  h += '<div class="more"><button class="link" type="button" data-act="mode" data-v="rank">Classements par budget</button><button class="link" type="button" data-act="mode" data-v="cmp">Comparateur</button><button class="link" type="button" data-act="mode" data-v="tech">Guide des technologies</button></div>';
+  h += '<div class="more"><a class="link" href="/classements-par-budget/" data-act="mode" data-v="rank">Classements par budget</a><a class="link" href="/comparateur/" data-act="mode" data-v="cmp">Comparateur</a><a class="link" href="/guide-des-technologies/" data-act="mode" data-v="tech">Guide des technologies</a></div>';
   h += '<p class="note" style="text-align:center">Nos conseils sont indépendants : aucun constructeur ne les finance. Certains liens sont des liens d\'affiliation (Partenaire Amazon, ElectroDepot, Joybuy) : ils nous rémunèrent sans surcoût pour vous.</p>';
   return h;
 }
@@ -2689,9 +2693,44 @@ stage.addEventListener("input", function (e) {
 
 
 var navDir = "fwd", firstRender = true, keepScroll = false;
+/* Adresses des rubriques principales (une URL par rubrique ; les étapes internes gardent l'URL de leur rubrique). */
+var ROUTES = {buy: "/choisir-sa-tele/", set: "/regler-sa-tele/", rank: "/classements-par-budget/", cmp: "/comparateur/", tech: "/guide-des-technologies/"};
+var ROUTE_TITLES = {
+  "/": "Mon Bon Écran – Choisir et régler sa télé",
+  "/choisir-sa-tele/": "Choisir sa télé selon son budget | Mon Bon Écran",
+  "/regler-sa-tele/": "Régler sa télé : réglages image par modèle | Mon Bon Écran",
+  "/classements-par-budget/": "Meilleure télé par budget : notre top 3 | Mon Bon Écran",
+  "/comparateur/": "Comparateur de téléviseurs : 2 à 3 modèles | Mon Bon Écran",
+  "/guide-des-technologies/": "Guide TV : LED, QLED, Mini LED, OLED | Mon Bon Écran"
+};
+var ROUTE_MODE = {};
+Object.keys(ROUTES).forEach(function (k) { ROUTE_MODE[ROUTES[k]] = k; });
+var CAN_ROUTE = /^https?:$/.test(location.protocol) && /^(www\.)?monbonecran\.fr$|^localhost$|^127\.0\.0\.1$/.test(location.hostname);
+function normPath(p) { p = p.replace(/index\.html$/, ""); return p.slice(-1) === "/" ? p : p + "/"; }
+function pathFor(s) { var m = s.mode; if (!m) return "/"; if (m === "tv" || m === "dev") return ROUTES.set; return ROUTES[m] || "/"; }
+function freshState(mode) {
+  var s = {mode: mode || null, step: 0, brand: null, tech: null, model: null, year: null, size: null, usage: null, dstep: 0, device: null, dusage: null, cap: null, help: null};
+  if (mode) { s.family = null; s.bstep = 0; s.budget = null; s.bsize = null; s.btech = null; s.bgame = []; s.rb = null; s.cmpSel = []; s.cgo = false; }
+  return s;
+}
+function syncUrl(replace) {
+  if (!CAN_ROUTE) return;
+  var p = pathFor(state);
+  if (ROUTE_TITLES[p]) document.title = ROUTE_TITLES[p];
+  var cn = document.querySelector('link[rel="canonical"]'); if (cn) cn.setAttribute("href", "https://monbonecran.fr" + p);
+  if (normPath(location.pathname) === p && !replace) return;
+  try { if (replace || normPath(location.pathname) === p) history.replaceState(null, "", p + location.search); else history.pushState(null, "", p + location.search); } catch (e) {}
+}
+window.addEventListener("popstate", function () {
+  state = freshState(ROUTE_MODE[normPath(location.pathname)] || null);
+  navDir = "back";
+  render();
+  window.scrollTo(0, 0);
+});
 function render() {
   renderCore();
   saveLast();
+  syncUrl(firstRender);
   if (firstRender) { firstRender = false; stage.classList.remove("go-fwd", "go-back"); return; }
   if (keepScroll) { stage.classList.remove("go-fwd", "go-back"); return; }
   stage.classList.remove("go-fwd", "go-back");
@@ -2708,8 +2747,9 @@ document.getElementById("top").addEventListener("click", function (e) {
 });
 document.querySelector("#top h1").addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); this.click(); } });
 stage.addEventListener("click", function (e) {
-  var t = e.target.closest("button");
+  var t = e.target.closest("button, a[data-act]");
   if (!t) return;
+  if (t.tagName === "A") { if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button > 0) return; e.preventDefault(); }
   var act = t.getAttribute("data-act");
   var v = t.getAttribute("data-v");
   navDir = (act === "back" || act === "dback" || act === "hback") ? "back" : "fwd";
@@ -2837,6 +2877,7 @@ stage.addEventListener("click", function (e) {
   window.scrollTo(0, 0);
 });
 
+if (CAN_ROUTE && ROUTE_MODE[normPath(location.pathname)]) state = freshState(ROUTE_MODE[normPath(location.pathname)]);
 render();
 </script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "d9de0d7c5c434a438ebf5bfcba670671"}'>

@@ -71,8 +71,9 @@ h2{font:800 20px Manrope,sans-serif;margin:0}.hint{color:var(--muted);margin:2px
 .meter{height:5px;background:var(--track);border-radius:3px}.meter i{display:block;height:100%;background:var(--accent);border-radius:3px}
 .note{color:var(--muted);font-size:14px}
 .cta{display:block;text-align:center;background:var(--accent);color:#fff;font:800 16px Manrope,sans-serif;text-decoration:none;padding:14px;border-radius:999px;margin:20px 0}
-</style></head><body><main>
-<a class="top" href="/">‹ Mon Bon Écran</a>
+</style>
+<script type="application/ld+json">${JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList",itemListElement:[["Accueil","/"],["Régler sa télé","/regler-sa-tele/"],["Réglages "+name,"/reglages/"+s+"/"]].map((it,i)=>({"@type":"ListItem",position:i+1,name:it[0],item:SITE+it[1]}))})}</script></head><body><main>
+<a class="top" href="/">‹ Mon Bon Écran</a> <a class="top" data-crumb="regler" href="/regler-sa-tele/" style="margin-left:10px">· Régler sa télé</a>
 <h1>Réglages ${esc(name)}</h1>
 <p class="lead">${esc(info.tech)} · gamme ${esc(info.year)}. Choisissez votre usage et recopiez les valeurs dans le menu de la télé.</p>
 ${body}
