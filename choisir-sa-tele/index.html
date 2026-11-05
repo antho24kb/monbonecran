@@ -2909,7 +2909,8 @@ stage.addEventListener("click", function (e) {
 if (CAN_ROUTE && ROUTE_MODE[normPath(location.pathname)]) state = freshState(ROUTE_MODE[normPath(location.pathname)]);
 render();
 </script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "d9de0d7c5c434a438ebf5bfcba670671"}'>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "d9de0d7c5c434a438ebf5bfcba670671"}'></script><!-- End Cloudflare Web Analytics -->
+<script>
 /* Suivi anonyme des clics vers les boutiques (aucune donnée personnelle) */
 document.addEventListener("click", function (e) {
   try {
@@ -2922,6 +2923,6 @@ document.addEventListener("click", function (e) {
     fetch("https://wxmlrnocxrshtlczvpgr.supabase.co/rest/v1/rpc/mbe_track", { method: "POST", keepalive: true, headers: { "Content-Type": "application/json", apikey: "sb_publishable_OaoSIOOYM9_sNsJWtuGc8Q_8U5TDplA" }, body: JSON.stringify({ k: kind, l: l, s: shop }) }).catch(function () {});
   } catch (x) {}
 }, true);
-</script><!-- End Cloudflare Web Analytics -->
+</script>
 </body>
 </html>
