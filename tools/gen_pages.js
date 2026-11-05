@@ -80,7 +80,7 @@ ${body}
 <p class="note">${esc(note)}</p>
 <a class="cta" href="/">Régler selon ma taille d'écran</a>
 <p class="note">Site indépendant, non affilié aux marques citées. <a href="/mentions-legales.html" style="color:inherit">Mentions légales</a></p>
-</main></body></html>` };
+</main><script src="/mbe-analytics.js" defer></script></body></html>` };
 }
 
 const targets = process.argv.slice(2).map(a => a.split("|"));

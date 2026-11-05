@@ -17,6 +17,7 @@ const OUT = process.env.OUT || root;
 const SITE = "https://monbonecran.fr";
 const SRC = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const esc = t => String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const ANALYTICS_TAG = '<script src="/mbe-analytics.js" defer></script>';
 const jsonld = o => `<script type="application/ld+json">${JSON.stringify(o)}</script>`;
 const today = new Date().toISOString().slice(0, 10);
 
@@ -234,13 +235,16 @@ function patchModelPages() {
   let n = 0;
   for (const m of modelPages()) {
     const f = path.join(root, "reglages", m.slug, "index.html");
-    let h = fs.readFileSync(f, "utf8");
-    if (h.includes('data-crumb="regler"')) continue;
+    let h = fs.readFileSync(f, "utf8"), changed = false;
     const top = '<a class="top" href="/">‹ Mon Bon Écran</a>';
-    if (!h.includes(top)) continue;
-    h = h.replace(top, () => top + ' <a class="top" data-crumb="regler" href="/regler-sa-tele/" style="margin-left:10px">· Régler sa télé</a>');
-    const ld = jsonld(crumbsLD([["Accueil", "/"], ["Régler sa télé", "/regler-sa-tele/"], ["Réglages " + m.name, "/reglages/" + m.slug + "/"]]));
-    h = h.replace("</head>", () => ld + "\n</head>");
+    if (!h.includes('data-crumb="regler"') && h.includes(top)) {
+      h = h.replace(top, () => top + ' <a class="top" data-crumb="regler" href="/regler-sa-tele/" style="margin-left:10px">· Régler sa télé</a>');
+      const ld = jsonld(crumbsLD([["Accueil", "/"], ["Régler sa télé", "/regler-sa-tele/"], ["Réglages " + m.name, "/reglages/" + m.slug + "/"]]));
+      h = h.replace("</head>", () => ld + "\n</head>"); changed = true;
+    }
+    /* mesure d'audience + consentement : script commun à toutes les pages */
+    if (!h.includes("/mbe-analytics.js")) { h = h.replace("</body>", () => ANALYTICS_TAG + "</body>"); changed = true; }
+    if (!changed) continue;
     const out = path.join(OUT, "reglages", m.slug); fs.mkdirSync(out, { recursive: true });
     fs.writeFileSync(path.join(out, "index.html"), h); n++;
   }
@@ -275,7 +279,7 @@ ${jsonld(crumbsLD([["Accueil", "/"], [parent[0], parent[1]], [pg.name, pg.path]]
 <h1>${esc(pg.name)}</h1>
 ${pg.html}
 <p style="font-size:14px;color:var(--muted)">Site indépendant, non affilié aux marques citées. <a href="/mentions-legales.html" style="color:inherit">Mentions légales</a></p>
-</main></body></html>`;
+</main><script src="/mbe-analytics.js" defer></script></body></html>`;
 }
 
 /* ---------- exécution ---------- */
