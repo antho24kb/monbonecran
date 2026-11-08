@@ -1,0 +1,77 @@
+/* ===== Refonte style Radar Steelbook : gris acier clair, noir, bleu, orange ===== */
+@font-face{font-family:"Archivo Black";font-display:swap;src:url(/fonts/archivo-black-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:Archivo;font-weight:500;font-display:swap;src:url(/fonts/archivo-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:Archivo;font-weight:700;font-display:swap;src:url(/fonts/archivo-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"IBM Plex Mono";font-weight:400;font-display:swap;src:url(/fonts/ibm-plex-mono-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"IBM Plex Mono";font-weight:600;font-display:swap;src:url(/fonts/ibm-plex-mono-latin-600-normal.woff2) format("woff2")}
+:root{--bg:#d3d8dc;--surface:#eceff1;--fg:#0f1113;--muted:#4a525a;--line:rgba(15,17,19,.25);--accent:#1448c8;--accent-fg:#fff;--soft:#eceff1;--track:#b8bfc5;--shadow:none;--orange:#ff4b1f;
+ --f-display:"Archivo Black",Impact,sans-serif;--f-body:Archivo,Arial,sans-serif;--f-mono:"IBM Plex Mono",ui-monospace,monospace}
+body{background:#d3d8dc!important;color:var(--fg);font-family:var(--f-body);font-weight:500;padding-left:0;padding-right:0}
+body::before,body::after,header.home::before,header.home::after,h2::before,h2::after,header.home h1::before{display:none!important;content:none!important}
+.bandeau{background:#000;display:flex;justify-content:space-between;gap:10px;padding:9px 16px;font:400 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:#9aa4ad}
+.bandeau b{font:400 11px var(--f-display);color:#fff}
+.wrap{padding:0 16px;gap:0}
+header,header.home{align-items:flex-start;text-align:left;padding:26px 0 6px;margin:0;animation:none!important}
+header .mark,header.home .mark{display:none!important}
+header h1,header.home h1,h1{font-family:var(--f-display)!important;font-weight:400!important;font-size:clamp(2.6rem,14.5vw,3.75rem)!important;line-height:.9!important;letter-spacing:-.025em!important;text-transform:uppercase;color:var(--fg)!important;text-shadow:none!important;filter:none!important;animation:none!important}
+header h1 span,header.home h1 span,header h1 .tv,header.home h1 .tv{background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;-webkit-text-fill-color:currentColor;color:var(--fg)!important;filter:none!important;animation:none!important;display:block}
+header h1 .tv,header.home h1 .tv{color:var(--accent)!important}
+header:not(.home) h1{font-size:clamp(1.5rem,7vw,2rem)!important}
+header:not(.home) h1 span{display:inline}
+.sub,header.home .sub{color:#2a3036!important;margin:14px 0 0!important;text-align:left!important;max-width:30em;font-size:1.05rem}
+header.home .pill,.pill{display:inline-block;margin-top:14px;padding:6px 0;border:0;border-top:2px solid var(--fg);border-bottom:2px solid var(--fg);border-radius:0;background:none!important;box-shadow:none!important;backdrop-filter:none;color:var(--fg)!important;font:600 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;width:100%}
+header.home .partners{justify-content:flex-start;max-width:none}
+.partners .pl{text-align:left;font-family:var(--f-mono)}
+.partners .pa,.partners .pe,.partners .pj{border:2px solid var(--fg);border-radius:0;background:#fff}
+.panel{margin-top:6px}
+h2{font-family:var(--f-mono)!important;font-weight:600!important;font-size:.8rem!important;letter-spacing:.1em!important;text-transform:uppercase;color:var(--fg)!important;border:0!important;border-image:none!important;border-top:4px solid var(--fg)!important;padding:10px 0 4px!important;margin:26px 0 8px!important;background:none!important}
+.crumbs,.year,.tag{font-family:var(--f-mono);background:none!important;-webkit-text-fill-color:currentColor;color:var(--accent)!important;-webkit-background-clip:border-box!important;background-clip:border-box!important}
+.opt,.card,.edmore,.edban,.acc,.shop .lg,.edban .lg,.edmore .lg,.specp{border:2px solid var(--fg)!important;border-radius:0!important;background:var(--surface)!important;box-shadow:4px 4px 0 var(--fg)!important;backdrop-filter:none}
+.opt:hover{box-shadow:4px 4px 0 var(--accent)!important}
+.opt:active{background:#fff!important;transform:translate(2px,2px)!important;box-shadow:2px 2px 0 var(--fg)!important}
+.opt.sel,.opt.cmpb.sel,.opt.pick:has(.sel){background:#fff!important;border-color:var(--accent)!important}
+.shop .lg,.edban .lg,.edmore .lg{box-shadow:none!important}
+.specp{box-shadow:none!important}
+.opt.has-ic>span:not(.ic),.opt .tc,.usage b,.opt .mn,.set-name,.edmore .st b,.acct b{background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;-webkit-text-fill-color:currentColor;color:var(--fg)!important;font-family:var(--f-display)!important;font-weight:400!important;text-transform:uppercase;letter-spacing:0!important}
+.usage b{font-size:1.1rem}
+.usage::after{color:var(--accent);font-family:var(--f-mono)}
+.ic,.acci{border-radius:0!important;background:var(--accent)!important;color:#fff!important;box-shadow:none!important}
+em.sc{border-radius:0;background:var(--orange)!important;color:var(--fg);border:2px solid var(--fg);font-family:var(--f-display);transform:rotate(-3deg)}
+.btn,.row-actions .btn{border-radius:0!important;background:var(--fg)!important;color:#fff!important;font-family:var(--f-display);font-weight:400!important;text-transform:uppercase;letter-spacing:.02em}
+.btn.ghost{background:#fff!important;color:var(--fg)!important;border:2px solid var(--fg)}
+.row-actions .btn[data-act=share],.row-actions .btn[data-act=dshare]{background:var(--accent)!important}
+.row-actions .btn[data-act=reset]{background:transparent!important;color:var(--muted)!important}
+a.buy,button.buy{border-radius:0!important;background:var(--orange)!important;color:var(--fg)!important;border:2px solid var(--fg)!important;box-shadow:3px 3px 0 var(--fg)!important;font-family:var(--f-display);font-weight:400!important;text-transform:uppercase}
+.shop .go{border-radius:0;background:var(--fg);color:#fff}
+.link,a.link{color:var(--accent);font-family:var(--f-mono);font-weight:600;text-transform:uppercase;font-size:.82rem;letter-spacing:.05em}
+.search{border-radius:0!important;border:2px solid var(--fg)!important;background:#fff!important}
+.meter,.meter i,.progress span{border-radius:0}
+.progress span.on{background:var(--accent)!important;box-shadow:none!important;animation:none!important}
+.ad{border-radius:0;background:#eceff1!important;border:2px dashed var(--fg)!important}
+.path,table.cmp thead th{font-family:var(--f-mono);border-radius:0;color:var(--fg)}
+table.cmp th,table.cmp td{border-bottom:1px solid var(--line)}
+.set-val{font-family:var(--f-mono)}
+.opt small.edge{color:var(--accent)}
+.specp b{-webkit-text-fill-color:var(--fg);color:var(--fg)}
+footer{font-family:var(--f-mono);text-transform:uppercase;letter-spacing:.05em;border-top:4px solid var(--fg);margin-top:26px}
+.note{color:var(--muted)}
+
+/* accueil : titre sur deux lignes, tient dans l'écran */
+header.home h1{white-space:normal!important;font-size:clamp(2.3rem,13vw,3.4rem)!important;line-height:.9!important}
+header.home h1 span{display:block!important}
+header.home{padding:20px 0 4px!important}
+header.home .sub{font-size:.98rem!important;margin:10px 0 0!important}
+header.home .pill{margin-top:10px!important;padding:5px 0!important;font-size:.7rem!important}
+body.is-home #stage h2{margin:16px 0 6px!important;font-size:.8rem!important}
+body.is-home .opt{padding:14px 16px!important}
+body.is-home .more{justify-content:flex-start}
+body.is-home footer{text-align:left!important}
+/* bandeau de consentement */
+.mbe-ck{border:2px solid #0f1113!important;border-radius:0!important;background:#eceff1!important;box-shadow:4px 4px 0 #0f1113!important;color:#0f1113!important;font-family:Archivo,Arial,sans-serif}
+.mbe-ck h2{font:600 .8rem "IBM Plex Mono",monospace!important;letter-spacing:.1em;text-transform:uppercase;color:#0f1113!important;border:0!important;padding:0!important}
+.mbe-ck a{color:#1448c8!important}
+.mbe-ck button{border-radius:0!important;background:#0f1113!important;border-color:#0f1113!important;color:#fff!important;font-family:"Archivo Black",Impact,sans-serif!important;font-weight:400!important;text-transform:uppercase}
+.mbe-ck button:nth-child(2){background:#1448c8!important;border-color:#0f1113!important}
+.mbe-ckl{background:none!important;color:inherit!important}
+body{padding-left:0!important;padding-right:0!important}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
