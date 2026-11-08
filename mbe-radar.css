@@ -75,3 +75,13 @@ body.is-home footer{text-align:left!important}
 .mbe-ckl{background:none!important;color:inherit!important}
 body{padding-left:0!important;padding-right:0!important}
 .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+/* boutiques : boutons et logos de même taille, Amazon en noir */
+.accgo,.accgo.ed,.partners .pa,.partners .pe,.partners .pj,.shop .lg,.edban .lg,.edmore .lg,.edrow .lg{box-sizing:border-box;border-radius:0!important;box-shadow:none!important}
+.accgo{background:var(--fg)!important;color:#fff!important;border:2px solid var(--fg);font-family:var(--f-display)!important;font-weight:400!important;text-transform:uppercase;font-size:.78rem;letter-spacing:.02em;width:112px;height:40px;padding:0 8px;justify-content:center}
+.accgo.ed{background:#fff!important;border:2px solid var(--fg)}
+.accgo.ed img{height:20px;width:auto;max-width:84px;object-fit:contain}
+.partners .pa,.partners .pe,.partners .pj,.shop .lg,.edban .lg,.edmore .lg,.edrow .lg{width:104px;height:40px;padding:0 8px;flex:0 0 104px;display:grid;place-items:center;background:#fff!important;border:2px solid var(--fg)!important}
+.partners .pa{font-family:var(--f-display);font-weight:400;font-size:.95rem;color:var(--fg);text-transform:uppercase}
+.partners .pe img,.partners .pj img,.shop .lg img,.edban .lg img,.edmore .lg img,.edrow .lg img{height:20px!important;width:auto!important;max-width:84px;max-height:20px;object-fit:contain}
+.lgt{font-family:var(--f-display);font-weight:400;color:var(--fg);text-transform:uppercase;font-size:.9rem}
+.partners{gap:8px}
