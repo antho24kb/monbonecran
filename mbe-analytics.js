@@ -68,7 +68,7 @@
   /* ---------- provenance des visites depuis les assistants IA ---------- */
   function detectAIPlatform() {
     var host = "", source = "";
-    try { if (document.referrer) host = new URL(document.referrer).hostname.toLowerCase().replace(/^www\\./, ""); } catch (e) {}
+    try { if (document.referrer) host = new URL(document.referrer).hostname.toLowerCase(); if (host.indexOf("www.") === 0) host = host.slice(4); } catch (e) {}
     var map = [
       ["chatgpt.com", "ChatGPT"], ["chat.openai.com", "ChatGPT"],
       ["perplexity.ai", "Perplexity"], ["gemini.google.com", "Gemini"], ["bard.google.com", "Gemini"],
@@ -82,10 +82,10 @@
     }
     try {
       var u = new URLSearchParams(location.search);
-      source = (u.get("utm_source") || "").toLowerCase().replace(/^www\\./, "");
+      source = (u.get("utm_source") || "").toLowerCase(); if (source.indexOf("www.") === 0) source = source.slice(4);
     } catch (e) {}
     for (var j = 0; j < map.length; j++) {
-      if (source === map[j][0] || source === map[j][0].replace(/\\.com$|\\.ai$/, "")) return { platform: map[j][1], host: host || "utm_source" };
+      if (source === map[j][0] || source === (map[j][0].endsWith(".com") ? map[j][0].slice(0, -4) : map[j][0].endsWith(".ai") ? map[j][0].slice(0, -3) : map[j][0])) return { platform: map[j][1], host: host || "utm_source" };
     }
     return null;
   }
