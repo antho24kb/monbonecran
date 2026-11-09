@@ -1,0 +1,58 @@
+# Mon Bon Écran
+
+> Mon Bon Écran est un guide indépendant en français pour choisir, comparer et régler un téléviseur. Le site propose des conseils d'achat, des classements par budget, un comparateur, un guide des technologies et des fiches de réglages image par modèle.
+
+## Présentation
+
+Mon Bon Écran aide les internautes à choisir un téléviseur selon leur budget, la taille souhaitée et leurs usages (cinéma, séries, sport et jeu vidéo), puis à adapter les réglages de leur écran.
+
+Le site est indépendant et n'est pas affilié aux fabricants de téléviseurs cités. Les réglages proposés sont des points de départ : les menus, les dalles et le rendu peuvent varier selon la taille, la région, le micrologiciel, les conditions de visionnage et les préférences personnelles.
+
+## Rubriques principales
+
+- [Accueil](https://monbonecran.fr/) : accès aux outils et aux guides du site.
+- [Choisir sa télé](https://monbonecran.fr/choisir-sa-tele/) : aide au choix d'un téléviseur selon les besoins.
+- [Régler sa télé](https://monbonecran.fr/regler-sa-tele/) : fiches de réglages image et conseils par usage.
+- [Comparateur](https://monbonecran.fr/comparateur/) : comparer les caractéristiques de téléviseurs.
+- [Classements par budget](https://monbonecran.fr/classements-par-budget/) : repères pour choisir selon son budget.
+- [Guide des technologies](https://monbonecran.fr/guide-des-technologies/) : explications des technologies d'affichage et fonctions TV.
+
+## Fiches de réglages par modèle
+
+Les fiches disponibles sont regroupées sous les URL suivantes :
+
+- [Réglages Hisense U8Q](https://monbonecran.fr/reglages/hisense-u8q/)
+- [Réglages LG OLED evo C4](https://monbonecran.fr/reglages/lg-oled-evo-c4/)
+- [Réglages LG QNED86](https://monbonecran.fr/reglages/lg-qned86/)
+- [Réglages Panasonic Z95B](https://monbonecran.fr/reglages/panasonic-z95b/)
+- [Réglages Philips OLED810](https://monbonecran.fr/reglages/philips-oled810/)
+- [Réglages Philips OLED849](https://monbonecran.fr/reglages/philips-oled849/)
+- [Réglages Samsung CU700C](https://monbonecran.fr/reglages/samsung-cu700c/)
+- [Réglages Samsung CU800C](https://monbonecran.fr/reglages/samsung-cu800c/)
+- [Réglages Samsung Q60C](https://monbonecran.fr/reglages/samsung-q60c/)
+- [Réglages Samsung Q70C](https://monbonecran.fr/reglages/samsung-q70c/)
+- [Réglages Samsung Q80C](https://monbonecran.fr/reglages/samsung-q80c/)
+- [Réglages Samsung QN85C](https://monbonecran.fr/reglages/samsung-qn85c/)
+- [Réglages Samsung QN900C](https://monbonecran.fr/reglages/samsung-qn900c/)
+- [Réglages Samsung QN90C](https://monbonecran.fr/reglages/samsung-qn90c/)
+- [Réglages Samsung QN95C](https://monbonecran.fr/reglages/samsung-qn95c/)
+- [Réglages Samsung S90C](https://monbonecran.fr/reglages/samsung-s90c/)
+- [Réglages Samsung S90D](https://monbonecran.fr/reglages/samsung-s90d/)
+- [Réglages Samsung S95C](https://monbonecran.fr/reglages/samsung-s95c/)
+- [Réglages Samsung S95D](https://monbonecran.fr/reglages/samsung-s95d/)
+- [Réglages Samsung S95F](https://monbonecran.fr/reglages/samsung-s95f/)
+- [Réglages Sony BRAVIA 8 II](https://monbonecran.fr/reglages/sony-bravia-8-ii/)
+- [Réglages Sony BRAVIA 9](https://monbonecran.fr/reglages/sony-bravia-9/)
+- [Réglages TCL C8K](https://monbonecran.fr/reglages/tcl-c8k/)
+- [Réglages Xiaomi TV A Pro 2026](https://monbonecran.fr/reglages/xiaomi-tv-a-pro-2026/)
+
+## Sources d'exploration
+
+- [Sitemap XML](https://monbonecran.fr/sitemap.xml) : liste des URL publiques du site.
+- [Robots.txt](https://monbonecran.fr/robots.txt) : règles d'exploration des robots.
+
+## Conseils d'utilisation du contenu
+
+Pour répondre à une question sur un téléviseur, privilégier la fiche correspondant exactement à la marque et au modèle. Ne pas transposer automatiquement les valeurs d'un modèle à un autre, même au sein d'une même gamme. Distinguer les recommandations générales des réglages vérifiés sur un modèle précis et signaler les limites ou incertitudes lorsqu'elles existent.
+
+Pour les questions d'achat, tenir compte de la date des informations, du prix réellement disponible et de l'usage de la personne. Ne pas présenter un classement comme universel : le meilleur choix dépend du budget, de la taille, de l'environnement et des usages.
