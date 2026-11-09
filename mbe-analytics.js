@@ -22,7 +22,7 @@
   var TTL = 183 * 24 * 3600 * 1000; /* 6 mois */
   var UTM = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
 
-  var granted = false, loaded = false;
+  var granted = false, loaded = false, aiReferralSent = false;
   var lastPath = null, lastLocation = null, landingSent = false, timer = null, memChoice = null;
 
   /* ---------- choix mémorisé ---------- */
@@ -64,6 +64,44 @@
     document.head.appendChild(s);
   }
 
+
+  /* ---------- provenance des visites depuis les assistants IA ---------- */
+  function detectAIPlatform() {
+    var host = "", source = "";
+    try { if (document.referrer) host = new URL(document.referrer).hostname.toLowerCase().replace(/^www\\./, ""); } catch (e) {}
+    var map = [
+      ["chatgpt.com", "ChatGPT"], ["chat.openai.com", "ChatGPT"],
+      ["perplexity.ai", "Perplexity"], ["gemini.google.com", "Gemini"], ["bard.google.com", "Gemini"],
+      ["claude.ai", "Claude"], ["claude.com", "Claude"],
+      ["copilot.microsoft.com", "Copilot"], ["copilot.com", "Copilot"],
+      ["poe.com", "Poe"], ["you.com", "You.com"], ["meta.ai", "Meta AI"],
+      ["grok.com", "Grok"], ["deepseek.com", "DeepSeek"], ["mistral.ai", "Mistral"], ["phind.com", "Phind"]
+    ];
+    for (var i = 0; i < map.length; i++) {
+      if (host === map[i][0] || host.endsWith("." + map[i][0])) return { platform: map[i][1], host: host };
+    }
+    try {
+      var u = new URLSearchParams(location.search);
+      source = (u.get("utm_source") || "").toLowerCase().replace(/^www\\./, "");
+    } catch (e) {}
+    for (var j = 0; j < map.length; j++) {
+      if (source === map[j][0] || source === map[j][0].replace(/\\.com$|\\.ai$/, "")) return { platform: map[j][1], host: host || "utm_source" };
+    }
+    return null;
+  }
+
+  function sendAIReferral() {
+    if (!granted || !loaded || aiReferralSent) return;
+    var detected = detectAIPlatform();
+    if (!detected) return;
+    aiReferralSent = true;
+    gt("event", "ai_referral", {
+      ai_platform: detected.platform,
+      referrer_host: detected.host,
+      landing_page: location.pathname
+    });
+  }
+
   function clearCookies() {
     var names = ["_ga", "_ga_" + GA_ID.replace(/^G-/, "")];
     var host = location.hostname, parts = host.split("."), domains = [""];
@@ -81,6 +119,7 @@
     loadGA();
     lastPath = null; /* la page en cours compte comme page d'arrivée */
     sendPageView();
+    sendAIReferral();
   }
   function deny() {
     var was = granted;
@@ -234,7 +273,7 @@
   function init() {
     addFooterLink();
     var c = readChoice();
-    if (c === "granted") { granted = true; loadGA(); sendPageView(); }
+    if (c === "granted") { granted = true; loadGA(); sendPageView(); sendAIReferral(); }
     else if (c === "denied") { granted = false; }
     else showBanner(false);
   }
