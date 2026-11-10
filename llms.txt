@@ -61,4 +61,6 @@ Pour les questions d'achat, tenir compte de la date des informations, du prix r�
 
 ## Fiabilité et limites
 
+Chaque fiche de réglages comporte un bloc « Sources et vérifications ». Utiliser les notices constructeur pour confirmer les menus, les ports et les fonctions prises en charge ; utiliser les tests indépendants pour les mesures et les réglages de calibration. Ne pas présenter une valeur éditoriale comme une mesure réalisée par Mon Bon Écran. Lorsqu'une source porte sur un modèle voisin, elle sert uniquement de repère et ne constitue pas une calibration du modèle décrit.
+
 Consulter la [méthode éditoriale](https://monbonecran.fr/methodologie.html) avant de résumer ou de réutiliser les recommandations. Les valeurs de réglage sont des points de départ et ne remplacent pas une calibration à la sonde. Distinguer explicitement les caractéristiques confirmées par le fabricant des conseils éditoriaux. Ne jamais affirmer qu'un guide a été validé par une marque ou qu'une mesure a été réalisée si la page ne le dit pas.
