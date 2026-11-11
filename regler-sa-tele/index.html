@@ -431,7 +431,8 @@ body.is-flow footer{padding:0 12px 6px!important; font-size:.68rem!important}
   body.is-flow .wrap{max-width:980px}
   body.is-flow header .bm{font-size:1.6rem!important}
   body.is-flow #stage h2{font-size:1.6rem!important; margin:8px 0 14px!important}
-  body.is-flow #stage .list{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px}
+  body.is-flow #stage .list:not(:has(> .year,> .grid)){display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px}
+  body.is-flow #stage .list:has(> .year) > .grid{grid-template-columns:repeat(4,minmax(0,1fr))}
   body.is-flow #stage .opt.usage{padding:20px 52px 20px 20px!important}
   body.is-flow #stage .opt.usage b{font-size:1.2rem}
   body.is-flow #stage .opt.usage small{font-size:.92rem}
