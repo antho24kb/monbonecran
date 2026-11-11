@@ -31,7 +31,7 @@ function page(brand, model) {
   const name = `${brand} ${model}`;
   const s = slug(name);
   const url = `${SITE}/reglages/${s}/`;
-  const title = `Réglages ${name} : cinéma, jeu vidéo et sport`;
+  const title = `Réglages ${name} : cinéma, jeu, sport`;
   const desc = `Les meilleurs réglages image pour votre ${name} (${info.tech}, ${info.year}) : mode cinéma, jeu vidéo (PS5, Xbox) et sport. Valeurs à copier, menu par menu.`;
   let body = "";
   for (const u of Object.keys(A.USAGES)) {
