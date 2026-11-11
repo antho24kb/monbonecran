@@ -395,6 +395,50 @@ body.is-flow #stage .tipw .opt.usage{padding-right:84px!important}
 .tipb[aria-expanded="true"]::before{background-color:rgba(110,90,150,.2)!important}
 
 body.is-flow footer{padding:0 12px 6px!important; font-size:.68rem!important}
+/* ===== ordinateur (écran large) : la version téléphone ci-dessus ne change pas ===== */
+@media (min-width:1000px) and (hover:hover){
+  body{font-size:18px}
+  /* accueil : marque à gauche, choix à droite */
+  body.is-home{padding:0 32px!important}
+  body.is-home .wrap{max-width:1180px; min-height:100vh; display:grid; grid-template-columns:1.05fr 1fr; column-gap:72px; align-items:center; align-content:center; padding:40px 0}
+  body.is-home .wrap > header{grid-column:1; padding:60px 40px!important; align-items:flex-start!important; text-align:left!important}
+  body.is-home .wrap > .panel{grid-column:2}
+  body.is-home .wrap > footer{grid-column:1 / -1; text-align:center}
+  header.home::before{left:0!important; top:22px!important; width:44px!important; height:44px!important}
+  header.home::after{right:0!important; bottom:22px!important; width:44px!important; height:44px!important}
+  header.home .mark{width:84px!important; height:84px!important}
+  header.home .bm{font-size:clamp(3rem,4.6vw,4.4rem)!important; white-space:normal!important; text-align:left; line-height:1!important}
+  header.home .bm span{display:block!important}
+  header.home .bm::before{font-size:.8rem!important; margin-bottom:14px!important}
+  header.home .sub{font-size:1.2rem!important; max-width:30ch!important; margin:18px 0 0!important; text-align:left!important}
+  header.home .pill{font-size:.78rem!important; padding:6px 14px!important; margin-top:16px!important}
+  header.home .partners{justify-content:flex-start!important; max-width:none!important; margin-top:22px!important}
+  header.home .partners .pl{text-align:left!important; flex-basis:100%}
+  body.is-home #stage > .note{text-align:left!important}
+  body.is-home #stage h2{font-size:1.6rem!important; margin:0 0 18px!important}
+  body.is-home #stage .list{gap:16px}
+  body.is-home .opt.usage{padding:30px 64px 30px 28px!important; border-radius:22px!important}
+  body.is-home .opt.usage b{font-size:1.6rem}
+  body.is-home .opt.usage small{font-size:1rem; margin-top:6px}
+  body.is-home .opt.usage::after{font-size:2.2rem; right:26px}
+  body.is-home .opt.usage:hover{transform:translateY(-3px); box-shadow:0 14px 34px rgba(139,77,255,.18)}
+  body.is-home .more{margin:18px 0 0; justify-content:flex-start; gap:6px 22px}
+  body.is-home .more .link{font-size:1rem}
+  body.is-home #stage > .note{font-size:.86rem!important; margin-top:14px!important}
+  body.is-home footer{font-size:.82rem!important}
+  body::after{width:820px; height:820px; left:-220px; top:-220px}
+  /* étapes et rubriques : colonne plus large, choix sur deux colonnes */
+  body.is-flow .wrap{max-width:980px}
+  body.is-flow header .bm{font-size:1.6rem!important}
+  body.is-flow #stage h2{font-size:1.6rem!important; margin:8px 0 14px!important}
+  body.is-flow #stage .list{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px}
+  body.is-flow #stage .opt.usage{padding:20px 52px 20px 20px!important}
+  body.is-flow #stage .opt.usage b{font-size:1.2rem}
+  body.is-flow #stage .opt.usage small{font-size:.92rem}
+  .seo{max-width:980px; margin:20px auto!important; font-size:1rem!important; columns:auto}
+  .seo .bm{font-size:1.7rem!important}
+  .seo h2{font-size:1.3rem!important}
+}
 </style>
 <style>
 .seo{margin:6px 14px 10px; font-size:.86rem; line-height:1.6; color:var(--muted)}

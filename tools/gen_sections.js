@@ -84,6 +84,9 @@ const HUBS = [
   { brand: "TCL", slug: "tcl", kw: "Réglage TV TCL" }
 ];
 const HUB_SLUGS = HUBS.map(h => h.slug);
+/* Écran d'ordinateur : pages modèle avec Cinéma, Jeu vidéo et Sport côte à côte ; pages de marque plus larges. Rien ne change sur téléphone. */
+const DESK_MODEL = `<style id="desk">@media (min-width:1000px) and (hover:hover){body{background:radial-gradient(900px 600px at -10% -10%,rgba(255,138,31,.16),transparent 60%),radial-gradient(800px 600px at 110% 0%,rgba(139,77,255,.12),transparent 60%),var(--bg)}main{max-width:1240px;padding:36px 32px 64px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:20px;align-items:start}main>*{grid-column:1/-1}main>a.top{grid-row:1;justify-self:start}main>a.top+a.top{margin-left:150px!important}main>section.card:nth-of-type(-n+3){grid-column:auto;margin:6px 0}h1{font-size:40px;margin-top:22px}.lead{font-size:19px;max-width:60ch}main>section.card:nth-of-type(n+4),main>.note,main>.cta{max-width:820px}.cta{max-width:420px!important}}</style>`;
+const DESK_HUB = `<style id="desk">@media (min-width:1000px) and (hover:hover){body{background:radial-gradient(900px 600px at -10% -10%,rgba(255,138,31,.16),transparent 60%),radial-gradient(800px 600px at 110% 0%,rgba(139,77,255,.12),transparent 60%),var(--bg)}main{max-width:1100px;padding:36px 32px 64px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:20px;align-items:start}main>*{grid-column:1/-1}main>a.top{grid-row:1;justify-self:start}main>a.top+a.top{margin-left:150px!important}main>section.card:nth-of-type(1),main>section.card:nth-of-type(2){grid-column:auto}h1{font-size:40px;margin-top:22px}.lead{font-size:19px;max-width:62ch}.cta{max-width:420px}}</style>`;
 const hubOf = brand => HUBS.find(h => h.brand === brand);
 function modelPages() {
   const dir = path.join(root, "reglages");
@@ -297,6 +300,7 @@ function patchModelPages() {
     const h3 = h.replace(/<section class="card" id="autres-reglages" data-rel="liens">[\s\S]*?<\/section>\n/, "");
     const cta = '<a class="cta" href="/">';
     if (h3.includes(cta)) { const h4 = h3.replace(cta, () => block + cta); if (h4 !== h) { h = h4; changed = true; } }
+    { const h5 = h.replace(/<style id="desk">[\s\S]*?<\/style>\n/, "").replace("</head>", () => DESK_MODEL + "\n</head>"); if (h5 !== h) { h = h5; changed = true; } }
     /* mesure d'audience + consentement : script commun à toutes les pages */
     if (!h.includes("/mbe-analytics.js")) { h = h.replace("</body>", () => ANALYTICS_TAG + "</body>"); changed = true; }
     if (!changed) continue;
@@ -365,6 +369,7 @@ function contentPage(pg, parent) {
 .path{background:#F4EEFF;border-radius:10px;padding:8px 10px;font-size:14px}.set{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid rgba(90,50,160,.12)}.set b{text-align:right}
 .note{color:var(--muted);font-size:14px}.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:15px}th,td{text-align:left;padding:8px 6px;border-bottom:1px solid rgba(90,50,160,.12);vertical-align:top}th{font-size:13px;color:var(--muted);font-weight:600}
 .cta{display:block;text-align:center;background:var(--accent);color:#fff;font:800 16px Manrope,sans-serif;text-decoration:none;padding:14px;border-radius:999px;margin:16px 0 12px}</style>
+${DESK_HUB}
 ${jsonld(WEBSITE_LD)}
 ${jsonld(crumbsLD([["Accueil", "/"], [parent[0], parent[1]], [pg.name, pg.path]]))}
 </head><body><main>
