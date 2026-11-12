@@ -18,13 +18,17 @@ Le site est indépendant et n'est pas affilié aux fabricants de téléviseurs c
 - [Comparateur](https://monbonecran.fr/comparateur/) : comparer les caractéristiques de téléviseurs.
 - [Classements par budget](https://monbonecran.fr/classements-par-budget/) : repères pour choisir selon son budget.
 - [Guide des technologies](https://monbonecran.fr/guide-des-technologies/) : explications des technologies d'affichage et fonctions TV.
+- [Régler sa TV pour la PS5](https://monbonecran.fr/regler-sa-tv-pour-la-ps5/) : guide des réglages TV pour la PS5 (mode jeu, 120 Hz, VRR, HDR), avec diagnostic interactif et sources citées.
 
 ## Fiches de réglages par modèle
 
 Les fiches disponibles sont regroupées sous les URL suivantes :
 
 - [Réglages Hisense U8Q](https://monbonecran.fr/reglages/hisense-u8q/)
+- [Réglages Hisense UR9S](https://monbonecran.fr/reglages/hisense-ur9s/)
 - [Réglages LG OLED evo C4](https://monbonecran.fr/reglages/lg-oled-evo-c4/)
+- [Réglages LG OLED evo C6](https://monbonecran.fr/reglages/lg-oled-evo-c6/)
+- [Réglages LG OLED evo G6](https://monbonecran.fr/reglages/lg-oled-evo-g6/)
 - [Réglages LG QNED86](https://monbonecran.fr/reglages/lg-qned86/)
 - [Réglages Panasonic Z95B](https://monbonecran.fr/reglages/panasonic-z95b/)
 - [Réglages Philips OLED810](https://monbonecran.fr/reglages/philips-oled810/)
@@ -43,8 +47,10 @@ Les fiches disponibles sont regroupées sous les URL suivantes :
 - [Réglages Samsung S95C](https://monbonecran.fr/reglages/samsung-s95c/)
 - [Réglages Samsung S95D](https://monbonecran.fr/reglages/samsung-s95d/)
 - [Réglages Samsung S95F](https://monbonecran.fr/reglages/samsung-s95f/)
+- [Réglages Samsung S95H](https://monbonecran.fr/reglages/samsung-s95h/)
 - [Réglages Sony BRAVIA 8 II](https://monbonecran.fr/reglages/sony-bravia-8-ii/)
 - [Réglages Sony BRAVIA 9](https://monbonecran.fr/reglages/sony-bravia-9/)
+- [Réglages Sony BRAVIA 9 II](https://monbonecran.fr/reglages/sony-bravia-9-ii/)
 - [Réglages TCL C8K](https://monbonecran.fr/reglages/tcl-c8k/)
 - [Réglages Xiaomi TV A Pro 2026](https://monbonecran.fr/reglages/xiaomi-tv-a-pro-2026/)
 
