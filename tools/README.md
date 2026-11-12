@@ -12,6 +12,9 @@
 
 Les titres des rubriques viennent de `ROUTE_TITLES` dans `index.html` (une seule source).
 
+## Guides « non calibrés » (niveau 3)
+`node tools/gen_principes.js` génère les pages guides à partir de `principes.json`. Ce fichier de travail est **privé** : il est conservé hors du dépôt (dossier `monbonecran-prive/` à côté du dépôt, ou variable `MBE_PRIVATE`). Les pages générées sont, elles, publiées. Lancer ensuite `node tools/gen_sections.js`.
+
 ## Ajouter une page marque ou technologie
 Dans `tools/gen_sections.js`, ajouter une entrée à `BRAND_PAGES` ou `TECH_PAGES` (`path`, `name`, `title`, `desc`, `html`),
 relancer le script : la page, son fil d'Ariane (JSON-LD) et son entrée de sitemap sont créés.

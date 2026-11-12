@@ -1,4 +1,5 @@
-// Génère les pages « guide de réglage non calibré » (niveau 3) à partir de tools/principes.json.
+// Génère les pages « guide de réglage non calibré » (niveau 3) à partir de principes.json, fichier de travail PRIVÉ conservé hors du dépôt public.
+// Emplacement : variable MBE_PRIVATE, sinon le dossier ../monbonecran-prive (à côté du dépôt).
 // Aucune valeur chiffrée de réglage : uniquement des faits sourcés. Usage : node tools/gen_principes.js
 const fs = require("fs"), path = require("path");
 const root = path.join(__dirname, "..");
@@ -11,7 +12,10 @@ const head0 = src.slice(src.indexOf('<meta name="viewport"'), src.indexOf("<titl
 const cs = src.indexOf("<style>\n:root"), css = src.slice(cs, src.indexOf("</style>", cs) + 8);
 const LEVEL3 = "Guide de réglage non calibré : les recommandations ne remplacent pas une calibration professionnelle.";
 const ul = a => `<ul>${a.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
-const data = JSON.parse(fs.readFileSync(path.join(__dirname, "principes.json"), "utf8"));
+const privDir = process.env.MBE_PRIVATE || path.join(root, "..", "monbonecran-prive");
+const dataFile = path.join(privDir, "principes.json");
+if (!fs.existsSync(dataFile)) { console.error("principes.json introuvable : " + dataFile + " (fichier privé, hors dépôt)"); process.exit(1); }
+const data = JSON.parse(fs.readFileSync(dataFile, "utf8"));
 const out = [];
 for (const d of data) {
   const name = `${d.brand} ${d.model}`, s = slug(name), url = `${SITE}/reglages/${s}/`;
