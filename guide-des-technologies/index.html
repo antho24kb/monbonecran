@@ -1652,7 +1652,7 @@ function verifiedFor() {
   if ((state.usage === "sport" || state.usage === "jeu") && VERIFIED[state.brand + "|" + state.model + "|" + state.usage]) return VERIFIED[state.brand + "|" + state.model + "|" + state.usage];
   if (state.usage === "sport") return sportSheet(state.brand, isOledModel(state.brand, state.model));
   if (state.usage === "jeu") return gameSheet(state.brand, isOledModel(state.brand, state.model));
-  if (VALIAS[k]) { k = VALIAS[k]; window._av = true; }
+  if (VALIAS[k]) { k = VALIAS[k]; window._av = true; window._avBase = k.replace("|", " "); }
   return VERIFIED[k + "|" + state.usage] || null;
 }
 
@@ -2054,7 +2054,6 @@ var JOY_URL = {
   "LG OLED evo C6": {size: 55, url: "https://www.joybuy.fr/dp/lg-55c6-2026-tv-oled-55/100010205029860?requestIdentity=searchCategory"},
   "Hisense E7S": {size: 55, url: "https://www.joybuy.fr/dp/100021675602870?requestIdentity=searchCategory&ref_sku=100013085103971"},
   "Hisense E7S Pro": {size: 55, url: "https://www.joybuy.fr/dp/hisense-55e7s-pro-tv-qled-55/102261287?requestIdentity=searchCategory"},
-  "Samsung S92H": {size: 65, url: "https://www.joybuy.fr/dp/samsung-65s90h-tv-oled-65-4k/100019900200916?requestIdentity=searchCategory"},
   "Samsung QN80H": {size: 55, url: "https://www.joybuy.fr/dp/100022485860245?requestIdentity=searchCategory&ref_sku=100022485859277"},
   "Samsung M80H": {size: 55, url: "https://www.joybuy.fr/dp/samsung-55m80h-tv-2026-55-mini/100022160154948?requestIdentity=searchCategory"},
   "Hisense U7SE": {size: 55, url: "https://www.joybuy.fr/dp/100013075140959?requestIdentity=searchCategory&ref_sku=100013265201898"}
@@ -2123,7 +2122,6 @@ var AMZ_ASIN = {
   "Sony Bravia 7 II": {55: "B0H2JXW744", 65: "B0H2JSJ8QM", 75: "B0H2JZD8HX", 85: "B0H2K25NJ4"},
   "Samsung M80H": "B0H335S6NL",
   "Samsung QN80H": "B0GKGG7P9B",
-  "Samsung S92H": "B0GPYHR94N",
   "Samsung S95H": "B0GKB89PMD"
 };
 function amzUrl(c, sz) {
@@ -2655,8 +2653,11 @@ function renderCore() {
     });
     h += '<p class="note">' + sizeTip(state.size) + "</p>";
     h += "</div>";
-    h += verifiedFor()
-      ? verifiedFor().game ? '<p class="note">Réglages pour le jeu et le sport en direct. Les noms de menus peuvent varier selon la version du logiciel de votre téléviseur.</p>' : verifiedFor().unverified ? '<p class="note">Valeurs tirées d\'une vidéo, à tester sur un film que vous connaissez. Les noms de menus peuvent varier selon la version du logiciel.</p>' : '<p class="note">Noms de menus relevés sur une vraie télé de ce modèle. Valeurs de départ : ajustez-les selon votre pièce et ce que vous regardez.</p>'
+    var vf = verifiedFor(), isAlias = !!window._av, aliasBase = window._avBase;
+    h += (vf && isAlias && !vf.game)
+      ? '<p class="note"><b>Réglages non vérifiés spécifiquement pour ce modèle.</b> Ces valeurs viennent du modèle proche « ' + esc(aliasBase) + ' » : prenez-les comme point de départ et ajustez-les.</p>'
+      : vf
+      ? vf.game ? '<p class="note">Réglages pour le jeu et le sport en direct. Les noms de menus peuvent varier selon la version du logiciel de votre téléviseur.</p>' : vf.unverified ? '<p class="note">Valeurs tirées d\'une vidéo, à tester sur un film que vous connaissez. Les noms de menus peuvent varier selon la version du logiciel.</p>' : '<p class="note">Noms de menus relevés sur une vraie télé de ce modèle. Valeurs de départ : ajustez-les selon votre pièce et ce que vous regardez.</p>'
       : '<p class="note">Valeurs de départ affichées à titre d\'exemple. Les noms de menus changent selon la version du logiciel de votre téléviseur.</p>';
     h += '<div class="row-actions"><button class="btn ghost" type="button" data-act="share"><svg class="shi" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4M6 12v7a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-7"/></svg>Partager</button><button class="btn ghost" type="button" data-act="reset">Recommencer</button></div>';
     h += feedbackHtml();
