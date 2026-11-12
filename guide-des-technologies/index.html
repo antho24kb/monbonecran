@@ -537,7 +537,7 @@ var BRANDS = {
     modes: {cinema: "Cinéma / Filmmaker", jeu: "Jeu", sport: "Sport"},
     path: "Paramètres > Image > Mode Image",
     models: {
-      "2026": [["UR9S","RGB Mini LED"],["UR8S","RGB Mini LED"],["116UXS","RGB Mini LED"],["163MX","Micro LED"],["U7S Pro","Mini LED"],["U7SE","Mini LED",1],["E8S","Mini LED",1],["CanvasTV S7","Lifestyle"],["DécoTV S5","Lifestyle"],["E7S Pro","QLED",1],["E7S","QLED",1],["A7S","LED",1],["A6S","LED",1]],
+      "2026": [["UR9S","RGB Mini LED"],["UR8S","RGB Mini LED"],["116UXS","RGB Mini LED",1],["163MX","Micro LED",1],["U7S Pro","Mini LED"],["U7SE","Mini LED",1],["E8S","Mini LED",1],["CanvasTV S7","Lifestyle"],["DécoTV S5","Lifestyle"],["E7S Pro","QLED",1],["E7S","QLED",1],["A7S","LED",1],["A6S","LED",1]],
       "2025": [["U8Q","Mini LED"],["U7Q","Mini LED"],["U7Q Pro","Mini LED"],["A85Q","OLED"],["E7Q Pro","QLED"],["E7Q","QLED"],["A7Q","QLED"],["A5Q","LED"],["A4Q","LED"],["UX 2025 (100-116\")","RGB Mini LED",1],["U65QF","Mini LED",1],["A6Q","LED",1]],
       "2024": [["110UX","ULED X"],["98UX","ULED X"],["U9N","Mini LED"],["U8N","Mini LED"],["U7N","Mini LED"],["U6N","Mini LED"],["U76N","QLED"],["E7NQ Pro","QLED",1],["E7NQ","QLED",1],["A7NQ","LED",1],["A6N","LED",1],["A4N","LED",1]],
       "2023": [["UX","ULED X"],["U8K","Mini LED"],["U7K","Mini LED"],["U6K","QLED"],["E7KQ Pro","QLED",1],["E7KQ","QLED",1],["A6K","LED",1],["A5KQ","LED",1]]
@@ -1722,6 +1722,10 @@ function sizeTip(size) {
 
 var TECH_ORDER = ["OLED", "Mini LED", "RGB / Micro LED", "QLED", "QNED", "LED", "Lifestyle", "À confirmer"];
 
+/* Un modèle dont la 3e valeur vaut 1 est « non confirmé » : conservé dans le catalogue, masqué du sélecteur. Il redevient visible dès que cette valeur est retirée. */
+function visibleModels(brand, y) {
+  return (BRANDS[brand].models[y] || []).filter(function (m) { return !m[2]; });
+}
 function techCat(t) {
   if (/confirmer/.test(t)) return "À confirmer";
   if (/OLED/.test(t)) return "OLED";
@@ -1736,7 +1740,7 @@ function techCat(t) {
 function techCounts(brand) {
   var counts = {};
   YEARS.forEach(function (y) {
-    BRANDS[brand].models[y].forEach(function (m) {
+    visibleModels(brand, y).forEach(function (m) {
       var c = techCat(m[1]);
       counts[c] = (counts[c] || 0) + 1;
     });
@@ -1771,13 +1775,13 @@ function modelsHtml(filter) {
   var h = "";
   var shown = 0;
   YEARS.forEach(function (y) {
-    var items = b.models[y].filter(function (m) {
+    var items = visibleModels(state.brand, y).filter(function (m) {
       if (state.tech && techCat(m[1]) !== state.tech) return false;
       var nm = m[0].toLowerCase().replace(/\s+/g, "");
       return !q || nm.indexOf(q) !== -1 || nm.indexOf(q2) !== -1;
     });
     if (!items.length) {
-      if (!q && !state.tech && !b.models[y].length) {
+      if (!q && !state.tech && !visibleModels(state.brand, y).length) {
         h += '<div class="year">' + y + '</div><p class="note">Gamme ' + y + " bientôt disponible. Sélectionnez « Autre modèle » en attendant.</p>";
       }
       return;
@@ -2641,7 +2645,7 @@ function renderCore() {
     var counts = techCounts(state.brand);
     TECH_ORDER.forEach(function (t) {
       if (!counts[t]) return;
-      h += '<button class="opt" type="button" data-act="tech" data-v="' + t + '"><span class="tc">' + t + "</span><small>" + counts[t] + " modèles</small></button>";
+      h += '<button class="opt" type="button" data-act="tech" data-v="' + t + '"><span class="tc">' + t + "</span><small>" + counts[t] + (counts[t] > 1 ? " modèles" : " modèle") + "</small></button>";
     });
     h += '<button class="opt" type="button" data-act="tech" data-v=""><span class="tc">Je ne sais pas</span><small>Voir tous les modèles</small></button>';
     h += "</div>";
@@ -2810,7 +2814,7 @@ var ROUTES = {buy: "/choisir-sa-tele/", set: "/regler-sa-tele/", rank: "/classem
 var ROUTE_TITLES = {
   "/": "Mon Bon Écran – Choisir et régler sa télé",
   "/choisir-sa-tele/": "Quelle TV choisir en 2026 ? 4 questions | Mon Bon Écran",
-  "/regler-sa-tele/": "Meilleur réglage image TV 4K, par modèle | Mon Bon Écran",
+  "/regler-sa-tele/": "Meilleur réglage image TV : guide par modèle | Mon Bon Écran",
   "/classements-par-budget/": "Meilleure TV qualité-prix par budget : top 3 | Mon Bon Écran",
   "/comparateur/": "Comparateur de téléviseurs : 2 à 3 modèles | Mon Bon Écran",
   "/guide-des-technologies/": "Guide TV : LED, QLED, Mini LED, OLED | Mon Bon Écran"

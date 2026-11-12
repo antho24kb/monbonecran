@@ -26,7 +26,7 @@ const APP_PAGES = [
   { path: "/choisir-sa-tele/", mode: "buy", name: "Choisir sa télé",
     desc: "Quelle TV choisir en 2026 ? Répondez à 4 questions (budget, taille d'écran, jeu vidéo, technologie) et obtenez un top 3 clair, noté sur 10." },
   { path: "/regler-sa-tele/", mode: "set", name: "Régler sa télé",
-    desc: "Le meilleur réglage image pour votre TV 4K (Samsung, LG, Sony, TCL, Hisense, Philips…) : cinéma, jeu vidéo ou sport. Valeurs à copier, menu par menu." },
+    desc: "Meilleur réglage image TV : choisissez votre modèle pour obtenir des valeurs de départ ou des conseils, avec un niveau de fiabilité indiqué pour chaque réglage." },
   { path: "/classements-par-budget/", mode: "rank", name: "Classements par budget",
     desc: "La meilleure TV qualité-prix pour chaque budget, de moins de 500 € à plus de 2 500 € : top 3, notes sur 10, technologie conseillée et points forts." },
   { path: "/comparateur/", mode: "cmp", name: "Comparateur",
@@ -125,8 +125,8 @@ function seoSet(d) {
   mp.forEach(m => (groups[m.brand] = groups[m.brand] || []).push(m));
   const order = d.brands.filter(b => groups[b]).concat(Object.keys(groups).filter(b => !d.brands.includes(b)));
   const hubs = HUBS.filter(h => groups[h.brand]);
-  return `<h1>Meilleur réglage image TV 4K : les valeurs à copier, modèle par modèle</h1>
-<p>Le meilleur réglage image dépend de votre téléviseur : chaque marque a ses menus et chaque modèle ses valeurs. Choisissez votre télé (marque, modèle, taille) puis l'usage qui vous intéresse. Nous affichons les valeurs à reporter dans le menu : mode d'image, luminosité, contraste, couleurs, netteté et fluidité des mouvements. Les noms de menus changent un peu selon la version du logiciel de votre téléviseur.</p>
+  return `<h1>Meilleur réglage image TV 4K : par modèle, selon le niveau de fiabilité</h1>
+<p>Le meilleur réglage image dépend de votre téléviseur : chaque marque a ses menus et chaque modèle ses valeurs. Choisissez votre télé (marque, modèle, taille) puis l'usage qui vous intéresse. Nous affichons des valeurs de départ ou des conseils de mode : mode d'image, luminosité, contraste, couleurs, netteté et fluidité des mouvements. Le meilleur réglage dépend du modèle : chaque page indique son niveau de fiabilité (menus relevés sur la télé, test spécialisé ou valeurs de départ non calibrées), et aucune valeur n'est une calibration professionnelle. Les noms de menus changent un peu selon la version du logiciel de votre téléviseur.</p>
 <h2>Les réglages de base à vérifier sur toute TV 4K</h2>
 <p>Avant les valeurs propres à votre modèle, quatre réglages changent déjà l'image sur n'importe quelle télé :</p>
 <ul>
