@@ -319,6 +319,29 @@ function enhanceNav(h) {
   return h;
 }
 
+
+/* ---------- résumé rapide d'une fiche : uniquement des informations déjà visibles sur la page (idempotent) ----------
+   Technologie et gamme (chapô), niveau de fiabilité (encadré), contenu de la fiche (titres des sections). Rien d'ajouté, aucune difficulté ni valeur inventée. */
+const SUM_CSS = '<style id="sum-css">.sum{background:#fff;border:1px solid rgba(90,50,160,.12);border-radius:18px;padding:14px 16px;margin:0 0 14px}.sum h2{font:800 16px Manrope,sans-serif;margin:0 0 6px}.sum dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:15px}.sum dt{color:var(--muted,#7A6E92)}.sum dd{margin:0;font-weight:600}.sum a.go{display:inline-flex;align-items:center;justify-content:center;min-height:44px;margin-top:10px;padding:0 18px;border-radius:999px;background:var(--accent,#F26A1B);color:#fff;font:800 15px Manrope,sans-serif;text-decoration:none}.sum a.go:focus-visible{outline:3px solid #8B4DFF;outline-offset:2px}</style>\n';
+function enhanceSummary(h) {
+  h = h.replace(/<aside class="sum"[\s\S]*?<\/aside>\n?/, "").replace(/<style id="sum-css">[\s\S]*?<\/style>\n/, "");
+  const lead = /<p class="lead">([^<]*?) · gamme (\d{4})/.exec(h);
+  const lv = /<p class="lvl" data-level="(\d)"/.exec(h);
+  if (!lead || !lv) return h;
+  const LABEL = { "Quel mode d'image choisir ?": "Modes d'image", "Traitements d'image": "Traitements d'image", "HDR et Dolby Vision": "HDR et Dolby Vision", "Cinéma": "Cinéma", "Sport en direct": "Sport", "Jeu vidéo": "Jeu vidéo" };
+  const found = [...h.matchAll(/<section class="card"([^>]*)><h2>([\s\S]*?)<\/h2>/g)].map(m => ({ attrs: m[1], t: m[2].replace(/<[^>]+>/g, "").trim(), raw: m[0] })).filter(x => LABEL[x.t]);
+  if (!found.length) return h;
+  const first = found[0];
+  let id = (/ id="([^"]+)"/.exec(first.attrs) || [])[1];
+  if (!id) { id = "reglages"; h = h.replace(first.raw, () => first.raw.replace('<section class="card"', '<section class="card" id="reglages"')); }
+  const aside = '<aside class="sum" aria-label="Résumé rapide"><h2>Résumé rapide</h2><dl>' +
+    `<dt>Technologie</dt><dd>${lead[1]}</dd><dt>Gamme</dt><dd>${lead[2]}</dd><dt>Fiabilité</dt><dd>Niveau ${lv[1]}</dd>` +
+    `<dt>Dans la fiche</dt><dd>${found.map(x => esc(LABEL[x.t])).join(", ")}</dd></dl><a class="go" href="#${id}">Aller aux réglages</a></aside>\n`;
+  h = h.replace("</head>", () => SUM_CSS + "</head>");
+  const leg = /<details class="lvl-legend"[\s\S]*?<\/details>\n?/;
+  return leg.test(h) ? h.replace(leg, (a) => a + aside) : h.replace(/(<p class="lvl"[^>]*>[\s\S]*?<\/p>\n?)/, (a) => a + aside);
+}
+
 function patchModelPages() {
   let n = 0;
   for (const m of modelPages()) {
@@ -391,7 +414,7 @@ function patchModelPages() {
     }
     /* mesure d'audience + consentement : script commun à toutes les pages */
     if (!h.includes("/mbe-analytics.js")) { h = h.replace("</body>", () => ANALYTICS_TAG + "</body>"); changed = true; }
-    { const h8 = enhanceNav(h); if (h8 !== h) { h = h8; changed = true; } }
+    { const h8 = enhanceNav(enhanceSummary(h)); if (h8 !== h) { h = h8; changed = true; } }
     if (!changed) continue;
     const out = path.join(OUT, "reglages", m.slug); fs.mkdirSync(out, { recursive: true });
     fs.writeFileSync(path.join(out, "index.html"), h); n++;
