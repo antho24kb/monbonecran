@@ -301,6 +301,22 @@ function patchModelPages() {
     const cta = '<a class="cta" href="/">';
     if (h3.includes(cta)) { const h4 = h3.replace(cta, () => block + cta); if (h4 !== h) { h = h4; changed = true; } }
     { const h5 = h.replace(/<style id="desk">[\s\S]*?<\/style>\n/, "").replace("</head>", () => DESK_MODEL + "\n</head>"); if (h5 !== h) { h = h5; changed = true; } }
+    /* niveau de fiabilité des réglages (1 : relevé sur la télé · 2 : test spécialisé identifiable · 3 : non calibré) */
+    {
+      const LVL_CSS = '<style id="lvl">.lvl{background:#F4EEFF;border-left:4px solid #8B4DFF;border-radius:10px;padding:8px 12px;font-size:14px;margin:0 0 14px}.lvl[data-level="1"]{border-color:#2E9E5B}.lvl[data-level="3"]{border-color:#F26A1B}</style>\n';
+      let lvl = null;
+      if (/data-level="3"/.test(h) && h.includes("Guide de réglage non calibré")) lvl = null;
+      else if (h.includes("relevés sur une vraie télé") || m.slug === "philips-oled849") lvl = ['1', "Niveau 1</b> · Menus relevés sur le téléviseur. Les valeurs chiffrées restent des points de départ, non calibrées à la sonde."];
+      else if (h.includes("tirées d'une vidéo") || h.includes("tirées d’une vidéo")) lvl = ['3', "Niveau 3</b> · Valeurs indicatives tirées d'une vidéo (source non identifiée), non calibrées : à tester sur un film que vous connaissez."];
+      else lvl = ['3', "Niveau 3</b> · Valeurs de départ non calibrées, à ajuster selon votre pièce et vos goûts."];
+      let h6 = h.replace(/<style id="lvl">[\s\S]*?<\/style>\n/, "");
+      h6 = h6.replace("</head>", () => LVL_CSS + "</head>");
+      if (lvl) {
+        h6 = h6.replace(/<p class="lvl"[^>]*>[\s\S]*?<\/p>\n?/, "");
+        h6 = h6.replace(/(<p class="lead">[^<]*<\/p>\n?)/, (all) => all.replace(/\n?$/, "\n") + `<p class="lvl" data-level="${lvl[0]}"><b>` + lvl[1] + "</p>\n");
+      }
+      if (h6 !== h) { h = h6; changed = true; }
+    }
     /* mesure d'audience + consentement : script commun à toutes les pages */
     if (!h.includes("/mbe-analytics.js")) { h = h.replace("</body>", () => ANALYTICS_TAG + "</body>"); changed = true; }
     if (!changed) continue;

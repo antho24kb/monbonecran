@@ -2655,10 +2655,10 @@ function renderCore() {
     h += "</div>";
     var vf = verifiedFor(), isAlias = !!window._av, aliasBase = window._avBase;
     h += (vf && isAlias && !vf.game)
-      ? '<p class="note"><b>Réglages non vérifiés spécifiquement pour ce modèle.</b> Ces valeurs viennent du modèle proche « ' + esc(aliasBase) + ' » : prenez-les comme point de départ et ajustez-les.</p>'
+      ? '<p class="note"><b>Niveau 3 · Réglages non vérifiés spécifiquement pour ce modèle.</b> Ces valeurs viennent du modèle proche « ' + esc(aliasBase) + ' » : prenez-les comme point de départ et ajustez-les.</p>'
       : vf
-      ? vf.game ? '<p class="note">Réglages pour le jeu et le sport en direct. Les noms de menus peuvent varier selon la version du logiciel de votre téléviseur.</p>' : vf.unverified ? '<p class="note">Valeurs tirées d\'une vidéo, à tester sur un film que vous connaissez. Les noms de menus peuvent varier selon la version du logiciel.</p>' : '<p class="note">Noms de menus relevés sur une vraie télé de ce modèle. Valeurs de départ : ajustez-les selon votre pièce et ce que vous regardez.</p>'
-      : '<p class="note">Valeurs de départ affichées à titre d\'exemple. Les noms de menus changent selon la version du logiciel de votre téléviseur.</p>';
+      ? vf.game ? '<p class="note"><b>Niveau 3 · Recommandations générales non calibrées.</b> Réglages pour le jeu et le sport en direct. Les noms de menus peuvent varier selon la version du logiciel de votre téléviseur.</p>' : vf.unverified ? '<p class="note"><b>Niveau 3 · Valeurs indicatives non calibrées</b> (tirées d\'une vidéo, source non identifiée) : à tester sur un film que vous connaissez. Les noms de menus peuvent varier selon la version du logiciel.</p>' : '<p class="note"><b>Niveau 1 · Noms de menus relevés sur une vraie télé de ce modèle.</b> Les valeurs restent des points de départ, non calibrées à la sonde : ajustez-les selon votre pièce et ce que vous regardez.</p>'
+      : '<p class="note"><b>Niveau 3 · Valeurs de départ non calibrées</b>, affichées à titre d\'exemple. Les noms de menus changent selon la version du logiciel de votre téléviseur.</p>';
     h += '<div class="row-actions"><button class="btn ghost" type="button" data-act="share"><svg class="shi" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4M6 12v7a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-7"/></svg>Partager</button><button class="btn ghost" type="button" data-act="reset">Recommencer</button></div>';
     h += feedbackHtml();
   }
