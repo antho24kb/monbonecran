@@ -261,6 +261,14 @@ em.sc{font-style:normal; display:inline-block; margin-left:8px; padding:2px 8px;
 .specp .specn{color:var(--muted); font-size:.74rem; margin-top:8px}
 .cmpbar{position:sticky; bottom:12px; z-index:20; display:flex; justify-content:center; padding:10px 0 0; margin-top:10px}
 .cmpbar .btn{width:100%; box-shadow:0 8px 24px rgba(139,77,255,.35)}
+.tagline{display:none}
+header.home .tagline{display:block; margin:8px auto 0; max-width:22ch; text-align:center; font:800 1.35rem/1.2 Manrope,sans-serif; color:#3B1A8F}
+body.is-home .main-cta{background:linear-gradient(100deg,#FF8A1F,#F2540B)!important; border-color:transparent!important; min-height:64px}
+body.is-home .main-cta b,body.is-home .main-cta small{color:#fff!important}
+.chips-t{margin:14px 0 6px; font-size:.9rem; color:var(--muted); text-align:center}
+.chips{display:flex; flex-wrap:wrap; gap:8px; justify-content:center}
+.chips a{display:inline-flex; align-items:center; min-height:44px; padding:0 18px; border-radius:99px; border:1px solid rgba(139,77,255,.35); background:#fff; color:#3B1A8F; font-weight:700; text-decoration:none}
+.chips a:focus-visible{outline:3px solid #8B4DFF; outline-offset:2px}
 .more{display:flex; flex-wrap:wrap; gap:4px 18px; justify-content:center; margin:10px 0 4px}
 .opt.cmpb{width:100%; margin-bottom:8px; text-align:left}
 .opt.cmpb.sel{background:linear-gradient(#FFF1E6,#FFF1E6) padding-box, linear-gradient(120deg,#FF8A1F,#8B4DFF) border-box; font-weight:700}
@@ -414,6 +422,7 @@ body.is-flow footer{padding:0 12px 6px!important; font-size:.68rem!important}
   header.home h1 span{display:block!important}
   header.home h1::before{font-size:.8rem!important; margin-bottom:14px!important}
   header.home .sub{font-size:1.2rem!important; max-width:30ch!important; margin:18px 0 0!important; text-align:left!important}
+  header.home .tagline{margin:18px 0 0; max-width:none; text-align:left; font-size:1.7rem}
   header.home .pill{font-size:.78rem!important; padding:6px 14px!important; margin-top:16px!important}
   header.home .partners{justify-content:flex-start!important; max-width:none!important; margin-top:22px!important}
   header.home .partners .pl{text-align:left!important; flex-basis:100%}
@@ -451,7 +460,8 @@ body.is-flow footer{padding:0 12px 6px!important; font-size:.68rem!important}
   <header id="top" title="Retour à l'accueil">
     <svg class="mark" aria-hidden="true" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ga" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF8A1F"/><stop offset="1" stop-color="#8B4DFF"/></linearGradient></defs><rect x="6" y="12" width="88" height="62" rx="15" fill="url(#ga)"/><rect x="15" y="21" width="70" height="44" rx="8" fill="#fff"/><circle cx="50" cy="43" r="16" fill="#F2540B"/><path d="M42 43l6 6 11-12" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 74v9" stroke="#B9A9D8" stroke-width="5" stroke-linecap="round"/><path d="M33 90h34" stroke="#B9A9D8" stroke-width="6" stroke-linecap="round"/></svg>
     <h1 role="link" tabindex="0" aria-label="Retour à l'accueil"><span>Mon Bon</span> <span class="tv">Écran</span></h1>
-    <p class="sub">Bienvenue. Choisissez votre téléviseur, puis réglez-le en quelques étapes simples.</p>
+    <p class="tagline">Les meilleurs réglages pour votre TV</p>
+    <p class="sub">Trouvez en quelques secondes les réglages adaptés à votre modèle et à votre usage.</p>
     <span class="pill">Cinéma · Jeu · Sport</span>
     <div class="partners"><span class="pl">Partenaires</span><a class="pa" href="https://www.amazon.fr/s?k=t%C3%A9l%C3%A9viseur&amp;tag=antho24kb-21" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="amazon" data-l="bande partenaires">Amazon</a><a class="pe" href="https://track.effiliation.com/servlet/effi.redir?id_compteur=23326676&amp;url=https%3A%2F%2Fwww.electrodepot.fr%2Farrivages%2Ftv-image-son%2Ftelevision.html" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="electrodepot" data-l="bande partenaires" aria-label="ElectroDepot"><img src="/electrodepot-logo.png" alt="ElectroDepot" width="84" height="23"></a><a class="pj" href="https://www.awin1.com/cread.php?awinmid=123928&amp;awinaffid=3131233&amp;ued=https%3A%2F%2Fwww.joybuy.fr%2F" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="joybuy" data-l="bande partenaires" aria-label="Joybuy"><img src="/joybuy-logo.png" alt="Joybuy" width="70" height="19"></a></div>
   </header>
@@ -1841,8 +1851,9 @@ function homeHtml() {
     h += '<button class="opt usage resume" type="button" data-act="resume"><b>Reprendre vos réglages</b><small>' + esc(lbl) + "</small></button>";
     h += '<button class="link" type="button" data-act="forget">Oublier ma sélection</button>';
   }
+  h += '<a class="opt usage main-cta" href="/regler-sa-tele/" data-act="mode" data-v="set"><b>Trouver ma TV</b><small>Réglages image de votre téléviseur, console ou box</small></a>';
   h += '<a class="opt usage" href="/choisir-sa-tele/" data-act="mode" data-v="buy"><b>Choisir sa télé</b><small>Trouvez le bon téléviseur selon votre budget et la taille</small></a>';
-  h += '<a class="opt usage" href="/regler-sa-tele/" data-act="mode" data-v="set"><b>Régler sa télé</b><small>Réglages image de votre téléviseur, console ou box</small></a>';
+  h += '<p class="chips-t">Régler pour :</p><div class="chips"><a href="/regler-sa-tele/" data-act="mode" data-v="set">Films et séries</a><a href="/regler-sa-tele/" data-act="mode" data-v="set">Sport</a><a href="/regler-sa-tv-pour-la-ps5/">PS5</a></div>';
   h += "</div>";
   h += '<div class="more"><a class="link" href="/classements-par-budget/" data-act="mode" data-v="rank">Classements par budget</a><a class="link" href="/comparateur/" data-act="mode" data-v="cmp">Comparateur</a><a class="link" href="/guide-des-technologies/" data-act="mode" data-v="tech">Guide des technologies</a></div>';
   h += '<p class="note" style="text-align:center">Nos conseils sont indépendants : aucun constructeur ne les finance. Certains liens sont des liens d\'affiliation (Partenaire Amazon, ElectroDepot, Joybuy) : ils nous rémunèrent sans surcoût pour vous.</p>';
