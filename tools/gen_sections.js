@@ -85,8 +85,8 @@ const HUBS = [
 ];
 const HUB_SLUGS = HUBS.map(h => h.slug);
 /* Écran d'ordinateur : pages modèle avec Cinéma, Jeu vidéo et Sport côte à côte ; pages de marque plus larges. Rien ne change sur téléphone. */
-const DESK_MODEL = `<style id="desk">@media (min-width:1000px) and (hover:hover){body{background:radial-gradient(900px 600px at -10% -10%,rgba(255,138,31,.16),transparent 60%),radial-gradient(800px 600px at 110% 0%,rgba(139,77,255,.12),transparent 60%),var(--bg)}main{max-width:1240px;padding:36px 32px 64px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:20px;align-items:start}main>*{grid-column:1/-1}main>a.top{grid-row:1;justify-self:start}main>a.top+a.top{margin-left:150px!important}main>section.card:nth-of-type(-n+3){grid-column:auto;margin:6px 0}h1{font-size:40px;margin-top:22px}.lead{font-size:19px;max-width:60ch}main>section.card:nth-of-type(n+4),main>.note,main>.cta{max-width:820px}.cta{max-width:420px!important}}</style>`;
-const DESK_HUB = `<style id="desk">@media (min-width:1000px) and (hover:hover){body{background:radial-gradient(900px 600px at -10% -10%,rgba(255,138,31,.16),transparent 60%),radial-gradient(800px 600px at 110% 0%,rgba(139,77,255,.12),transparent 60%),var(--bg)}main{max-width:1100px;padding:36px 32px 64px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:20px;align-items:start}main>*{grid-column:1/-1}main>a.top{grid-row:1;justify-self:start}main>a.top+a.top{margin-left:150px!important}main>section.card:nth-of-type(1),main>section.card:nth-of-type(2){grid-column:auto}h1{font-size:40px;margin-top:22px}.lead{font-size:19px;max-width:62ch}.cta{max-width:420px}}</style>`;
+const DESK_MODEL = `<style id="desk">@media (min-width:1000px) and (hover:hover){body{background:radial-gradient(900px 600px at -10% -10%,rgba(255,138,31,.16),transparent 60%),radial-gradient(800px 600px at 110% 0%,rgba(139,77,255,.12),transparent 60%),var(--bg)}main{max-width:1240px;padding:36px 32px 64px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:20px;align-items:start}main>*{grid-column:1/-1}main>nav.crumb{grid-row:1;justify-self:start}main>section.card:nth-of-type(-n+3){grid-column:auto;margin:6px 0}h1{font-size:40px;margin-top:22px}.lead{font-size:19px;max-width:60ch}main>section.card:nth-of-type(n+4),main>.note,main>.cta{max-width:820px}.cta{max-width:420px!important}}</style>`;
+const DESK_HUB = `<style id="desk">@media (min-width:1000px) and (hover:hover){body{background:radial-gradient(900px 600px at -10% -10%,rgba(255,138,31,.16),transparent 60%),radial-gradient(800px 600px at 110% 0%,rgba(139,77,255,.12),transparent 60%),var(--bg)}main{max-width:1100px;padding:36px 32px 64px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:20px;align-items:start}main>*{grid-column:1/-1}main>nav.crumb{grid-row:1;justify-self:start}main>section.card:nth-of-type(1),main>section.card:nth-of-type(2){grid-column:auto}h1{font-size:40px;margin-top:22px}.lead{font-size:19px;max-width:62ch}.cta{max-width:420px}}</style>`;
 const hubOf = brand => HUBS.find(h => h.brand === brand);
 function modelPages() {
   const dir = path.join(root, "reglages");
@@ -272,6 +272,53 @@ function sitemap(extraPaths) {
 }
 
 /* ---------- pages /reglages/<modèle>/ : lien de retour vers la rubrique + fil d'Ariane (idempotent) ---------- */
+
+/* ---------- amélioration de navigation, commune aux pages /reglages/ et aux pages de contenu (idempotent) ----------
+   1. fil d'Ariane visible, construit à partir du BreadcrumbList de la page (affichage = données structurées) ;
+   2. sommaire sur les pages d'au moins 5 sections ; 3. zones de toucher d'au moins 44 px pour les liens de navigation et de listes. */
+const NAV_CSS = '<style id="nav-ux">.crumb{display:flex;flex-wrap:wrap;align-items:center;gap:0 6px;font:700 14px Manrope,sans-serif;color:var(--muted,#7A6E92)}.crumb a{color:var(--accent,#F26A1B);text-decoration:none;display:inline-flex;align-items:center;min-height:44px}.crumb a:hover,.crumb a:focus-visible{text-decoration:underline}.crumb [aria-current]{color:var(--fg,#2A1B4D)}.crumb i{font-style:normal;opacity:.6}' +
+  '.toc{margin:0 0 14px;font-size:15px}.toc summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center}.toc summary::before{content:"▸";margin-right:8px;color:var(--accent,#F26A1B)}.toc[open] summary::before{content:"▾"}.toc ol{margin:0;padding-left:22px}.toc li a{display:inline-flex;align-items:center;min-height:44px;color:var(--fg,#2A1B4D)}' +
+  '.card li a,.lvl-legend summary{display:inline-flex;align-items:center;min-height:44px}.card li{margin:0}' +
+  'a:focus-visible,summary:focus-visible{outline:3px solid #8B4DFF;outline-offset:2px;border-radius:4px}section.card[id]{scroll-margin-top:12px}</style>\n';
+function enhanceNav(h) {
+  /* fil d'Ariane : mêmes libellés et mêmes URL que le BreadcrumbList de la page */
+  let crumbs = null;
+  for (const m of h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    try { const j = JSON.parse(m[1]); if (j["@type"] === "BreadcrumbList") crumbs = j.itemListElement; } catch (e) {}
+  }
+  h = h.replace(/<nav class="crumb"[\s\S]*?<\/nav>\n?/, "");
+  const oldTop = /<a class="top" href="\/">‹ Mon Bon Écran<\/a> <a class="top"[^>]*>· [^<]*<\/a>\n?/;
+  if (crumbs && crumbs.length >= 2 && (oldTop.test(h) || h.includes('<h1'))) {
+    const last = crumbs.length - 1;
+    const nav = '<nav class="crumb" aria-label="Fil d\'Ariane">' + crumbs.map((c, i) => {
+      const u = c.item.replace(SITE, "") || "/";
+      return (i ? "<i aria-hidden=\"true\">›</i>" : "") + (i === last ? `<span aria-current="page">${esc(c.name)}</span>` : `<a href="${u}">${esc(c.name)}</a>`);
+    }).join("") + "</nav>\n";
+    h = oldTop.test(h) ? h.replace(oldTop, () => nav) : h.replace(/<main>\n?/, (a) => a + nav);
+  }
+  /* sommaire : au moins 5 sections repérées par un titre h2 */
+  h = h.replace(/<details class="toc"[\s\S]*?<\/details>\n?/, "");
+  const secs = [...h.matchAll(/<section class="card"([^>]*)><h2>([\s\S]*?)<\/h2>/g)];
+  if (secs.length >= 5) {
+    const used = new Set([...h.matchAll(/\bid="([^"]+)"/g)].map(x => x[1]));
+    const items = [];
+    for (const m of secs) {
+      const text = m[2].replace(/<[^>]+>/g, "").trim();
+      let id = (/ id="([^"]+)"/.exec(m[1]) || [])[1];
+      if (!id) {
+        id = "s-" + text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40);
+        while (used.has(id)) id += "-b"; used.add(id);
+        h = h.replace(m[0], () => `<section class="card" id="${id}"${m[1]}><h2>${m[2]}</h2>`);
+      }
+      items.push(`<li><a href="#${id}">${text}</a></li>`);
+    }
+    const toc = `<details class="toc" id="sommaire"><summary>Sommaire de la page</summary><ol>${items.join("")}</ol></details>\n`;
+    h = h.replace(/<section class="card"/, (a) => toc + a);
+  }
+  h = h.replace(/<style id="nav-ux">[\s\S]*?<\/style>\n/, "").replace("</head>", () => NAV_CSS + "</head>");
+  return h;
+}
+
 function patchModelPages() {
   let n = 0;
   for (const m of modelPages()) {
@@ -344,6 +391,7 @@ function patchModelPages() {
     }
     /* mesure d'audience + consentement : script commun à toutes les pages */
     if (!h.includes("/mbe-analytics.js")) { h = h.replace("</body>", () => ANALYTICS_TAG + "</body>"); changed = true; }
+    { const h8 = enhanceNav(h); if (h8 !== h) { h = h8; changed = true; } }
     if (!changed) continue;
     const out = path.join(OUT, "reglages", m.slug); fs.mkdirSync(out, { recursive: true });
     fs.writeFileSync(path.join(out, "index.html"), h); n++;
@@ -447,7 +495,7 @@ ${pg.html}
   for (const [list, parent] of [[BRAND_PAGES, ["Régler sa télé", "/regler-sa-tele/"]], [TECH_PAGES, ["Guide des technologies", "/guide-des-technologies/"]]]) {
     for (const pg of list) {
       const dir = path.join(OUT, pg.path); fs.mkdirSync(dir, { recursive: true });
-      fs.writeFileSync(path.join(dir, "index.html"), contentPage(pg, parent)); extra.push(pg.path); console.log("OK", pg.path);
+      fs.writeFileSync(path.join(dir, "index.html"), enhanceNav(contentPage(pg, parent))); extra.push(pg.path); console.log("OK", pg.path);
     }
   }
   fs.writeFileSync(path.join(OUT, "sitemap.xml"), sitemap(extra));
