@@ -141,7 +141,7 @@ ${hubs.length ? `<h2>Réglages par marque</h2>
 <h2>Trois usages, trois jeux de réglages</h2>
 <ul>${d.usages.map(u => `<li><b>${esc(u.l)}</b> : ${esc(u.h.charAt(0).toLowerCase() + u.h.slice(1))}</li>`).join("")}</ul>
 <h2>Console de jeu ou box</h2>
-<p>Une console ou une box peut aussi demander des réglages : ${d.families.map(esc).join(", ")}. Le réglage de la sortie vidéo (HDR, 4K, mode jeu) dépend de l'appareil et de la télé. Pour la PlayStation 5, suivez notre <a href="/regler-sa-tv-pour-la-ps5/">guide pour régler sa TV pour la PS5</a>.</p>
+<p>Une console ou une box peut aussi demander des réglages : ${d.families.map(esc).join(", ")}. Le réglage de la sortie vidéo (HDR, 4K, mode jeu) dépend de l'appareil et de la télé. Pour la PlayStation 5, suivez notre <a href=\"/regler-sa-tv-pour-la-ps5/\">guide pour régler sa TV pour la PS5</a>.</p>
 <h2>Marques couvertes</h2>
 <p>${d.brands.map(esc).join(", ")}. Vous ne trouvez pas votre modèle ? Le nom exact figure sur l'étiquette au dos de la télé ou dans les réglages (Assistance, À propos).</p>
 <h2>Réglages par modèle</h2>
@@ -359,7 +359,7 @@ function patchModelPages() {
 const BRAND_PAGES = [
   { path: "/regler-sa-tv-pour-la-ps5/", name: "Régler sa TV pour la PS5", h1: "Régler sa TV pour la PS5",
     title: "Régler sa TV pour la PS5 : mode jeu, 120 Hz, HDR | Mon Bon Écran",
-    desc: "Réglages PS5 et TV à vérifier : HDMI 2.1, mode jeu (ALLM), VRR, 4K 120 Hz et HDR. Étapes d'après les pages d'assistance officielles.",
+    desc: "Réglages PS5 et TV à vérifier : HDMI 2.1, mode jeu, VRR, 4K 120 Hz, HDR et OLED. Diagnostic pas à pas d'après l'assistance officielle.",
     html: fs.readFileSync(path.join(__dirname, "pages", "ps5.html"), "utf8") }
 ];
 const TECH_PAGES = [];
