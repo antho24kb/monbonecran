@@ -286,7 +286,7 @@ function patchModelPages() {
     /* titre court (moins de 60 caractères quand c'est possible) */
     const t2 = h.replace(/(<title>[^<]*?|<meta property="og:title" content="[^"]*?) : cinéma, jeu vidéo et sport/g, "$1 : cinéma, jeu, sport");
     if (t2 !== h) { h = t2; changed = true; }
-    const t3 = h.replace(/<title>([^<]{45,}) \| Mon Bon Écran<\/title>/, (all, t) => (t.length + 16 > 60 ? `<title>${t}</title>` : all));
+    const t3 = h.includes("Guide de réglage non calibré") ? h : h.replace(/<title>([^<]{45,}) \| Mon Bon Écran<\/title>/, (all, t) => (t.length + 16 > 60 ? `<title>${t}</title>` : all));
     if (t3 !== h) { h = t3; changed = true; }
     /* liens internes : page de la marque, autres modèles de la marque, sinon modèles de même technologie */
     const all = modelPages(), fam = x => /OLED/.test(x.lead) ? "OLED" : /Mini LED|Neo QLED/.test(x.lead) ? "Mini LED" : /QLED|QNED/.test(x.lead) ? "QLED" : "LED";
@@ -316,6 +316,31 @@ function patchModelPages() {
         h6 = h6.replace(/(<p class="lead">[^<]*<\/p>\n?)/, (all) => all.replace(/\n?$/, "\n") + `<p class="lvl" data-level="${lvl[0]}"><b>` + lvl[1] + "</p>\n");
       }
       if (h6 !== h) { h = h6; changed = true; }
+    }
+    /* légende des niveaux, descriptions et chapô cohérents avec le niveau réel (idempotent) */
+    {
+      const LEGEND = '<details class="lvl-legend" id="niveaux"><summary>Comprendre nos niveaux de fiabilité</summary>' +
+        '<p><b>Niveau 1</b> : menus relevés directement sur le téléviseur. Ce ne sont pas nécessairement des réglages calibrés à la sonde.</p>' +
+        '<p><b>Niveau 2</b> : réglages issus d\'un test spécialisé identifiable, avec source citée et modèle exact précisé. Aucun modèle n\'est encore dans cette catégorie.</p>' +
+        '<p><b>Niveau 3</b> : conseils généraux ou valeurs de départ non vérifiés spécifiquement pour le modèle.</p></details>\n';
+      const LEG_CSS = '<style id="lvl-legend-css">.lvl-legend{margin:-6px 0 14px;font-size:14px}.lvl-legend summary{cursor:pointer;color:#7A6E92;text-decoration:underline}.lvl-legend p{margin:6px 0}</style>\n';
+      let h7 = h.replace(/<details class="lvl-legend"[\s\S]*?<\/details>\n?/, "").replace(/<style id="lvl-legend-css">[\s\S]*?<\/style>\n/, "");
+      h7 = h7.replace("</head>", () => LEG_CSS + "</head>");
+      h7 = h7.replace(/(<p class="lvl"[^>]*>[\s\S]*?<\/p>\n?)/, (all) => all.replace(/\n?$/, "\n") + LEGEND);
+      const isGuide = h7.includes("Guide de réglage non calibré");
+      if (!isGuide) {
+        const lead = /<p class="lead">([^<]*?) · gamme (\d{4})/.exec(h7);
+        const lv = (/<p class="lvl" data-level="(\d)"/.exec(h7) || [])[1];
+        if (lead) {
+          const vid = h7.includes("tirées d'une vidéo");
+          const desc = lv === "1"
+            ? `${m.name} (${lead[1]}, ${lead[2]}) : menus relevés sur le téléviseur, valeurs de départ pour cinéma, jeu et sport. Non calibrées à la sonde.`
+            : `${m.name} (${lead[1]}, ${lead[2]}) : valeurs indicatives pour le cinéma, le jeu et le sport, ${vid ? "tirées d'une vidéo (source non identifiée), " : ""}non calibrées.`;
+          h7 = h7.replace(/(name="description" content=")[^"]*"/, (all, p1) => p1 + esc(desc) + '"').replace(/(property="og:description" content=")[^"]*"/, (all, p1) => p1 + esc(desc) + '"');
+        }
+        h7 = h7.replace("Choisissez votre usage et recopiez les valeurs dans le menu de la télé.", "Choisissez votre usage : valeurs de départ à ajuster dans le menu de la télé.");
+      }
+      if (h7 !== h) { h = h7; changed = true; }
     }
     /* mesure d'audience + consentement : script commun à toutes les pages */
     if (!h.includes("/mbe-analytics.js")) { h = h.replace("</body>", () => ANALYTICS_TAG + "</body>"); changed = true; }
@@ -363,9 +388,9 @@ ${years.map(y => B.years[y].length ? `<p><b>Gamme ${y}</b> : ${B.years[y].map(m 
 <a class="cta" href="/regler-sa-tele/">Trouver les réglages de ma TV ${esc(hub.brand)}</a>
 <p class="note">Le nom exact du modèle figure sur l'étiquette au dos de la télé ou dans les réglages (Assistance, À propos).</p></section>
 <p class="note">Valeurs de départ, à ajuster selon votre pièce et vos goûts : ce n'est pas une calibration à la sonde. Mon Bon Écran est un guide indépendant, non affilié au fabricant ${esc(hub.brand)}.</p>`;
-  const title = `${hub.kw} : les meilleurs réglages | Mon Bon Écran`;
-  return { path: `/reglages/${hub.slug}/`, name: hub.kw, h1: `${hub.kw} : les meilleurs réglages image`, title,
-    desc: `Réglage image d'une TV ${hub.brand} : où trouver les menus, quel mode choisir (cinéma, jeu vidéo, sport) et les valeurs à copier pour ${one ? "le " + mp[0].name : mp.length + " modèles"}.`, html };
+  const title = `${hub.kw} : menus et modes d'image | Mon Bon Écran`;
+  return { path: `/reglages/${hub.slug}/`, name: hub.kw, h1: `${hub.kw} : menus et modes d'image`, title,
+    desc: `Réglage image d'une TV ${hub.brand} : où trouver les menus, quel mode choisir (cinéma, jeu vidéo, sport) et ${one ? "la page du " + mp[0].name : "les pages de " + mp.length + " modèles"}, avec leur niveau de fiabilité.`, html };
 }
 function contentPage(pg, parent) {
   const url = SITE + pg.path;

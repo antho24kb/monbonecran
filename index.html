@@ -120,6 +120,10 @@ a.link{display:inline-block; color:var(--accent); font-weight:400; font-size:1.0
 .meter{height:4px; border-radius:2px; background:var(--track); position:relative; overflow:hidden}
 .meter i{position:absolute; inset:0 auto 0 0; background:var(--accent); border-radius:2px}
 .note{font-size:.9rem; color:var(--muted); margin:0}
+.note.warn{color:#7A2E00; background:#FFF1E6; border-left:4px solid #F26A1B; border-radius:10px; padding:10px 12px; margin:0 0 10px}
+.lvl-legend{margin-top:10px; font-size:.88rem; color:var(--muted)}
+.lvl-legend summary{cursor:pointer; text-decoration:underline}
+.lvl-legend p{margin:6px 0}
 .tag{font-family:var(--f-display); font-size:.78rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; background:linear-gradient(100deg,#7C3AED 0%,#A855F7 100%); -webkit-background-clip:text; background-clip:text; color:transparent; width:fit-content}
 .ad{background:var(--soft); color:var(--muted); text-align:center; padding:22px 12px; font-size:.85rem; border-radius:14px}
 @media (prefers-reduced-motion: no-preference){
@@ -550,7 +554,7 @@ var BRANDS = {
     path: "Paramètres > Écran et son > Image",
     models: {
       "2026": [],
-      "2025": [["MG7C15","Mini LED"],["QG3S15","LED"],["UG5X15","LED"]],
+      "2025": [["MG7C15","Mini LED"],["QG3S15","Technologie à confirmer"],["UG5X15","LED"]],
       "2024": [["QG5C14","QLED"]],
       "2023": []
     }
@@ -1611,6 +1615,26 @@ function sportSheet(brand, oled) {
   return {unverified: true, game: true, path: G.path, items: G.items.slice()};
 }
 
+var LEVELS_HTML = '<details class="lvl-legend" id="niveaux"><summary>Comprendre nos niveaux de fiabilité</summary>' +
+  '<p><b>Niveau 1</b> : menus relevés directement sur le téléviseur. Ce ne sont pas nécessairement des réglages calibrés à la sonde.</p>' +
+  '<p><b>Niveau 2</b> : réglages issus d\'un test spécialisé identifiable, avec source citée et modèle exact précisé. Aucun modèle n\'est encore dans cette catégorie.</p>' +
+  '<p><b>Niveau 3</b> : conseils généraux ou valeurs de départ non vérifiés spécifiquement pour le modèle.</p></details>';
+var ALIAS_EXTRA = {"Sony|Bravia 6": "Le BRAVIA 6 est un OLED de type WOLED ; le BRAVIA 8 II est un QD-OLED."};
+function techOfModel(brand, model) {
+  var ms = BRANDS[brand] && BRANDS[brand].models, y, i;
+  if (!ms) return null;
+  for (y in ms) for (i = 0; i < ms[y].length; i++) if (ms[y][i][0] === model) return ms[y][i][1];
+  return null;
+}
+function aliasWarnHtml() {
+  if (!window._av) return "";
+  var a = window._avKey || "", b = window._avKeyBase || "";
+  var ta = techOfModel(a.split("|")[0], a.split("|").slice(1).join("|")), tb = techOfModel(b.split("|")[0], b.split("|").slice(1).join("|"));
+  var w = ALIAS_EXTRA[a] || "";
+  if (!w && !(ta && tb && ta !== tb)) return "";
+  if (!w) w = "Ce modèle (" + ta + ") et le modèle proche (" + tb + ") n\'ont pas la même technologie d\'écran.";
+  return '<p class="note warn"><b>Attention :</b> ' + esc(w) + " Ces valeurs ne sont pas adaptées à ce modèle : gardez-les comme simple point de départ et ajustez-les.</p>";
+}
 function verifiedFor() {
   var m = state.model === "CU7000" ? "CU700C" : state.model === "CU8000" ? "CU800C" : state.model;
   var k = state.brand + "|" + m;
@@ -1618,7 +1642,7 @@ function verifiedFor() {
   if ((state.usage === "sport" || state.usage === "jeu") && VERIFIED[state.brand + "|" + state.model + "|" + state.usage]) return VERIFIED[state.brand + "|" + state.model + "|" + state.usage];
   if (state.usage === "sport") return sportSheet(state.brand, isOledModel(state.brand, state.model));
   if (state.usage === "jeu") return gameSheet(state.brand, isOledModel(state.brand, state.model));
-  if (VALIAS[k]) { k = VALIAS[k]; window._av = true; window._avBase = k.replace("|", " "); }
+  if (VALIAS[k]) { k = VALIAS[k]; window._avKey = state.brand + "|" + m; window._av = true; window._avBase = k.replace("|", " "); window._avKeyBase = k; }
   return VERIFIED[k + "|" + state.usage] || null;
 }
 
@@ -1662,9 +1686,10 @@ function sizeTip(size) {
   return "Taille courante : ces valeurs servent de point de départ, ajustez-les selon vos préférences.";
 }
 
-var TECH_ORDER = ["OLED", "Mini LED", "RGB / Micro LED", "QLED", "QNED", "LED", "Lifestyle"];
+var TECH_ORDER = ["OLED", "Mini LED", "RGB / Micro LED", "QLED", "QNED", "LED", "Lifestyle", "À confirmer"];
 
 function techCat(t) {
+  if (/confirmer/.test(t)) return "À confirmer";
   if (/OLED/.test(t)) return "OLED";
   if (/RGB|Micro/.test(t)) return "RGB / Micro LED";
   if (/QNED/.test(t)) return "QNED";
@@ -2335,9 +2360,9 @@ var SPEC = {
   "ta": "48, 55, 65, 77, 83, 97 pouces"
  },
  "Samsung S92H": {
-  "ec": "OLED 4K, jusqu'à 165 Hz (type de dalle selon la taille), HDR10+, pas de Dolby Vision",
-  "jeu": "4 HDMI 2.1, FreeSync Premium Pro, G-Sync",
-  "sm": "Tizen OS 10 ; Dolby Atmos",
+  "ec": "OLED 4K, jusqu'à 165 Hz (type de dalle selon la taille), HDR10+, Dolby Vision non mentionné par Samsung",
+  "jeu": "4 HDMI (4K 165 Hz), FreeSync Premium Pro, G-Sync",
+  "sm": "Tizen ; Dolby Atmos 2.1.2",
   "ta": "42, 48, 55, 65, 77, 83 pouces"
  },
  "Samsung S95H": {
@@ -2491,7 +2516,7 @@ var CMPD = {
  "Panasonic Z95B": ["144 Hz", "144 Hz", "360° Soundscape, caisson 30 W", "OLED haut de gamme, Dolby Vision IQ", "Ports HDMI à vérifier"],
  "LG OLED evo C6": ["120 Hz (VRR 165)", "4 HDMI 2.1 (4K 120 Hz)", "2 × 10 W + caisson", "4 HDMI 2.1, Dolby Vision, webOS", "Moins lumineux que le Mini LED"],
  "LG OLED evo G6": ["120 Hz (VRR 165)", "4 HDMI 2.1 (4K 120 Hz)", "4 × 10 W + caisson", "OLED très lumineux, son costaud", "Prix élevé"],
- "Samsung S92H": ["jusqu'à 165 Hz", "4 HDMI 2.1, G-Sync", "Atmos", "OLED, 4 HDMI 2.1, 165 Hz", "Pas de Dolby Vision"],
+ "Samsung S92H": ["jusqu'à 165 Hz", "4 HDMI 4K 165 Hz, G-Sync", "Atmos", "OLED, 4 HDMI, 165 Hz", "Dolby Vision non mentionné"],
  "Samsung S95H": ["jusqu'à 165 Hz", "4 HDMI 2.1 (4K 165 Hz)", "Atmos, Eclipsa Audio", "QD-OLED très lumineux, 165 Hz", "Pas de Dolby Vision, prix élevé"]
 };
 function renderCmp() {
@@ -2619,12 +2644,13 @@ function renderCore() {
     });
     h += '<p class="note">' + sizeTip(state.size) + "</p>";
     h += "</div>";
-    var vf = verifiedFor(), isAlias = !!window._av, aliasBase = window._avBase;
+    var vf = verifiedFor(), isAlias = !!window._av, aliasBase = window._avBase, aliasWarn = aliasWarnHtml();
     h += (vf && isAlias && !vf.game)
       ? '<p class="note"><b>Niveau 3 · Réglages non vérifiés spécifiquement pour ce modèle.</b> Ces valeurs viennent du modèle proche « ' + esc(aliasBase) + ' » : prenez-les comme point de départ et ajustez-les.</p>'
       : vf
       ? vf.game ? '<p class="note"><b>Niveau 3 · Recommandations générales non calibrées.</b> Réglages pour le jeu et le sport en direct. Les noms de menus peuvent varier selon la version du logiciel de votre téléviseur.</p>' : vf.unverified ? '<p class="note"><b>Niveau 3 · Valeurs indicatives non calibrées</b> (tirées d\'une vidéo, source non identifiée) : à tester sur un film que vous connaissez. Les noms de menus peuvent varier selon la version du logiciel.</p>' : '<p class="note"><b>Niveau 1 · Noms de menus relevés sur une vraie télé de ce modèle.</b> Les valeurs restent des points de départ, non calibrées à la sonde : ajustez-les selon votre pièce et ce que vous regardez.</p>'
       : '<p class="note"><b>Niveau 3 · Valeurs de départ non calibrées</b>, affichées à titre d\'exemple. Les noms de menus changent selon la version du logiciel de votre téléviseur.</p>';
+    h += aliasWarn + LEVELS_HTML;
     h += '<div class="row-actions"><button class="btn ghost" type="button" data-act="share"><svg class="shi" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4M6 12v7a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-7"/></svg>Partager</button><button class="btn ghost" type="button" data-act="reset">Recommencer</button></div>';
     h += feedbackHtml();
   }

@@ -16,7 +16,7 @@ const out = [];
 for (const d of data) {
   const name = `${d.brand} ${d.model}`, s = slug(name), url = `${SITE}/reglages/${s}/`;
   const title = `Réglages ${name} : modes et conseils`;
-  const desc = `Quel mode image choisir sur le ${name} (${d.tech}, ${d.year}) : cinéma, jeu, sport, HDR. Guide non calibré, sources citées, sans valeurs inventées.`;
+  const desc = `${name} (${d.tech}, ${d.year}) : modes d'image conseillés, HDR et jeu vidéo d'après des tests publiés. Guide non calibré, sources citées.`;
   const ld = JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList",itemListElement:[["Accueil","/"],["Régler sa télé","/regler-sa-tele/"],["Réglages "+name,"/reglages/"+s+"/"]].map((it,i)=>({"@type":"ListItem",position:i+1,name:it[0],item:SITE+it[1]}))});
   const html = `<!doctype html>
 <html lang="fr"><head><meta charset="utf-8">
@@ -40,7 +40,7 @@ ${css}
 <section class="card"><h2>Traitements d'image</h2>${d.traitements.map(m => `<p><b>${esc(m[0])}</b> : ${esc(m[1])}</p>`).join("")}</section>
 <section class="card"><h2>HDR et Dolby Vision</h2>${ul(d.hdr)}</section>
 <section class="card"><h2>Jeu vidéo</h2>${ul(d.gaming)}</section>
-<section class="card"><h2>À activer ou désactiver</h2>${ul(d.options)}</section>
+${d.options.length ? `<section class="card"><h2>À activer ou désactiver</h2>${ul(d.options)}</section>` : ""}
 <section class="card"><h2>Sources</h2><ul>${d.sources.map(x => `<li><a href="${esc(x[1])}" rel="nofollow noopener" target="_blank">${esc(x[0])}</a></li>`).join("")}</ul>
 <p class="note">Ces tests portent surtout sur les versions britanniques et américaines : références, tailles, firmwares et options peuvent différer en France. Les valeurs chiffrées (rétroéclairage, contraste, netteté…) seront ajoutées quand un relevé ou un test spécialisé identifiable sera disponible.</p></section>
 <a class="cta" href="/">Régler selon ma taille d'écran</a>

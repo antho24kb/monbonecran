@@ -32,7 +32,7 @@ function page(brand, model) {
   const s = slug(name);
   const url = `${SITE}/reglages/${s}/`;
   const title = `Réglages ${name} : cinéma, jeu, sport`;
-  const desc = `Les meilleurs réglages image pour votre ${name} (${info.tech}, ${info.year}) : mode cinéma, jeu vidéo (PS5, Xbox) et sport. Valeurs à copier, menu par menu.`;
+  const desc = `${name} (${info.tech}, ${info.year}) : valeurs de départ indicatives pour le cinéma, le jeu vidéo et le sport, non calibrées. À ajuster selon votre pièce.`;
   let body = "";
   for (const u of Object.keys(A.USAGES)) {
     const sh = sheet(brand, model, u);
@@ -75,7 +75,7 @@ h2{font:800 20px Manrope,sans-serif;margin:0}.hint{color:var(--muted);margin:2px
 <script type="application/ld+json">${JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList",itemListElement:[["Accueil","/"],["Régler sa télé","/regler-sa-tele/"],["Réglages "+name,"/reglages/"+s+"/"]].map((it,i)=>({"@type":"ListItem",position:i+1,name:it[0],item:SITE+it[1]}))})}</script></head><body><main>
 <a class="top" href="/">‹ Mon Bon Écran</a> <a class="top" data-crumb="regler" href="/regler-sa-tele/" style="margin-left:10px">· Régler sa télé</a>
 <h1>Réglages ${esc(name)}</h1>
-<p class="lead">${esc(info.tech)} · gamme ${esc(info.year)}. Choisissez votre usage et recopiez les valeurs dans le menu de la télé.</p>
+<p class="lead">${esc(info.tech)} · gamme ${esc(info.year)}. Choisissez votre usage : valeurs de départ à ajuster dans le menu de la télé.</p>
 ${body}
 <p class="note">${esc(note)}</p>
 <a class="cta" href="/">Régler selon ma taille d'écran</a>
