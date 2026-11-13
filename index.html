@@ -476,7 +476,7 @@ body.is-flow footer{padding:0 12px 6px!important; font-size:.68rem!important}
 
 <script>
 /* Modèles : [nom, technologie, 1 si la fiche est à confirmer]. Gammes principales seulement, 2023 à 2026. */
-var YEARS = ["2026", "2025", "2024", "2023"];
+var YEARS = ["2026", "2025", "2024", "2023", "2019"];
 
 var BRANDS = {
   "Samsung": {
@@ -556,7 +556,8 @@ var BRANDS = {
       "2026": [["Z85C","OLED"],["W95C","QD Mini LED"],["W92C","QD Mini LED"],["W91C","QD Mini LED"],["W85B","QLED"],["W83C","QLED"],["W80C","QLED"],["W60C","LED 4K"],["S65C","LED"],["S45C","LED"],["S40C","LED"]],
       "2025": [["Z95B","OLED"],["Z90B","OLED"],["Z80B","OLED"],["W95B","Mini LED"],["W93B","Mini LED"],["W85B","QLED"],["W61B","LED",1]],
       "2024": [["Z95A","OLED"],["Z93A","OLED"],["Z90A","OLED"],["Z85A","OLED",1],["Z80A","OLED",1],["W95A","Mini LED"],["W90A","LED"],["W80A","LED",1],["W70A","LED",1],["W60A","LED",1]],
-      "2023": [["MZ2000","OLED"],["MZ1500","OLED"],["MZ980","OLED"],["MZ800","OLED"],["MX950","Mini LED"],["MX940","LED"],["MX800","LED"],["MX700","LED"],["MX600","LED"]]
+      "2023": [["MZ2000","OLED"],["MZ1500","OLED"],["MZ980","OLED"],["MZ800","OLED"],["MX950","Mini LED"],["MX940","LED"],["MX800","LED"],["MX700","LED"],["MX600","LED"]],
+      "2019": [["TX-65GZ1000","OLED"]]
     }
   },
   "Thomson": {
@@ -1656,7 +1657,10 @@ function verifiedFor() {
   return VERIFIED[k + "|" + state.usage] || null;
 }
 
+/* Modèles sans valeurs affichées dans l'outil : aucune source fiable pour des réglages chiffrés, on renvoie vers leur guide. */
+var GUIDE_ONLY = {"Panasonic|TX-65GZ1000": "/reglages/panasonic-tx-65gz1000/"};
 function settingsFor(brand, usage, size) {
+  if (GUIDE_ONLY[brand + "|" + state.model]) return [];
   var v = verifiedFor();
   if (v) return v.items.slice();
   var b = BRANDS[brand];
@@ -1757,7 +1761,7 @@ function modelsHtml(filter) {
       return !q || nm.indexOf(q) !== -1 || nm.indexOf(q2) !== -1;
     });
     if (!items.length) {
-      if (!q && !state.tech && !visibleModels(state.brand, y).length) {
+      if (y !== "2019" && !q && !state.tech && !visibleModels(state.brand, y).length) {
         h += '<div class="year">' + y + '</div><p class="note">Gamme ' + y + " bientôt disponible. Sélectionnez « Autre modèle » en attendant.</p>";
       }
       return;
@@ -2647,6 +2651,15 @@ function renderCore() {
     h += "</div>";
   } else {
     var list = settingsFor(state.brand, state.usage, state.size);
+    var guideUrl = GUIDE_ONLY[state.brand + "|" + state.model];
+    if (guideUrl) {
+      h += back() + "<h2>Vos réglages</h2>";
+      h += '<div class="card"><div class="tag">' + esc(state.brand + " " + state.model) + (state.year ? " (" + state.year + ")" : "") + " · " + state.size + '" · ' + USAGES[state.usage].label + '</div>';
+      h += '<p class="note"><b>Niveau 3 · Pas de valeurs chiffrées pour ce modèle.</b> Aucune source fiable ne donne de réglages mesurés pour ce téléviseur. Nous ne reprenons pas ceux d\'un autre modèle : consultez plutôt son guide, qui indique les modes à privilégier, d\'après des tests publiés, et ce qui reste à vérifier.</p>';
+      h += '<a class="btn" style="display:block;text-align:center;text-decoration:none" href="' + guideUrl + '">Voir le guide du ' + esc(state.model) + "</a></div>" + LEVELS_HTML;
+      stage.innerHTML = h;
+      return;
+    }
     h += back() + "<h2>Vos réglages</h2>" + "";
     h += prechecksHtml();
     h += '<div class="card">';

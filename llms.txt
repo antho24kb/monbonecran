@@ -30,6 +30,7 @@ Les fiches disponibles sont regroupées sous les URL suivantes :
 - [Réglages LG OLED evo C6](https://monbonecran.fr/reglages/lg-oled-evo-c6/)
 - [Réglages LG OLED evo G6](https://monbonecran.fr/reglages/lg-oled-evo-g6/)
 - [Réglages LG QNED86](https://monbonecran.fr/reglages/lg-qned86/)
+- [Réglages Panasonic TX-65GZ1000](https://monbonecran.fr/reglages/panasonic-tx-65gz1000/)
 - [Réglages Panasonic Z95B](https://monbonecran.fr/reglages/panasonic-z95b/)
 - [Réglages Philips OLED810](https://monbonecran.fr/reglages/philips-oled810/)
 - [Réglages Philips OLED849](https://monbonecran.fr/reglages/philips-oled849/)
