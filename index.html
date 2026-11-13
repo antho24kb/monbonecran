@@ -909,6 +909,28 @@ var VERIFIED = {
       {name: "Mouvement > Style de mouvement", val: "Pure Cinema ou Movie (Film)"}
     ]
   },
+  "Panasonic|TX-65GZ1000|cinema": {
+    unverified: true,
+    note: "<b>Niveau 3 · Valeurs de départ proposées par Mon Bon Écran, non vérifiées sur ce modèle ni calibrées à la sonde.</b> Les noms d'options peuvent différer sur votre télé. En pièce plus claire, essayez Normal plutôt que True Cinema (voir le guide).",
+    path: "Menu > Image",
+    items: [
+      {name: "SDR · Mode d'image", val: "True Cinema si disponible"},
+      {name: "SDR · Contraste", val: "90 (à vérifier)"},
+      {name: "SDR · Luminosité", val: "0"},
+      {name: "SDR · Couleur", val: "50"},
+      {name: "SDR · Teinte", val: "0"},
+      {name: "SDR · Netteté", val: "0"},
+      {name: "SDR · Température de couleur", val: "Chaud 2"},
+      {name: "SDR · Gamma", val: "2.4 (pièce sombre)"},
+      {name: "SDR · Gamut", val: "Rec.709"},
+      {name: "SDR · Couleur vive, C.A.T.S., réduction de bruit, contrôle dynamique du contraste", val: "Désactivés"},
+      {name: "SDR · Intelligent Frame Creation, Clear Motion", val: "Désactivés"},
+      {name: "HDR10 et HDR10+ · Mode d'image", val: "True Cinema, Chaud 2"},
+      {name: "HDR10 et HDR10+ · Couleur vive, réduction de bruit, interpolation", val: "Désactivées"},
+      {name: "HDR10 et HDR10+ · Optimisation de la luminosité HDR", val: "À vérifier sur votre télé"},
+      {name: "Dolby Vision · Mode", val: "Dark en pièce sombre ; Bright seulement si la pièce est éclairée"}
+    ]
+  },
   "Panasonic|Z95B|cinema": {
     unverified: true,
     path: "Paramètres > Affichage et sons > Réglages d'image",
@@ -1660,7 +1682,7 @@ function verifiedFor() {
 /* Modèles sans valeurs affichées dans l'outil : aucune source fiable pour des réglages chiffrés, on renvoie vers leur guide. */
 var GUIDE_ONLY = {"Panasonic|TX-65GZ1000": "/reglages/panasonic-tx-65gz1000/"};
 function settingsFor(brand, usage, size) {
-  if (GUIDE_ONLY[brand + "|" + state.model]) return [];
+  if (GUIDE_ONLY[brand + "|" + state.model] && usage !== "cinema") return [];
   var v = verifiedFor();
   if (v) return v.items.slice();
   var b = BRANDS[brand];
@@ -2651,7 +2673,7 @@ function renderCore() {
     h += "</div>";
   } else {
     var list = settingsFor(state.brand, state.usage, state.size);
-    var guideUrl = GUIDE_ONLY[state.brand + "|" + state.model];
+    var guideUrl = state.usage !== "cinema" && GUIDE_ONLY[state.brand + "|" + state.model];
     if (guideUrl) {
       h += back() + "<h2>Vos réglages</h2>";
       h += '<div class="card"><div class="tag">' + esc(state.brand + " " + state.model) + (state.year ? " (" + state.year + ")" : "") + " · " + state.size + '" · ' + USAGES[state.usage].label + '</div>';
@@ -2676,7 +2698,7 @@ function renderCore() {
     h += (vf && isAlias && !vf.game)
       ? '<p class="note"><b>Niveau 3 · Réglages non vérifiés spécifiquement pour ce modèle.</b> Ces valeurs viennent du modèle proche « ' + esc(aliasBase) + ' » : prenez-les comme point de départ et ajustez-les.</p>'
       : vf
-      ? vf.game ? '<p class="note"><b>Niveau 3 · Recommandations générales non calibrées.</b> Réglages pour le jeu et le sport en direct. Les noms de menus peuvent varier selon la version du logiciel de votre téléviseur.</p>' : vf.unverified ? '<p class="note"><b>Niveau 3 · Valeurs indicatives non calibrées</b> (tirées d\'une vidéo, source non identifiée) : à tester sur un film que vous connaissez. Les noms de menus peuvent varier selon la version du logiciel.</p>' : '<p class="note"><b>Niveau 1 · Noms de menus relevés sur une vraie télé de ce modèle.</b> Les valeurs restent des points de départ, non calibrées à la sonde : ajustez-les selon votre pièce et ce que vous regardez.</p>'
+      ? vf.game ? '<p class="note"><b>Niveau 3 · Recommandations générales non calibrées.</b> Réglages pour le jeu et le sport en direct. Les noms de menus peuvent varier selon la version du logiciel de votre téléviseur.</p>' : vf.note ? '<p class="note">' + vf.note + '</p>' : vf.unverified ? '<p class="note"><b>Niveau 3 · Valeurs indicatives non calibrées</b> (tirées d\'une vidéo, source non identifiée) : à tester sur un film que vous connaissez. Les noms de menus peuvent varier selon la version du logiciel.</p>' : '<p class="note"><b>Niveau 1 · Noms de menus relevés sur une vraie télé de ce modèle.</b> Les valeurs restent des points de départ, non calibrées à la sonde : ajustez-les selon votre pièce et ce que vous regardez.</p>'
       : '<p class="note"><b>Niveau 3 · Valeurs de départ non calibrées</b>, affichées à titre d\'exemple. Les noms de menus changent selon la version du logiciel de votre téléviseur.</p>';
     h += aliasWarn + LEVELS_HTML;
     h += '<div class="row-actions"><button class="btn ghost" type="button" data-act="share"><svg class="shi" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4M6 12v7a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-7"/></svg>Partager</button><button class="btn ghost" type="button" data-act="reset">Recommencer</button></div>';

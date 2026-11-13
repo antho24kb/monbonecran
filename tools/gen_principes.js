@@ -40,14 +40,14 @@ ${css}
 </head><body><main>
 <a class="top" href="/">‹ Mon Bon Écran</a> <a class="top" data-crumb="regler" href="/regler-sa-tele/" style="margin-left:10px">· Régler sa télé</a>
 <h1>Réglages ${esc(name)}</h1>
-<p class="lead">${esc(d.tech)} · gamme ${esc(d.year)}. Modes conseillés et fonctions à connaître, sans valeurs chiffrées.</p>
+<p class="lead">${esc(d.tech)} · gamme ${esc(d.year)}. ${esc(d.lead || "Modes conseillés et fonctions à connaître, sans valeurs chiffrées.")}</p>
 <p class="lvl" data-level="3"><b>Niveau 3</b> · ${esc(LEVEL3)}</p>
 <section class="card"><h2>Présentation</h2><p>${esc(d.intro)}</p>${ul(d.specs)}</section>
 <section class="card"><h2>Quel mode d'image choisir ?</h2>${d.modes.map(m => `<p><b>${esc(m[0])}</b> : ${esc(m[1])}</p>`).join("")}</section>
 <section class="card"><h2>Traitements d'image</h2>${d.traitements.map(m => `<p><b>${esc(m[0])}</b> : ${esc(m[1])}</p>`).join("")}</section>
 <section class="card"><h2>HDR et Dolby Vision</h2>${ul(d.hdr)}</section>
 <section class="card"><h2>Jeu vidéo</h2>${ul(d.gaming)}</section>
-${d.options.length ? `<section class="card"><h2>À activer ou désactiver</h2>${ul(d.options)}</section>` : ""}
+${d.options.length ? `<section class="card"><h2>${esc(d.optionsTitle || "À activer ou désactiver")}</h2>${d.optionsIntro ? `<p>${esc(d.optionsIntro)}</p>` : ""}${ul(d.options)}</section>` : ""}
 <section class="card"><h2>Sources</h2><ul>${d.sources.map(x => `<li><a href="${esc(x[1])}" rel="nofollow noopener" target="_blank">${esc(x[0])}</a></li>`).join("")}</ul>
 <p class="note">Ces tests portent surtout sur les versions britanniques et américaines : références, tailles, firmwares et options peuvent différer en France. Les valeurs chiffrées (rétroéclairage, contraste, netteté…) seront ajoutées quand un relevé ou un test spécialisé identifiable sera disponible.</p></section>
 <a class="cta" href="/">Régler selon ma taille d'écran</a>
