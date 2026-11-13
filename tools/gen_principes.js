@@ -22,8 +22,8 @@ for (const d of data) {
   const title = `Réglages ${name} : modes et conseils`;
   const desc = `${name} (${d.tech}, ${d.year}) : modes d'image conseillés, HDR et jeu vidéo d'après des tests publiés. Guide non calibré, sources citées.`;
   const ld = JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList",itemListElement:[["Accueil","/"],["Régler sa télé","/regler-sa-tele/"],["Réglages "+name,"/reglages/"+s+"/"]].map((it,i)=>({"@type":"ListItem",position:i+1,name:it[0],item:SITE+it[1]}))});
-  // TechArticle : uniquement des éléments visibles (H1, description, marque/modèle). Pas de FAQPage (aucune FAQ visible), pas de dateModified (aucune date visible).
-  const ldArt = JSON.stringify({"@context":"https://schema.org","@type":"TechArticle",headline:"Réglages "+name,description:desc,inLanguage:"fr-FR",mainEntityOfPage:{"@type":"WebPage","@id":url},publisher:{"@type":"Organization",name:"Mon Bon Écran",url:SITE+"/"},about:{"@type":"Product",name:name,brand:{"@type":"Brand",name:d.brand}}});
+  // TechArticle : uniquement des éléments visibles (H1, description, nom du modèle). Pas de type Product : ces pages sont des guides, sans offre ni avis (Google exigerait offers, review ou aggregateRating). Pas de FAQPage (aucune FAQ visible), pas de dateModified (aucune date visible).
+  const ldArt = JSON.stringify({"@context":"https://schema.org","@type":"TechArticle",headline:"Réglages "+name,description:desc,inLanguage:"fr-FR",mainEntityOfPage:{"@type":"WebPage","@id":url},publisher:{"@type":"Organization",name:"Mon Bon Écran",url:SITE+"/"},about:{"@type":"Thing",name:name}});
   const html = `<!doctype html>
 <html lang="fr"><head><meta charset="utf-8">
 ${head0}<title>${esc(title)} | Mon Bon Écran</title>
