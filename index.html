@@ -494,7 +494,7 @@ var BRANDS = {
     path: "Paramètres > Image > Mode Image",
     models: {
       "2026": [["X11L","Mini LED"],["RM9L","RGB Mini LED"],["RM8L","RGB Mini LED",1],["C8L","Mini LED"],["C7L","Mini LED"],["C89L","Mini LED"],["C79L","Mini LED"],["P8L","Mini LED"],["P89L","QLED",1],["P6L","LED"],["S5L","QLED",1],["P7L","QLED"],["V6D","LED"],["C6L","Mini LED",1],["C6K Pro / C69K Pro","QLED"],["A400 Pro NXTVISION","Lifestyle"],["A400U","Mini LED"],["A400","QLED"]],
-      "2025": [["X11K","Mini LED",1],["C9K","Mini LED",1],["C8K","Mini LED"],["C89K","Mini LED",1],["C7K","Mini LED"],["C6K","Mini LED"],["C6K Pro","QLED",1],["C6KS","Mini LED"],["NXTVISION A300 Pro","Lifestyle",1],["NXTVISION A400","Lifestyle",1],["P8K","QLED"],["P7K","QLED"],["P6K","QLED"],["S5K","LED"],["S4K","LED"],["T6C","QLED"],["V6C","LED"]],
+      "2025": [["X11K","Mini LED",1],["C9K","Mini LED",1],["C8K","Mini LED"],["C89K","Mini LED",1],["C7K","Mini LED"],["98MQLED75K","Mini LED",1],["C6K","Mini LED"],["C6K Pro","QLED",1],["C6KS","Mini LED"],["NXTVISION A300 Pro","Lifestyle",1],["NXTVISION A400","Lifestyle",1],["P8K","QLED"],["P7K","QLED"],["P6K","QLED"],["S5K","LED"],["S4K","LED"],["T6C","QLED"],["V6C","LED"]],
       "2024": [["115X955 Max","Mini LED",1],["C89B","Mini LED"],["C655 Pro","QLED"],["C655","QLED"],["P755","LED"],["C855","Mini LED",1],["C805","Mini LED",1],["C755","Mini LED",1]],
       "2023": [["C845","Mini LED"],["C745","QLED"],["C645","QLED"],["P745","LED",1]]
     }
@@ -1285,6 +1285,7 @@ var VALIAS = {
   "TCL|C855": "TCL|C8K",
   "TCL|C6KS": "TCL|C8K",
   "TCL|C7K": "TCL|C8K",
+  "TCL|98MQLED75K": "TCL|C8K",
   "TCL|C9K": "TCL|C8K",
   "TCL|X11K": "TCL|C8K",
   "TCL|RM8L": "TCL|C8K",
@@ -1652,7 +1653,7 @@ var LEVELS_HTML = '<details class="lvl-legend" id="niveaux"><summary>Comprendre 
   '<p><b>Niveau 1</b> : menus relevés directement sur le téléviseur. Ce ne sont pas nécessairement des réglages calibrés à la sonde.</p>' +
   '<p><b>Niveau 2</b> : réglages issus d\'un test spécialisé identifiable, avec source citée et modèle exact précisé. Aucun modèle n\'est encore dans cette catégorie.</p>' +
   '<p><b>Niveau 3</b> : conseils généraux ou valeurs de départ non vérifiés spécifiquement pour le modèle.</p></details>';
-var ALIAS_EXTRA = {"Sony|Bravia 6": "Le BRAVIA 6 est un OLED de type WOLED ; le BRAVIA 8 II est un QD-OLED."};
+var ALIAS_EXTRA = {"TCL|98MQLED75K": "98MQLED75K est la référence vendue par ElectroDépôt : nous n'avons pas pu confirmer qu'elle correspond exactement à la TCL 98C7K, dont les valeurs sont reprises ici.", "Sony|Bravia 6": "Le BRAVIA 6 est un OLED de type WOLED ; le BRAVIA 8 II est un QD-OLED."};
 function techOfModel(brand, model) {
   var ms = BRANDS[brand] && BRANDS[brand].models, y, i;
   if (!ms) return null;
