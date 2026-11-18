@@ -328,7 +328,7 @@ function enhanceSummary(h) {
   const lead = /<p class="lead">([^<]*?) · gamme (\d{4})/.exec(h);
   const lv = /<p class="lvl" data-level="(\d)"/.exec(h);
   if (!lead || !lv) return h;
-  const LABEL = { "Quel mode d'image choisir ?": "Modes d'image", "Traitements d'image": "Traitements d'image", "HDR et Dolby Vision": "HDR et Dolby Vision", "Cinéma": "Cinéma", "Sport en direct": "Sport", "Jeu vidéo": "Jeu vidéo" };
+  const LABEL = { "Quel mode d'image choisir ?": "Modes d'image", "Traitements d'image": "Traitements d'image", "HDR et Dolby Vision": "HDR et Dolby Vision", "Cinéma": "Cinéma", "Sport en direct": "Sport", "Jeu vidéo": "Jeu vidéo", "HDR": "HDR" };
   const found = [...h.matchAll(/<section class="card"([^>]*)><h2>([\s\S]*?)<\/h2>/g)].map(m => ({ attrs: m[1], t: m[2].replace(/<[^>]+>/g, "").trim(), raw: m[0] })).filter(x => LABEL[x.t]);
   if (!found.length) return h;
   const first = found[0];
@@ -375,7 +375,7 @@ function patchModelPages() {
     {
       const LVL_CSS = '<style id="lvl">.lvl{background:#F4EEFF;border-left:4px solid #8B4DFF;border-radius:10px;padding:8px 12px;font-size:14px;margin:0 0 14px}.lvl[data-level="1"]{border-color:#2E9E5B}.lvl[data-level="3"]{border-color:#F26A1B}</style>\n';
       let lvl = null;
-      if (/data-level="3"/.test(h) && h.includes("Guide de réglage non calibré")) lvl = null;
+      if ((/data-level="3"/.test(h) && h.includes("Guide de réglage non calibré")) || /data-level="2"/.test(h)) lvl = null;
       else if (h.includes("relevés sur une vraie télé") || m.slug === "philips-oled849") lvl = ['1', "Niveau 1</b> · Menus relevés sur le téléviseur. Les valeurs chiffrées restent des points de départ, non calibrées à la sonde."];
       else if (h.includes("tirées d'une vidéo") || h.includes("tirées d’une vidéo")) lvl = ['3', "Niveau 3</b> · Valeurs indicatives tirées d'une vidéo (source non identifiée), non calibrées : à tester sur un film que vous connaissez."];
       else lvl = ['3', "Niveau 3</b> · Valeurs de départ non calibrées, à ajuster selon votre pièce et vos goûts."];
@@ -391,13 +391,13 @@ function patchModelPages() {
     {
       const LEGEND = '<details class="lvl-legend" id="niveaux"><summary>Comprendre nos niveaux de fiabilité</summary>' +
         '<p><b>Niveau 1</b> : menus relevés directement sur le téléviseur. Ce ne sont pas nécessairement des réglages calibrés à la sonde.</p>' +
-        '<p><b>Niveau 2</b> : réglages issus d\'un test spécialisé identifiable, avec source citée et modèle exact précisé. Aucun modèle n\'est encore dans cette catégorie.</p>' +
+        '<p><b>Niveau 2</b> : réglages issus d\'un test spécialisé identifiable, avec source citée et modèle exact précisé.</p>' +
         '<p><b>Niveau 3</b> : conseils généraux ou valeurs de départ non vérifiés spécifiquement pour le modèle.</p></details>\n';
       const LEG_CSS = '<style id="lvl-legend-css">.lvl-legend{margin:-6px 0 14px;font-size:14px}.lvl-legend summary{cursor:pointer;color:#7A6E92;text-decoration:underline}.lvl-legend p{margin:6px 0}</style>\n';
       let h7 = h.replace(/<details class="lvl-legend"[\s\S]*?<\/details>\n?/, "").replace(/<style id="lvl-legend-css">[\s\S]*?<\/style>\n/, "");
       h7 = h7.replace("</head>", () => LEG_CSS + "</head>");
       h7 = h7.replace(/(<p class="lvl"[^>]*>[\s\S]*?<\/p>\n?)/, (all) => all.replace(/\n?$/, "\n") + LEGEND);
-      const isGuide = h7.includes("Guide de réglage non calibré");
+      const isGuide = h7.includes("Guide de réglage non calibré") || /data-level="2"/.test(h7);
       if (!isGuide) {
         const lead = /<p class="lead">([^<]*?) · gamme (\d{4})/.exec(h7);
         const lv = (/<p class="lvl" data-level="(\d)"/.exec(h7) || [])[1];

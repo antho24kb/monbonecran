@@ -1,0 +1,308 @@
+[
+ {
+  "brand": "Samsung",
+  "model": "R85H",
+  "tech": "Micro RGB",
+  "year": "2026",
+  "level": 2,
+  "lead": "Réglages SDR, HDR et jeu issus du test spécialisé RTINGS de ce modèle exact.",
+  "provenance": [
+   "Source : RTINGS, laboratoire de test indépendant, page « réglages » du Samsung R85H.",
+   "Réglages relevés sur la version 65 pouces ; la page RTINGS les indique valables pour les tailles 55, 75, 85 et 100 pouces.",
+   "Ces réglages ne sont pas calibrés sur votre exemplaire. La balance des blancs individuelle relevée par RTINGS n'est volontairement pas reprise : elle varie d'un téléviseur à l'autre."
+  ],
+  "path": "Paramètres > Tous les paramètres > Image > Paramètres expert",
+  "sdr": [
+   [
+    "Style d'image",
+    "Filmmaker"
+   ],
+   [
+    "Contraste",
+    "45"
+   ],
+   [
+    "Couleur",
+    "25"
+   ],
+   [
+    "Espace de couleur",
+    "Auto"
+   ],
+   [
+    "Gamma",
+    "2.2"
+   ],
+   [
+    "Nuance des couleurs",
+    "Chaud 2"
+   ],
+   [
+    "Détail des ombres (Shadow Detail)",
+    "0"
+   ],
+   [
+    "Luminosité pour 100 nits",
+    "11, avec atténuation locale Faible"
+   ],
+   [
+    "Luminosité pour 200 nits",
+    "5, avec atténuation locale Élevé"
+   ]
+  ],
+  "hdr": [
+   [
+    "Style d'image",
+    "Filmmaker"
+   ],
+   [
+    "Luminosité",
+    "50"
+   ],
+   [
+    "Contraste",
+    "50"
+   ],
+   [
+    "Atténuation locale (Local Dimming)",
+    "Élevé"
+   ],
+   [
+    "ST.2084",
+    "0"
+   ],
+   [
+    "Amélioration du contraste",
+    "Désactivé"
+   ],
+   [
+    "Mappage des tons HDR",
+    "Statique"
+   ],
+   [
+    "Espace de couleur",
+    "Auto"
+   ],
+   [
+    "Nuance des couleurs",
+    "Chaud 2"
+   ]
+  ],
+  "jeu": [
+   [
+    "Style d'image",
+    "Jeu (Game Mode)"
+   ],
+   [
+    "ALLM (mode faible latence automatique)",
+    "Activé"
+   ]
+  ],
+  "jeuNote": "RTINGS ne donne que le mode Jeu et l'ALLM : aucun autre réglage jeu n'est repris ici.",
+  "sources": [
+   [
+    "RTINGS : réglages du Samsung R85H",
+    "https://www.rtings.com/tv/reviews/samsung/r85h/settings"
+   ]
+  ]
+ },
+ {
+  "brand": "Samsung",
+  "model": "R95H",
+  "tech": "Micro RGB",
+  "year": "2026",
+  "level": 2,
+  "lead": "Réglages SDR, HDR et jeu issus du test spécialisé RTINGS de ce modèle exact.",
+  "provenance": [
+   "Source : RTINGS, laboratoire de test indépendant, page « réglages » du Samsung R95H.",
+   "Réglages relevés sur la version 65 pouces ; la page RTINGS les indique valables pour les tailles 75 et 85 pouces.",
+   "Ces réglages ne sont pas calibrés sur votre exemplaire. La balance des blancs individuelle relevée par RTINGS n'est volontairement pas reprise : elle varie d'un téléviseur à l'autre."
+  ],
+  "path": "Paramètres > Tous les paramètres > Image > Paramètres expert",
+  "sdr": [
+   [
+    "Style d'image",
+    "Filmmaker"
+   ],
+   [
+    "Contraste",
+    "45"
+   ],
+   [
+    "Couleur",
+    "25"
+   ],
+   [
+    "Espace de couleur",
+    "Auto"
+   ],
+   [
+    "Gamma",
+    "2.2"
+   ],
+   [
+    "Nuance des couleurs",
+    "Chaud 2"
+   ],
+   [
+    "Atténuation locale (Local Dimming)",
+    "Élevé"
+   ],
+   [
+    "Détail des ombres (Shadow Detail)",
+    "0"
+   ],
+   [
+    "Luminosité pour 100 nits",
+    "11"
+   ],
+   [
+    "Luminosité pour 200 nits",
+    "24"
+   ]
+  ],
+  "hdr": [
+   [
+    "Style d'image",
+    "Filmmaker"
+   ],
+   [
+    "Luminosité",
+    "50"
+   ],
+   [
+    "Contraste",
+    "50"
+   ],
+   [
+    "Atténuation locale (Local Dimming)",
+    "Élevé"
+   ],
+   [
+    "ST.2084",
+    "-2"
+   ],
+   [
+    "Amélioration du contraste",
+    "Désactivé"
+   ],
+   [
+    "Mappage des tons HDR",
+    "Statique"
+   ],
+   [
+    "Espace de couleur",
+    "Auto"
+   ],
+   [
+    "Nuance des couleurs",
+    "Chaud 2"
+   ]
+  ],
+  "jeu": [
+   [
+    "Style d'image",
+    "Jeu (Game Mode)"
+   ],
+   [
+    "ALLM (mode faible latence automatique)",
+    "Activé"
+   ]
+  ],
+  "jeuNote": "RTINGS ne donne que le mode Jeu et l'ALLM : aucun autre réglage jeu n'est repris ici.",
+  "sources": [
+   [
+    "RTINGS : réglages du Samsung R95H",
+    "https://www.rtings.com/tv/reviews/samsung/r95h/settings"
+   ]
+  ]
+ },
+ {
+  "brand": "LG",
+  "model": "MRGB96",
+  "tech": "Micro RGB",
+  "year": "2026",
+  "level": 3,
+  "lead": "Recommandations de réglage tirées d'un test publié, sans valeur chiffrée.",
+  "provenance": [
+   "Ces recommandations éditoriales viennent d'un test de magazine (Netzwelt), pas d'une mesure de laboratoire. Netzwelt a testé la version 75 pouces.",
+   "Le mode d'image se règle séparément pour chaque source (TV, HDMI, streaming) et pour le HDR (Netzwelt).",
+   "Aucune valeur chiffrée (contraste, luminosité, gamma…) n'est publiée dans cette source : nous n'en proposons pas."
+  ],
+  "path": "Paramètres > Image",
+  "sdr": [],
+  "hdr": [],
+  "doc": [
+   [
+    "Style d'image",
+    "Filmmaker Mode"
+   ],
+   [
+    "LED Local Dimming (atténuation locale)",
+    "Faible"
+   ],
+   [
+    "Dynamic Tone Mapping (HDR)",
+    "Désactivé pour un HDR fidèle"
+   ],
+   [
+    "Réduction du bruit",
+    "Auto"
+   ],
+   [
+    "Réduction du bruit MPEG",
+    "Auto"
+   ],
+   [
+    "Lissage des dégradés",
+    "Moyen"
+   ],
+   [
+    "True Motion",
+    "Filmic Motion ou Smooth Motion, selon votre préférence"
+   ]
+  ],
+  "sources": [
+   [
+    "Netzwelt : test du LG MRGB96",
+    "https://www.netzwelt.de/fernseher/lg-mrgb96/testbericht.html"
+   ]
+  ]
+ },
+ {
+  "brand": "Philips",
+  "model": "OLED911",
+  "tech": "OLED+",
+  "year": "2026",
+  "level": 3,
+  "lead": "Recommandation de mode tirée d'un test publié, sans valeur chiffrée.",
+  "provenance": [
+   "Cette recommandation vient d'un test publié par Choose.tv, qui juge le Filmmaker Mode très bien calibré dès la sortie de carton.",
+   "Les testeurs ont fait sur leur exemplaire une légère correction de balance des blancs (un peu de bleu ajouté), sans publier de valeurs exploitables ici.",
+   "Nous ne proposons aucune valeur chiffrée de calibration."
+  ],
+  "path": "Réglages > Image",
+  "sdr": [],
+  "hdr": [],
+  "doc": [
+   [
+    "Style d'image (SDR et HDR)",
+    "Filmmaker Mode"
+   ],
+   [
+    "Correction manuelle",
+    "Pas de correction systématique nécessaire : mode très bien calibré en sortie de carton"
+   ],
+   [
+    "À surveiller en HDR",
+    "Les petits éléments lumineux sont légèrement plus éclatants que sur la source"
+   ]
+  ],
+  "sources": [
+   [
+    "Choose.tv : test du Philips OLED911",
+    "https://www.choose.tv/uk/tv/reviews/philips/philips-oled911_AKO"
+   ]
+  ]
+ }
+]

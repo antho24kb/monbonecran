@@ -262,6 +262,14 @@ em.sc{font-style:normal; display:inline-block; margin-left:8px; padding:2px 8px;
 .specp .specn{color:var(--muted); font-size:.74rem; margin-top:8px}
 .cmpbar{position:sticky; bottom:12px; z-index:20; display:flex; justify-content:center; padding:10px 0 0; margin-top:10px}
 .cmpbar .btn{width:100%; box-shadow:0 8px 24px rgba(139,77,255,.35)}
+.tagline{display:none}
+header.home .tagline{display:block; margin:8px auto 0; max-width:22ch; text-align:center; font:800 1.35rem/1.2 Manrope,sans-serif; color:#3B1A8F}
+body.is-home .main-cta{background:linear-gradient(100deg,#FF8A1F,#F2540B)!important; border-color:transparent!important; min-height:64px}
+body.is-home .main-cta b,body.is-home .main-cta small{color:#fff!important}
+.chips-t{margin:14px 0 6px; font-size:.9rem; color:var(--muted); text-align:center}
+.chips{display:flex; flex-wrap:wrap; gap:8px; justify-content:center}
+.chips a{display:inline-flex; align-items:center; min-height:44px; padding:0 18px; border-radius:99px; border:1px solid rgba(139,77,255,.35); background:#fff; color:#3B1A8F; font-weight:700; text-decoration:none}
+.chips a:focus-visible{outline:3px solid #8B4DFF; outline-offset:2px}
 .more{display:flex; flex-wrap:wrap; gap:4px 18px; justify-content:center; margin:10px 0 4px}
 .opt.cmpb{width:100%; margin-bottom:8px; text-align:left}
 .opt.cmpb.sel{background:linear-gradient(#FFF1E6,#FFF1E6) padding-box, linear-gradient(120deg,#FF8A1F,#8B4DFF) border-box; font-weight:700}
@@ -415,6 +423,7 @@ body.is-flow footer{padding:0 12px 6px!important; font-size:.68rem!important}
   header.home .bm span{display:block!important}
   header.home .bm::before{font-size:.8rem!important; margin-bottom:14px!important}
   header.home .sub{font-size:1.2rem!important; max-width:30ch!important; margin:18px 0 0!important; text-align:left!important}
+  header.home .tagline{margin:18px 0 0; max-width:none; text-align:left; font-size:1.7rem}
   header.home .pill{font-size:.78rem!important; padding:6px 14px!important; margin-top:16px!important}
   header.home .partners{justify-content:flex-start!important; max-width:none!important; margin-top:22px!important}
   header.home .partners .pl{text-align:left!important; flex-basis:100%}
@@ -464,7 +473,8 @@ body.is-flow footer{padding:0 12px 6px!important; font-size:.68rem!important}
   <header id="top" title="Retour à l'accueil">
     <svg class="mark" aria-hidden="true" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ga" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF8A1F"/><stop offset="1" stop-color="#8B4DFF"/></linearGradient></defs><rect x="6" y="12" width="88" height="62" rx="15" fill="url(#ga)"/><rect x="15" y="21" width="70" height="44" rx="8" fill="#fff"/><circle cx="50" cy="43" r="16" fill="#F2540B"/><path d="M42 43l6 6 11-12" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 74v9" stroke="#B9A9D8" stroke-width="5" stroke-linecap="round"/><path d="M33 90h34" stroke="#B9A9D8" stroke-width="6" stroke-linecap="round"/></svg>
     <div class="bm" role="link" tabindex="0" aria-label="Retour à l'accueil"><span>Mon Bon</span> <span class="tv">Écran</span></div>
-    <p class="sub">Bienvenue. Choisissez votre téléviseur, puis réglez-le en quelques étapes simples.</p>
+    <p class="tagline">Les meilleurs réglages pour votre TV</p>
+    <p class="sub">Trouvez en quelques secondes les réglages adaptés à votre modèle et à votre usage.</p>
     <span class="pill">Cinéma · Jeu · Sport</span>
     <div class="partners"><span class="pl">Partenaires</span><a class="pa" href="https://www.amazon.fr/s?k=t%C3%A9l%C3%A9viseur&amp;tag=antho24kb-21" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="amazon" data-l="bande partenaires">Amazon</a><a class="pe" href="https://track.effiliation.com/servlet/effi.redir?id_compteur=23326676&amp;url=https%3A%2F%2Fwww.electrodepot.fr%2Farrivages%2Ftv-image-son%2Ftelevision.html" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="electrodepot" data-l="bande partenaires" aria-label="ElectroDepot"><img src="/electrodepot-logo.png" alt="ElectroDepot" width="84" height="23"></a><a class="pj" href="https://www.awin1.com/cread.php?awinmid=123928&amp;awinaffid=3131233&amp;ued=https%3A%2F%2Fwww.joybuy.fr%2F" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="joybuy" data-l="bande partenaires" aria-label="Joybuy"><img src="/joybuy-logo.png" alt="Joybuy" width="70" height="19"></a></div>
   </header>
@@ -500,7 +510,7 @@ body.is-flow footer{padding:0 12px 6px!important; font-size:.68rem!important}
 
 <script>
 /* Modèles : [nom, technologie, 1 si la fiche est à confirmer]. Gammes principales seulement, 2023 à 2026. */
-var YEARS = ["2026", "2025", "2024", "2023"];
+var YEARS = ["2026", "2025", "2024", "2023", "2019"];
 
 var BRANDS = {
   "Samsung": {
@@ -518,7 +528,7 @@ var BRANDS = {
     path: "Paramètres > Image > Mode Image",
     models: {
       "2026": [["X11L","Mini LED"],["RM9L","RGB Mini LED"],["RM8L","RGB Mini LED",1],["C8L","Mini LED"],["C7L","Mini LED"],["C89L","Mini LED"],["C79L","Mini LED"],["P8L","Mini LED"],["P89L","QLED",1],["P6L","LED"],["S5L","QLED",1],["P7L","QLED"],["V6D","LED"],["C6L","Mini LED",1],["C6K Pro / C69K Pro","QLED"],["A400 Pro NXTVISION","Lifestyle"],["A400U","Mini LED"],["A400","QLED"]],
-      "2025": [["X11K","Mini LED",1],["C9K","Mini LED",1],["C8K","Mini LED"],["C89K","Mini LED",1],["C7K","Mini LED"],["C6K","Mini LED"],["C6K Pro","QLED",1],["C6KS","Mini LED"],["NXTVISION A300 Pro","Lifestyle",1],["NXTVISION A400","Lifestyle",1],["P8K","QLED"],["P7K","QLED"],["P6K","QLED"],["S5K","LED"],["S4K","LED"],["T6C","QLED"],["V6C","LED"]],
+      "2025": [["X11K","Mini LED",1],["C9K","Mini LED",1],["C8K","Mini LED"],["C89K","Mini LED",1],["C7K","Mini LED"],["98MQLED75K","Mini LED",1],["C6K","Mini LED"],["C6K Pro","QLED",1],["C6KS","Mini LED"],["NXTVISION A300 Pro","Lifestyle",1],["NXTVISION A400","Lifestyle",1],["P8K","QLED"],["P7K","QLED"],["P6K","QLED"],["S5K","LED"],["S4K","LED"],["T6C","QLED"],["V6C","LED"]],
       "2024": [["115X955 Max","Mini LED",1],["C89B","Mini LED"],["C655 Pro","QLED"],["C655","QLED"],["P755","LED"],["C855","Mini LED",1],["C805","Mini LED",1],["C755","Mini LED",1]],
       "2023": [["C845","Mini LED"],["C745","QLED"],["C645","QLED"],["P745","LED",1]]
     }
@@ -580,7 +590,8 @@ var BRANDS = {
       "2026": [["Z85C","OLED"],["W95C","QD Mini LED"],["W92C","QD Mini LED"],["W91C","QD Mini LED"],["W85B","QLED"],["W83C","QLED"],["W80C","QLED"],["W60C","LED 4K"],["S65C","LED"],["S45C","LED"],["S40C","LED"]],
       "2025": [["Z95B","OLED"],["Z90B","OLED"],["Z80B","OLED"],["W95B","Mini LED"],["W93B","Mini LED"],["W85B","QLED"],["W61B","LED",1]],
       "2024": [["Z95A","OLED"],["Z93A","OLED"],["Z90A","OLED"],["Z85A","OLED",1],["Z80A","OLED",1],["W95A","Mini LED"],["W90A","LED"],["W80A","LED",1],["W70A","LED",1],["W60A","LED",1]],
-      "2023": [["MZ2000","OLED"],["MZ1500","OLED"],["MZ980","OLED"],["MZ800","OLED"],["MX950","Mini LED"],["MX940","LED"],["MX800","LED"],["MX700","LED"],["MX600","LED"]]
+      "2023": [["MZ2000","OLED"],["MZ1500","OLED"],["MZ980","OLED"],["MZ800","OLED"],["MX950","Mini LED"],["MX940","LED"],["MX800","LED"],["MX700","LED"],["MX600","LED"]],
+      "2019": [["TX-65GZ1000","OLED"]]
     }
   },
   "Thomson": {
@@ -932,6 +943,28 @@ var VERIFIED = {
       {name: "Mouvement > Style de mouvement", val: "Pure Cinema ou Movie (Film)"}
     ]
   },
+  "Panasonic|TX-65GZ1000|cinema": {
+    unverified: true,
+    note: "<b>Niveau 3 · Valeurs de départ proposées par Mon Bon Écran, non vérifiées sur ce modèle ni calibrées à la sonde.</b> Les noms d'options peuvent différer sur votre télé. En pièce plus claire, essayez Normal plutôt que True Cinema (voir le guide).",
+    path: "Menu > Image",
+    items: [
+      {name: "SDR · Mode d'image", val: "True Cinema si disponible"},
+      {name: "SDR · Contraste", val: "90 (à vérifier)"},
+      {name: "SDR · Luminosité", val: "0"},
+      {name: "SDR · Couleur", val: "50"},
+      {name: "SDR · Teinte", val: "0"},
+      {name: "SDR · Netteté", val: "0"},
+      {name: "SDR · Température de couleur", val: "Chaud 2"},
+      {name: "SDR · Gamma", val: "2.4 (pièce sombre)"},
+      {name: "SDR · Gamut", val: "Rec.709"},
+      {name: "SDR · Couleur vive, C.A.T.S., réduction de bruit, contrôle dynamique du contraste", val: "Désactivés"},
+      {name: "SDR · Intelligent Frame Creation, Clear Motion", val: "Désactivés"},
+      {name: "HDR10 et HDR10+ · Mode d'image", val: "True Cinema, Chaud 2"},
+      {name: "HDR10 et HDR10+ · Couleur vive, réduction de bruit, interpolation", val: "Désactivées"},
+      {name: "HDR10 et HDR10+ · Optimisation de la luminosité HDR", val: "À vérifier sur votre télé"},
+      {name: "Dolby Vision · Mode", val: "Dark en pièce sombre ; Bright seulement si la pièce est éclairée"}
+    ]
+  },
   "Panasonic|Z95B|cinema": {
     unverified: true,
     path: "Paramètres > Affichage et sons > Réglages d'image",
@@ -1189,12 +1222,101 @@ var VERIFIED = {
       {name: "Bruit d'image > Réduction des artefacts", val: "Minimum"},
       {name: "Mouvement > Style de mouvement", val: "Pures Kino (24p) ou Désactivé"}
     ]
+  },
+  "Samsung|R85H|cinema": {
+    note: "<b>Niveau 2 · Réglages issus du test spécialisé RTINGS de ce modèle exact (Samsung R85H).</b> Relevés par RTINGS sur la version 65\" ; leur page les indique valables pour les tailles 55\", 75\", 85\" et 100\". Ils ne sont pas calibrés sur votre exemplaire : ajustez selon votre pièce. Source : <a href=\"https://www.rtings.com/tv/reviews/samsung/r85h/settings\" rel=\"nofollow noopener\" target=\"_blank\">RTINGS, réglages du Samsung R85H</a>.",
+    path: "Paramètres > Tous les paramètres > Image > Paramètres expert",
+    items: [
+      {name: "SDR · Style d'image", val: "Filmmaker"},
+      {name: "SDR · Contraste", val: "45"},
+      {name: "SDR · Couleur", val: "25"},
+      {name: "SDR · Espace de couleur", val: "Auto"},
+      {name: "SDR · Gamma", val: "2.2"},
+      {name: "SDR · Nuance des couleurs", val: "Chaud 2"},
+      {name: "SDR · Détail des ombres (Shadow Detail)", val: "0"},
+      {name: "SDR · Luminosité pour environ 100 nits", val: "11, avec atténuation locale Faible"},
+      {name: "SDR · Luminosité pour environ 200 nits", val: "5, avec atténuation locale Élevé"},
+      {name: "HDR · Style d'image", val: "Filmmaker"},
+      {name: "HDR · Luminosité", val: "50"},
+      {name: "HDR · Contraste", val: "50"},
+      {name: "HDR · Atténuation locale (Local Dimming)", val: "Élevé"},
+      {name: "HDR · ST.2084", val: "0"},
+      {name: "HDR · Amélioration du contraste", val: "Désactivé"},
+      {name: "HDR · Mappage des tons HDR", val: "Statique"},
+      {name: "HDR · Espace de couleur", val: "Auto"},
+      {name: "HDR · Nuance des couleurs", val: "Chaud 2"}
+    ]
+  },
+  "Samsung|R85H|jeu": {
+    note: "<b>Niveau 2 · Réglages jeu issus du test spécialisé RTINGS de ce modèle exact (Samsung R85H).</b> RTINGS indique seulement le mode Jeu et l'ALLM : aucun autre réglage jeu n'est repris ici. La balance des blancs individuelle relevée par RTINGS n'est pas reprise : elle varie d'un exemplaire à l'autre. Source : <a href=\"https://www.rtings.com/tv/reviews/samsung/r85h/settings\" rel=\"nofollow noopener\" target=\"_blank\">RTINGS, réglages du Samsung R85H</a>.",
+    path: "Paramètres > Tous les paramètres > Image > Paramètres expert",
+    items: [
+      {name: "Style d'image", val: "Jeu (Game Mode)"},
+      {name: "ALLM (mode faible latence automatique)", val: "Activé"}
+    ]
+  },
+  "Samsung|R95H|cinema": {
+    note: "<b>Niveau 2 · Réglages issus du test spécialisé RTINGS de ce modèle exact (Samsung R95H).</b> Relevés par RTINGS sur la version 65\" ; leur page les indique valables pour les tailles 75\" et 85\". Ils ne sont pas calibrés sur votre exemplaire : ajustez selon votre pièce. Source : <a href=\"https://www.rtings.com/tv/reviews/samsung/r95h/settings\" rel=\"nofollow noopener\" target=\"_blank\">RTINGS, réglages du Samsung R95H</a>.",
+    path: "Paramètres > Tous les paramètres > Image > Paramètres expert",
+    items: [
+      {name: "SDR · Style d'image", val: "Filmmaker"},
+      {name: "SDR · Contraste", val: "45"},
+      {name: "SDR · Couleur", val: "25"},
+      {name: "SDR · Espace de couleur", val: "Auto"},
+      {name: "SDR · Gamma", val: "2.2"},
+      {name: "SDR · Nuance des couleurs", val: "Chaud 2"},
+      {name: "SDR · Détail des ombres (Shadow Detail)", val: "0"},
+      {name: "SDR · Atténuation locale (Local Dimming)", val: "Élevé"},
+      {name: "SDR · Luminosité pour environ 100 nits", val: "11"},
+      {name: "SDR · Luminosité pour environ 200 nits", val: "24"},
+      {name: "HDR · Style d'image", val: "Filmmaker"},
+      {name: "HDR · Luminosité", val: "50"},
+      {name: "HDR · Contraste", val: "50"},
+      {name: "HDR · Atténuation locale (Local Dimming)", val: "Élevé"},
+      {name: "HDR · ST.2084", val: "-2"},
+      {name: "HDR · Amélioration du contraste", val: "Désactivé"},
+      {name: "HDR · Mappage des tons HDR", val: "Statique"},
+      {name: "HDR · Espace de couleur", val: "Auto"},
+      {name: "HDR · Nuance des couleurs", val: "Chaud 2"}
+    ]
+  },
+  "Samsung|R95H|jeu": {
+    note: "<b>Niveau 2 · Réglages jeu issus du test spécialisé RTINGS de ce modèle exact (Samsung R95H).</b> RTINGS indique seulement le mode Jeu et l'ALLM : aucun autre réglage jeu n'est repris ici. La balance des blancs individuelle relevée par RTINGS n'est pas reprise : elle varie d'un exemplaire à l'autre. Source : <a href=\"https://www.rtings.com/tv/reviews/samsung/r95h/settings\" rel=\"nofollow noopener\" target=\"_blank\">RTINGS, réglages du Samsung R95H</a>.",
+    path: "Paramètres > Tous les paramètres > Image > Paramètres expert",
+    items: [
+      {name: "Style d'image", val: "Jeu (Game Mode)"},
+      {name: "ALLM (mode faible latence automatique)", val: "Activé"}
+    ]
+  },
+  "LG|MRGB96|cinema": {
+    unverified: true,
+    note: "<b>Niveau 3 · Recommandations de réglage tirées de tests publiés du LG MRGB96, sans mesure de laboratoire ni valeur chiffrée.</b> Le mode d'image se règle séparément pour chaque source (TV, HDMI, streaming) et pour le HDR. Sources : <a href=\"https://www.computerbild.de/artikel/Tests-Fernseher-LG-MRGB96-Test-Review-00051-40956599.html\" rel=\"nofollow noopener\" target=\"_blank\">ComputerBild</a>, <a href=\"https://www.netzwelt.de/fernseher/lg-mrgb96/testbericht.html\" rel=\"nofollow noopener\" target=\"_blank\">Netzwelt</a> (test sur la version 75\").",
+    path: "Paramètres > Image",
+    items: [
+      {name: "Style d'image", val: "Filmmaker Mode"},
+      {name: "LED Local Dimming (atténuation locale)", val: "Faible"},
+      {name: "Dynamic Tone Mapping (HDR)", val: "Désactivé pour un HDR fidèle"},
+      {name: "Adaptation automatique à la lumière ambiante", val: "Désactivée"},
+      {name: "Réduction du bruit", val: "Auto"},
+      {name: "Réduction du bruit MPEG", val: "Auto"},
+      {name: "Lissage des dégradés", val: "Moyen"},
+      {name: "True Motion", val: "Filmic Motion ou Smooth Motion, selon votre préférence"}
+    ]
+  },
+  "Philips|OLED911|cinema": {
+    unverified: true,
+    note: "<b>Niveau 3 · Recommandation de mode tirée d'un test publié du Philips OLED911, sans valeur chiffrée.</b> Le test juge le Filmmaker Mode très bien calibré dès la sortie de carton ; les testeurs n'ont publié aucune valeur de calibration. Source : <a href=\"https://www.choose.tv/uk/tv/reviews/philips/philips-oled911_AKO\" rel=\"nofollow noopener\" target=\"_blank\">Choose.tv</a>.",
+    path: "Réglages > Image",
+    items: [
+      {name: "Style d'image (SDR et HDR)", val: "Filmmaker Mode"},
+      {name: "Correction manuelle", val: "Pas nécessaire en général : mode très bien calibré en sortie de carton"},
+      {name: "À surveiller en HDR", val: "Les petits éléments lumineux sont légèrement plus éclatants que sur la source"}
+    ]
   }
 };
 
 var VALIAS = {
   "LG|QNED87": "LG|QNED86",
-  "LG|MRGB96": "LG|QNED86",
   "LG|MRGB9M": "LG|QNED86",
   "LG|MRGB86": "LG|QNED86",
   "LG|MRGB87": "LG|QNED86",
@@ -1286,6 +1408,7 @@ var VALIAS = {
   "TCL|C855": "TCL|C8K",
   "TCL|C6KS": "TCL|C8K",
   "TCL|C7K": "TCL|C8K",
+  "TCL|98MQLED75K": "TCL|C8K",
   "TCL|C9K": "TCL|C8K",
   "TCL|X11K": "TCL|C8K",
   "TCL|RM8L": "TCL|C8K",
@@ -1364,7 +1487,6 @@ var VALIAS = {
   "Philips|MLED981": "Philips|OLED810",
   "Philips|OLED761": "Philips|OLED810",
   "Philips|OLED811": "Philips|OLED810",
-  "Philips|OLED911": "Philips|OLED810",
   "Philips|OLED951": "Philips|OLED810",
   "Sony|Bravia 2 II": "Sony|Bravia 9",
   "Sony|Bravia 2": "Sony|Bravia 9",
@@ -1434,8 +1556,6 @@ var VALIAS = {
   "Samsung|Q60D": "Samsung|Q80C",
   "Samsung|Q70D": "Samsung|Q80C",
   "Samsung|Q80D": "Samsung|Q80C",
-  "Samsung|R85H": "Samsung|QN900C",
-  "Samsung|R95H": "Samsung|QN900C",
   "Samsung|QN990H": "Samsung|QN900C",
   "Samsung|QN800H": "Samsung|QN900C",
   "Samsung|QN900H": "Samsung|QN900C",
@@ -1651,9 +1771,9 @@ function sportSheet(brand, oled) {
 
 var LEVELS_HTML = '<details class="lvl-legend" id="niveaux"><summary>Comprendre nos niveaux de fiabilité</summary>' +
   '<p><b>Niveau 1</b> : menus relevés directement sur le téléviseur. Ce ne sont pas nécessairement des réglages calibrés à la sonde.</p>' +
-  '<p><b>Niveau 2</b> : réglages issus d\'un test spécialisé identifiable, avec source citée et modèle exact précisé. Aucun modèle n\'est encore dans cette catégorie.</p>' +
+  '<p><b>Niveau 2</b> : réglages issus d\'un test spécialisé identifiable, avec source citée et modèle exact précisé. </p>' +
   '<p><b>Niveau 3</b> : conseils généraux ou valeurs de départ non vérifiés spécifiquement pour le modèle.</p></details>';
-var ALIAS_EXTRA = {"Sony|Bravia 6": "Le BRAVIA 6 est un OLED de type WOLED ; le BRAVIA 8 II est un QD-OLED."};
+var ALIAS_EXTRA = {"TCL|98MQLED75K": "98MQLED75K est la référence vendue par ElectroDépôt : nous n'avons pas pu confirmer qu'elle correspond exactement à la TCL 98C7K, dont les valeurs sont reprises ici.", "Sony|Bravia 6": "Le BRAVIA 6 est un OLED de type WOLED ; le BRAVIA 8 II est un QD-OLED."};
 function techOfModel(brand, model) {
   var ms = BRANDS[brand] && BRANDS[brand].models, y, i;
   if (!ms) return null;
@@ -1680,7 +1800,10 @@ function verifiedFor() {
   return VERIFIED[k + "|" + state.usage] || null;
 }
 
+/* Modèles sans valeurs affichées dans l'outil : aucune source fiable pour des réglages chiffrés, on renvoie vers leur guide. */
+var GUIDE_ONLY = {"Panasonic|TX-65GZ1000": "/reglages/panasonic-tx-65gz1000/"};
 function settingsFor(brand, usage, size) {
+  if (GUIDE_ONLY[brand + "|" + state.model] && usage !== "cinema") return [];
   var v = verifiedFor();
   if (v) return v.items.slice();
   var b = BRANDS[brand];
@@ -1781,7 +1904,7 @@ function modelsHtml(filter) {
       return !q || nm.indexOf(q) !== -1 || nm.indexOf(q2) !== -1;
     });
     if (!items.length) {
-      if (!q && !state.tech && !visibleModels(state.brand, y).length) {
+      if (y !== "2019" && !q && !state.tech && !visibleModels(state.brand, y).length) {
         h += '<div class="year">' + y + '</div><p class="note">Gamme ' + y + " bientôt disponible. Sélectionnez « Autre modèle » en attendant.</p>";
       }
       return;
@@ -1875,8 +1998,9 @@ function homeHtml() {
     h += '<button class="opt usage resume" type="button" data-act="resume"><b>Reprendre vos réglages</b><small>' + esc(lbl) + "</small></button>";
     h += '<button class="link" type="button" data-act="forget">Oublier ma sélection</button>';
   }
+  h += '<a class="opt usage main-cta" href="/regler-sa-tele/" data-act="mode" data-v="set"><b>Trouver ma TV</b><small>Réglages image de votre téléviseur, console ou box</small></a>';
   h += '<a class="opt usage" href="/choisir-sa-tele/" data-act="mode" data-v="buy"><b>Choisir sa télé</b><small>Trouvez le bon téléviseur selon votre budget et la taille</small></a>';
-  h += '<a class="opt usage" href="/regler-sa-tele/" data-act="mode" data-v="set"><b>Régler sa télé</b><small>Réglages image de votre téléviseur, console ou box</small></a>';
+  h += '<p class="chips-t">Régler pour :</p><div class="chips"><a href="/regler-sa-tele/" data-act="mode" data-v="set">Films et séries</a><a href="/regler-sa-tele/" data-act="mode" data-v="set">Sport</a><a href="/regler-sa-tv-pour-la-ps5/">PS5</a></div>';
   h += "</div>";
   h += '<div class="more"><a class="link" href="/classements-par-budget/" data-act="mode" data-v="rank">Classements par budget</a><a class="link" href="/comparateur/" data-act="mode" data-v="cmp">Comparateur</a><a class="link" href="/guide-des-technologies/" data-act="mode" data-v="tech">Guide des technologies</a></div>';
   h += '<p class="note" style="text-align:center">Nos conseils sont indépendants : aucun constructeur ne les finance. Certains liens sont des liens d\'affiliation (Partenaire Amazon, ElectroDepot, Joybuy) : ils nous rémunèrent sans surcoût pour vous.</p>';
@@ -2670,6 +2794,15 @@ function renderCore() {
     h += "</div>";
   } else {
     var list = settingsFor(state.brand, state.usage, state.size);
+    var guideUrl = state.usage !== "cinema" && GUIDE_ONLY[state.brand + "|" + state.model];
+    if (guideUrl) {
+      h += back() + "<h2>Vos réglages</h2>";
+      h += '<div class="card"><div class="tag">' + esc(state.brand + " " + state.model) + (state.year ? " (" + state.year + ")" : "") + " · " + state.size + '" · ' + USAGES[state.usage].label + '</div>';
+      h += '<p class="note"><b>Niveau 3 · Pas de valeurs chiffrées pour ce modèle.</b> Aucune source fiable ne donne de réglages mesurés pour ce téléviseur. Nous ne reprenons pas ceux d\'un autre modèle : consultez plutôt son guide, qui indique les modes à privilégier, d\'après des tests publiés, et ce qui reste à vérifier.</p>';
+      h += '<a class="btn" style="display:block;text-align:center;text-decoration:none" href="' + guideUrl + '">Voir le guide du ' + esc(state.model) + "</a></div>" + LEVELS_HTML;
+      stage.innerHTML = h;
+      return;
+    }
     h += back() + "<h2>Vos réglages</h2>" + "";
     h += prechecksHtml();
     h += '<div class="card">';
@@ -2686,7 +2819,7 @@ function renderCore() {
     h += (vf && isAlias && !vf.game)
       ? '<p class="note"><b>Niveau 3 · Réglages non vérifiés spécifiquement pour ce modèle.</b> Ces valeurs viennent du modèle proche « ' + esc(aliasBase) + ' » : prenez-les comme point de départ et ajustez-les.</p>'
       : vf
-      ? vf.game ? '<p class="note"><b>Niveau 3 · Recommandations générales non calibrées.</b> Réglages pour le jeu et le sport en direct. Les noms de menus peuvent varier selon la version du logiciel de votre téléviseur.</p>' : vf.unverified ? '<p class="note"><b>Niveau 3 · Valeurs indicatives non calibrées</b> (tirées d\'une vidéo, source non identifiée) : à tester sur un film que vous connaissez. Les noms de menus peuvent varier selon la version du logiciel.</p>' : '<p class="note"><b>Niveau 1 · Noms de menus relevés sur une vraie télé de ce modèle.</b> Les valeurs restent des points de départ, non calibrées à la sonde : ajustez-les selon votre pièce et ce que vous regardez.</p>'
+      ? vf.game ? '<p class="note"><b>Niveau 3 · Recommandations générales non calibrées.</b> Réglages pour le jeu et le sport en direct. Les noms de menus peuvent varier selon la version du logiciel de votre téléviseur.</p>' : vf.note ? '<p class="note">' + vf.note + '</p>' : vf.unverified ? '<p class="note"><b>Niveau 3 · Valeurs indicatives non calibrées</b> (tirées d\'une vidéo, source non identifiée) : à tester sur un film que vous connaissez. Les noms de menus peuvent varier selon la version du logiciel.</p>' : '<p class="note"><b>Niveau 1 · Noms de menus relevés sur une vraie télé de ce modèle.</b> Les valeurs restent des points de départ, non calibrées à la sonde : ajustez-les selon votre pièce et ce que vous regardez.</p>'
       : '<p class="note"><b>Niveau 3 · Valeurs de départ non calibrées</b>, affichées à titre d\'exemple. Les noms de menus changent selon la version du logiciel de votre téléviseur.</p>';
     h += aliasWarn + LEVELS_HTML;
     h += '<div class="row-actions"><button class="btn ghost" type="button" data-act="share"><svg class="shi" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4M6 12v7a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-7"/></svg>Partager</button><button class="btn ghost" type="button" data-act="reset">Recommencer</button></div>';
