@@ -329,7 +329,7 @@ function enhanceSummary(h) {
   const lv = /<p class="lvl" data-level="(\d)"/.exec(h);
   if (!lead || !lv) return h;
   const LABEL = { "Quel mode d'image choisir ?": "Modes d'image", "Traitements d'image": "Traitements d'image", "HDR et Dolby Vision": "HDR et Dolby Vision", "Cinéma": "Cinéma", "Sport en direct": "Sport", "Jeu vidéo": "Jeu vidéo", "HDR": "HDR" };
-  const found = [...h.matchAll(/<section class="card"([^>]*)><h2>([\s\S]*?)<\/h2>/g)].map(m => ({ attrs: m[1], t: m[2].replace(/<[^>]+>/g, "").trim(), raw: m[0] })).filter(x => LABEL[x.t]);
+  const found = [...h.matchAll(/<section class="card"([^>]*)><h2>([\s\S]*?)<\/h2>/g)].map(m => ({ attrs: m[1], t: m[2].replace(/<[^>]+>/g, "").trim(), raw: m[0] })).filter(x => LABEL[x.t] && !/Réglages non documentés/.test(h.slice(h.indexOf(x.raw), h.indexOf("</section>", h.indexOf(x.raw)))));
   if (!found.length) return h;
   const first = found[0];
   let id = (/ id="([^"]+)"/.exec(first.attrs) || [])[1];
@@ -375,7 +375,7 @@ function patchModelPages() {
     {
       const LVL_CSS = '<style id="lvl">.lvl{background:#F4EEFF;border-left:4px solid #8B4DFF;border-radius:10px;padding:8px 12px;font-size:14px;margin:0 0 14px}.lvl[data-level="1"]{border-color:#2E9E5B}.lvl[data-level="3"]{border-color:#F26A1B}</style>\n';
       let lvl = null;
-      if ((/data-level="3"/.test(h) && h.includes("Guide de réglage non calibré")) || /data-level="2"/.test(h)) lvl = null;
+      if ((/data-level="3"/.test(h) && h.includes("Guide de réglage non calibré")) || /data-level="2"/.test(h) || h.includes("Réglages non documentés pour ce modèle")) lvl = null;
       else if (h.includes("relevés sur une vraie télé") || m.slug === "philips-oled849") lvl = ['1', "Niveau 1</b> · Menus relevés sur le téléviseur. Les valeurs chiffrées restent des points de départ, non calibrées à la sonde."];
       else if (h.includes("tirées d'une vidéo") || h.includes("tirées d’une vidéo")) lvl = ['3', "Niveau 3</b> · Valeurs indicatives tirées d'une vidéo (source non identifiée), non calibrées : à tester sur un film que vous connaissez."];
       else lvl = ['3', "Niveau 3</b> · Valeurs de départ non calibrées, à ajuster selon votre pièce et vos goûts."];
@@ -403,9 +403,14 @@ function patchModelPages() {
         const lv = (/<p class="lvl" data-level="(\d)"/.exec(h7) || [])[1];
         if (lead) {
           const vid = h7.includes("tirées d'une vidéo");
-          const desc = lv === "1"
-            ? `${m.name} (${lead[1]}, ${lead[2]}) : menus relevés sur le téléviseur, valeurs de départ pour cinéma, jeu et sport. Non calibrées à la sonde.`
-            : `${m.name} (${lead[1]}, ${lead[2]}) : valeurs indicatives pour le cinéma, le jeu et le sport, ${vid ? "tirées d'une vidéo (source non identifiée), " : ""}non calibrées.`;
+          /* B+ : seuls les usages qui affichent réellement des valeurs sont cités (les autres : « Réglages non documentés ») */
+          const us = [["cinéma", "Cinéma"], ["jeu", "Jeu vidéo"], ["sport", "Sport en direct"]].filter(([, t]) => new RegExp("<h2>" + t + "</h2>(?:(?!</section>)[\\s\\S])*class=\"set\"").test(h7)).map(x => x[0]);
+          const lst = us.length > 1 ? us.slice(0, -1).join(", ") + " et " + us[us.length - 1] : us[0];
+          const desc = !us.length
+            ? `${m.name} (${lead[1]}, ${lead[2]}) : réglages non documentés pour ce modèle, aucune valeur affichée.`
+            : lv === "1"
+            ? `${m.name} (${lead[1]}, ${lead[2]}) : menus relevés sur le téléviseur, valeurs de départ pour ${lst}. Non calibrées à la sonde.`
+            : `${m.name} (${lead[1]}, ${lead[2]}) : valeurs indicatives pour ${lst}, ${vid ? "tirées d'une vidéo (source non identifiée), " : ""}non calibrées.`;
           h7 = h7.replace(/(name="description" content=")[^"]*"/, (all, p1) => p1 + esc(desc) + '"').replace(/(property="og:description" content=")[^"]*"/, (all, p1) => p1 + esc(desc) + '"');
         }
         h7 = h7.replace("Choisissez votre usage et recopiez les valeurs dans le menu de la télé.", "Choisissez votre usage : valeurs de départ à ajuster dans le menu de la télé.");
@@ -456,7 +461,7 @@ ${paths.length ? `<p>Sur les modèles que nous détaillons, nous avons relevé $
 <p>Le mode d'image est le réglage qui change le plus le rendu : il fixe d'un coup les couleurs, le contraste et les traitements. Pour un film, évitez les modes Dynamique ou Vif. Pour le jeu, le mode Jeu réduit le retard à l'affichage.</p>
 <p>Ensuite, vérifiez trois réglages : la température de couleur sur Chaud pour les films, le lissage des mouvements désactivé pour les films et faible pour le sport, la réduction de bruit coupée sur une source de bonne qualité.</p></section>
 <section class="card"><h2>${one ? "Réglages détaillés du " + esc(mp[0].name) : "Réglages " + esc(hub.brand) + " par modèle"}</h2>
-<p>${one ? "Cette page donne" : "Chaque page donne"} les valeurs à recopier, menu par menu, pour le cinéma, le jeu vidéo et le sport.</p>
+<p>${one ? "Cette page donne" : "Chaque page donne"} les valeurs documentées pour ce modèle, menu par menu. Quand un usage (cinéma, jeu vidéo, sport) n'est pas documenté pour le modèle exact, la page l'indique : « Réglages non documentés ».</p>
 <div class="tw"><table><thead><tr><th>Modèle</th><th>Technologie, gamme</th><th>Repères en mode cinéma</th></tr></thead><tbody>${rows}</tbody></table></div></section>
 <section class="card"><h2>Votre TV ${esc(hub.brand)} n'est pas dans la liste ?</h2>
 <p>Notre outil couvre ${covered} modèles ${esc(hub.brand)} de ${years[years.length - 1]} à ${years[0]}. Sans page dédiée, il affiche des valeurs de départ communes à la marque, à adapter à votre télé.</p>

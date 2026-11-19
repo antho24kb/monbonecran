@@ -1800,23 +1800,98 @@ function aliasWarnHtml() {
   if (!w) w = "Ce modèle (" + ta + ") et le modèle proche (" + tb + ") n\'ont pas la même technologie d\'écran.";
   return '<p class="note warn"><b>Attention :</b> ' + esc(w) + " Ces valeurs ne sont pas adaptées à ce modèle : gardez-les comme simple point de départ et ajustez-les.</p>";
 }
+/* Option B : un réglage n'est affiché que s'il est documenté pour CE modèle (et cette année).
+   Aucune valeur héritée d'un modèle voisin (VALIAS) ni valeur générique n'est présentée comme celle du modèle.
+   Les deux interrupteurs ci-dessous existent uniquement pour pouvoir revenir en arrière en une ligne. */
+var ALLOW_INHERITED = false;
+var SHOW_GENERIC_SETTINGS = false;
+/* Années : une fiche documentée n'est valable que pour les années listées ici (liste vide ou absente = refusée).
+   Un même nom de modèle réutilisé une autre année (ex. QNED86 2026) n'hérite donc jamais de la fiche d'une année précédente.
+   Sony Bravia 9 : 2025 retiré provisoirement (identité des réglages 2024/2025, firmware compris, non démontrée) ; à rétablir sur confirmation solide. */
+var DOC_YEARS = {"Hisense|U8Q": ["2025"], "LG|MRGB96": ["2026"], "LG|OLED evo C4": ["2024"], "LG|QNED86": ["2025"], "Panasonic|TX-65GZ1000": ["2019"], "Panasonic|Z95B": ["2025"], "Philips|OLED810": ["2025"], "Philips|OLED849": ["2024"], "Philips|OLED911": ["2026"], "Samsung|CU700C": ["2023"], "Samsung|CU800C": ["2023"], "Samsung|Q60C": ["2023"], "Samsung|Q70C": ["2023"], "Samsung|Q80C": ["2023"], "Samsung|QN85C": ["2023"], "Samsung|QN900C": ["2023"], "Samsung|QN90C": ["2023"], "Samsung|QN95C": ["2023"], "Samsung|R85H": ["2026"], "Samsung|R95H": ["2026"], "Samsung|S90C": ["2023"], "Samsung|S90D": ["2024"], "Samsung|S95C": ["2023"], "Samsung|S95D": ["2024"], "Samsung|S95F": ["2025"], "Sony|Bravia 8 II": ["2025"], "Sony|Bravia 9": ["2024"], "TCL|C8K": ["2025"], "Xiaomi|TV A Pro 2026": ["2026"]};
+/* Fiches propres suspendues par décision (données conservées) : S95D et S90D (valeurs strictement identiques, sans source propre) ; GZ1000 (valeurs proposées non vérifiées) ;
+   Samsung 2023 (S95C, S90C, QN90C, QN95C, QN900C, QN85C, CU700C, CU800C) : provenance non identifiable (« source non identifiée »). */
+var DOC_SUSPENDED = {"Samsung|S95D|cinema": 1, "Samsung|S90D|cinema": 1, "Panasonic|TX-65GZ1000|cinema": 1, "Samsung|S95C|cinema": 1, "Samsung|S90C|cinema": 1, "Samsung|QN90C|cinema": 1, "Samsung|QN95C|cinema": 1, "Samsung|QN900C|cinema": 1, "Samsung|QN85C|cinema": 1, "Samsung|CU700C|cinema": 1, "Samsung|CU800C|cinema": 1};
+function catalogYears(brand, model) {
+  var o = [], ms = (BRANDS[brand] && BRANDS[brand].models) || {};
+  Object.keys(ms).forEach(function (y) { ms[y].forEach(function (m) { if (m[0] === model) o.push(y); }); });
+  return o;
+}
+function docYearOK(k, brand, model, year) {
+  var ys = DOC_YEARS[k];
+  if (!ys) return false;
+  if (year) return ys.indexOf(String(year)) >= 0;
+  var all = catalogYears(brand, model);
+  return all.length > 0 && all.every(function (y) { return ys.indexOf(y) >= 0; });
+}
+/* Aucune équivalence de nom n'est admise sans preuve constructeur (CU7000/CU700C et CU8000/CU800C : non validées). */
+function docEntry(brand, model, year, usage) {
+  var k = brand + "|" + model;
+  if (!docYearOK(k, brand, model, year)) return null;
+  if (DOC_SUSPENDED[k + "|" + usage]) return null;
+  return VERIFIED[k + "|" + usage] || null;
+}
 function verifiedFor() {
-  var m = state.model === "CU7000" ? "CU700C" : state.model === "CU8000" ? "CU800C" : state.model;
-  var k = state.brand + "|" + m;
+  var k = state.brand + "|" + state.model;
   window._av = false;
+  var own = docEntry(state.brand, state.model, state.year, state.usage);
+  if (own) return own;
+  if (!ALLOW_INHERITED && !SHOW_GENERIC_SETTINGS) return null;
   if ((state.usage === "sport" || state.usage === "jeu") && VERIFIED[state.brand + "|" + state.model + "|" + state.usage]) return VERIFIED[state.brand + "|" + state.model + "|" + state.usage];
   if (state.usage === "sport") return sportSheet(state.brand, isOledModel(state.brand, state.model));
   if (state.usage === "jeu") return gameSheet(state.brand, isOledModel(state.brand, state.model));
-  if (VALIAS[k]) { k = VALIAS[k]; window._avKey = state.brand + "|" + m; window._av = true; window._avBase = k.replace("|", " "); window._avKeyBase = k; }
+  if (ALLOW_INHERITED && VALIAS[k]) { k = VALIAS[k]; window._avKey = state.brand + "|" + state.model; window._av = true; window._avBase = k.replace("|", " "); window._avKeyBase = k; }
   return VERIFIED[k + "|" + state.usage] || null;
 }
 
 /* Modèles sans valeurs affichées dans l'outil : aucune source fiable pour des réglages chiffrés, on renvoie vers leur guide. */
 var GUIDE_ONLY = {"Panasonic|TX-65GZ1000": "/reglages/panasonic-tx-65gz1000/"};
+/* Guides de modèle existants (fiches /reglages/…), pour renvoyer vers eux quand les réglages ne sont pas documentés. */
+var GUIDES = {"Hisense|U8Q": "/reglages/hisense-u8q/", "Hisense|UR9S": "/reglages/hisense-ur9s/", "LG|MRGB96": "/reglages/lg-mrgb96/", "LG|OLED evo C4": "/reglages/lg-oled-evo-c4/", "LG|OLED evo C6": "/reglages/lg-oled-evo-c6/", "LG|OLED evo G6": "/reglages/lg-oled-evo-g6/", "LG|QNED86": "/reglages/lg-qned86/", "Panasonic|TX-65GZ1000": "/reglages/panasonic-tx-65gz1000/", "Panasonic|Z95B": "/reglages/panasonic-z95b/", "Philips|OLED810": "/reglages/philips-oled810/", "Philips|OLED849": "/reglages/philips-oled849/", "Philips|OLED911": "/reglages/philips-oled911/", "Samsung|Q60C": "/reglages/samsung-q60c/", "Samsung|Q70C": "/reglages/samsung-q70c/", "Samsung|Q80C": "/reglages/samsung-q80c/", "Samsung|R85H": "/reglages/samsung-r85h/", "Samsung|R95H": "/reglages/samsung-r95h/", "Samsung|S95F": "/reglages/samsung-s95f/", "Samsung|S95H": "/reglages/samsung-s95h/", "Sony|Bravia 8 II": "/reglages/sony-bravia-8-ii/", "Sony|Bravia 9": "/reglages/sony-bravia-9/", "Sony|Bravia 9 II": "/reglages/sony-bravia-9-ii/", "TCL|C8K": "/reglages/tcl-c8k/", "Xiaomi|TV A Pro 2026": "/reglages/xiaomi-tv-a-pro-2026/"};
+var GUIDE_YEARS = {"LG|QNED86": ["2025"], "Sony|Bravia 9": ["2024"]};
+function guideFor(brand, model, year) {
+  var k = brand + "|" + model;
+  var gy = GUIDE_YEARS[k];
+  if (gy) {
+    if (year ? gy.indexOf(String(year)) < 0 : !catalogYears(brand, model).every(function (y) { return gy.indexOf(y) >= 0; })) return "";
+  }
+  return GUIDES[k] || GUIDE_ONLY[k] || "";
+}
+/* Navigation depuis une fiche « non documentée » : jamais d'impasse (page de la marque, modèles documentés de la marque). */
+var HUB_PAGES = {"Samsung": "/reglages/samsung/", "LG": "/reglages/lg/", "TCL": "/reglages/tcl/"};
+function documentedModels(brand, exceptModel) {
+  var out = [], seen = {}, ms = (BRANDS[brand] && BRANDS[brand].models) || {};
+  Object.keys(ms).sort().reverse().forEach(function (y) {
+    ms[y].forEach(function (m) {
+      var k = brand + "|" + m[0];
+      if (m[0] === exceptModel || seen[k]) return;
+      var ok = Object.keys(USAGES).some(function (u) { return docYearOK(k, brand, m[0], y) && !DOC_SUSPENDED[k + "|" + u] && VERIFIED[k + "|" + u]; });
+      var url = guideFor(brand, m[0], y);
+      if (ok && url) { seen[k] = 1; out.push({name: m[0], year: y, url: url}); }
+    });
+  });
+  return out;
+}
+function undocNavHtml() {
+  var b = state.brand, h = "", hub = HUB_PAGES[b], docs = documentedModels(b, state.model);
+  var lk = function (href, t) { return '<a class="btn ghost" style="display:block;text-align:center;text-decoration:none;margin-top:8px" href="' + href + '">' + t + "</a>"; };
+  if (hub) h += lk(hub, "Conseils généraux " + esc(b) + " : menus et modes d\'image");
+  if (docs.length) {
+    h += '<div class="card"><details class="pre"><summary class="tag">Modèles ' + esc(b) + " documentés (" + docs.length + ')</summary><div class="pre-body"><ul>';
+    docs.forEach(function (d) { h += '<li><a href="' + d.url + '">' + esc(b + " " + d.name) + " (" + d.year + ")</a></li>"; });
+    h += "</ul></div></details></div>";
+  }
+  if (!hub && !docs.length) {
+    h += '<p class="note">Aucun modèle ' + esc(b) + " n'est encore documenté. Conseils généraux par marque :</p>";
+    Object.keys(HUB_PAGES).forEach(function (k) { h += lk(HUB_PAGES[k], esc(k)); });
+  }
+  return h;
+}
 function settingsFor(brand, usage, size) {
   if (GUIDE_ONLY[brand + "|" + state.model] && usage !== "cinema") return [];
   var v = verifiedFor();
   if (v) return v.items.slice();
+  if (!SHOW_GENERIC_SETTINGS) return [];
   var b = BRANDS[brand];
   var s = [];
   if (usage === "cinema") s.push({name: "Style d'image", val: "Mode Cinéma, Film ou Filmmaker Mode"});
@@ -2805,12 +2880,13 @@ function renderCore() {
     h += "</div>";
   } else {
     var list = settingsFor(state.brand, state.usage, state.size);
-    var guideUrl = state.usage !== "cinema" && GUIDE_ONLY[state.brand + "|" + state.model];
-    if (guideUrl) {
+    if (!list.length) {
+      var guideUrl = guideFor(state.brand, state.model, state.year);
       h += back() + "<h2>Vos réglages</h2>";
       h += '<div class="card"><div class="tag">' + esc(state.brand + " " + state.model) + (state.year ? " (" + state.year + ")" : "") + " · " + state.size + '" · ' + USAGES[state.usage].label + '</div>';
-      h += '<p class="note"><b>Niveau 3 · Pas de valeurs chiffrées pour ce modèle.</b> Aucune source fiable ne donne de réglages mesurés pour ce téléviseur. Nous ne reprenons pas ceux d\'un autre modèle : consultez plutôt son guide, qui indique les modes à privilégier, d\'après des tests publiés, et ce qui reste à vérifier.</p>';
-      h += '<a class="btn" style="display:block;text-align:center;text-decoration:none" href="' + guideUrl + '">Voir le guide du ' + esc(state.model) + "</a></div>" + LEVELS_HTML;
+      h += '<p class="note"><b>Réglages non documentés.</b> Aucune source fiable ne donne de réglages pour ce modèle précis. Nous ne reprenons ni ceux d\'un autre modèle ni des valeurs génériques : mieux vaut rien qu\'un chiffre faux.</p>';
+      if (guideUrl) h += '<p class="note">Ce que nous savons : les modes à privilégier, d\'après des tests publiés, et ce qui reste à vérifier.</p><a class="btn" style="display:block;text-align:center;text-decoration:none" href="' + guideUrl + '">Voir le guide du ' + esc(state.model) + "</a>";
+      h += "</div>" + prechecksHtml(true) + undocNavHtml() + LEVELS_HTML;
       stage.innerHTML = h;
       return;
     }
@@ -2841,6 +2917,7 @@ function renderCore() {
 
 function copyText() {
   var list = settingsFor(state.brand, state.usage, state.size);
+  if (!list.length) return state.brand + " " + state.model + (state.year ? " (" + state.year + ")" : "") + " " + state.size + '" - ' + USAGES[state.usage].label + "\nRéglages non documentés";
   var lines = [state.brand + " " + state.model + (state.year ? " (" + state.year + ")" : "") + " " + state.size + '" - ' + USAGES[state.usage].label, (verifiedFor() ? verifiedFor().path : BRANDS[state.brand].path)];
   list.forEach(function (x) { lines.push(x.name + " : " + (x.num !== undefined ? x.num : x.val)); });
   return lines.join("\n");
@@ -2875,9 +2952,9 @@ var HDMI_TIPS = {
   "Philips": "« HDMI Ultra HD » sur Optimal : Tous les réglages > Paramètres généraux.",
   "Panasonic": "« Réglages auto HDMI » sur Mode 2 ou 3 selon le modèle : Menu > Configuration."
 };
-function prechecksHtml() {
+function prechecksHtml(general) {
   var tip = HDMI_TIPS[state.brand] || "Activez le mode HDMI amélioré ou HDMI 2.1 du port utilisé s'il existe (menu Entrées ou Paramètres HDMI).";
-  var h = '<div class="card"><details class="pre"><summary class="tag">À vérifier d\'abord</summary><div class="pre-body">';
+  var h = '<div class="card">' + (general ? '<p class="note"><b>Conseils généraux, pas des réglages spécifiques à ce téléviseur.</b></p>' : '') + '<details class="pre"><summary class="tag">À vérifier d\'abord</summary><div class="pre-body">';
   h += '<div class="set"><div class="set-name">Économie d\'énergie et luminosité automatique</div><p class="note">Désactivez-les : elles baissent la luminosité et faussent les réglages. On les trouve le plus souvent dans les menus Général, Alimentation ou Image.</p></div>';
   h += '<div class="set"><div class="set-name">Mode Démo ou Magasin</div><p class="note">Vérifiez que le téléviseur est en mode « Domicile » (ou « Maison ») et non en mode Magasin.</p></div>';
   h += '<div class="set"><div class="set-name">Mise à jour du logiciel</div><p class="note">Installez la dernière version : Paramètres, puis Assistance ou À propos, puis Mise à jour du logiciel. Les noms de menus peuvent changer après une mise à jour.</p></div>';

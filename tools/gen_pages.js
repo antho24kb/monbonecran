@@ -21,7 +21,7 @@ function findModel(brand, model) {
 }
 
 function sheet(brand, model, usage) {
-  ctx.state.brand = brand; ctx.state.model = model; ctx.state.usage = usage;
+  ctx.state.brand = brand; ctx.state.model = model; ctx.state.usage = usage; ctx.state.year = (findModel(brand, model) || {}).year || null;
   const v = A.verifiedFor();
   return { items: vm.runInContext(`settingsFor(${JSON.stringify(brand)},${JSON.stringify(usage)},55)`, ctx), path: v ? v.path : A.BRANDS[brand].path, verified: !!v, note: !v ? "Valeurs de départ affichées à titre d'exemple. Les noms de menus changent selon la version du logiciel de votre téléviseur." : v.game ? "Réglages pour le jeu et le sport en direct. Les noms de menus peuvent varier selon la version du logiciel de votre téléviseur." : v.unverified ? "Valeurs tirées d'une vidéo, à tester sur un film que vous connaissez. Les noms de menus peuvent varier selon la version du logiciel." : "Noms de menus relevés sur une vraie télé de ce modèle. Valeurs de départ : ajustez-les selon votre pièce et ce que vous regardez." };
 }
@@ -36,11 +36,12 @@ function page(brand, model) {
   let body = "";
   for (const u of Object.keys(A.USAGES)) {
     const sh = sheet(brand, model, u);
-    body += `<section class="card"><h2>${esc(A.USAGES[u].label)}</h2><p class="hint">${esc(A.USAGES[u].hint)}</p><p class="path">${esc(sh.path)}</p>`;
+    body += `<section class="card"><h2>${esc(A.USAGES[u].label)}</h2><p class="hint">${esc(A.USAGES[u].hint)}</p>${sh.items.length ? `<p class="path">${esc(sh.path)}</p>` : ""}`;
     for (const x of sh.items) {
       const val = x.num !== undefined ? x.num : x.val;
       body += `<div class="set"><span>${esc(x.name)}</span><b>${esc(val)}</b></div>` + (x.num !== undefined ? `<div class="meter"><i style="width:${x.num}%"></i></div>` : "");
     }
+    if (!sh.items.length) { body += `<p class="note"><b>Réglages non documentés.</b> Aucune source fiable ne donne de réglages pour ce modèle précis. Nous ne reprenons ni ceux d'un autre modèle ni des valeurs génériques : mieux vaut rien qu'un chiffre faux.</p></section>`; continue; }
     body += `<p class="note">${esc(sh.note)}</p></section>`;
   }
   const note = `Valeurs de départ pour un écran de 55 pouces, à ajuster selon votre pièce et vos goûts. Les noms de menus changent selon la version du logiciel de votre téléviseur.`;
