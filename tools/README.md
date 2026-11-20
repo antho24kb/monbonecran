@@ -29,3 +29,12 @@ Tout est dans **un seul fichier commun : `/mbe-analytics.js`** (identifiant `G-1
 - Rien n'est chargé chez Google avant « Accepter ». Pour changer l'identifiant, la durée (6 mois) ou les textes du bandeau : modifier uniquement `mbe-analytics.js`.
 - Ce fichier est indépendant du suivi Supabase (`index.html`) et de Cloudflare.
 - `stats.html` n'est volontairement pas instrumenté.
+
+## Sections ajoutées à la main sur des guides générés (maintenance)
+Certaines pages générées par `gen_principes.js` contiennent une section ajoutée **manuellement**, absente de `principes.json` (fichier privé, introuvable hors de la machine de son propriétaire).
+
+| Page | Section manuelle | Date |
+|---|---|---|
+| `/reglages/lg-oled-evo-g6/` | « Dolby Vision Cinema Home » (`id="s-dolby-vision-cinema-home"`, réglages indicatifs niveau 3) + 2 phrases d'introduction ajustées (sous le titre et dans « Présentation ») + entrée du sommaire et du « Résumé rapide » | 2026-11-20 |
+
+**Consigne : ne jamais régénérer ces pages (`node tools/gen_principes.js`) sans avoir d'abord réintégré la section dans `principes.json`**, sinon elle sera supprimée sans avertissement. Après toute régénération, comparer la page avec la version précédente (`git diff`) et vérifier que la section et ses 20 réglages sont toujours présents. Ne pas contourner l'absence de `principes.json` en recréant le fichier de mémoire. La provenance détaillée de ces valeurs est conservée dans les données internes du projet (hors dépôt public) ; elle ne doit pas apparaître sur le site.
