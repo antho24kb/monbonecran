@@ -1,6 +1,6 @@
 /* Mon Bon Écran – mesure d'audience Google Analytics 4 avec consentement (RGPD / CNIL, Consent Mode v2)
  *
- * Fichier COMMUN à toutes les pages du site (accueil, rubriques, pages de réglages, pages légales, futures pages).
+ * Fichier COMMUN à toutes les pages du site (accueil, rubriques, pages légales, futures pages).
  * Pour instrumenter une page : <script src="/mbe-analytics.js" defer></script> avant </body> (ou dans <head>).
  *
  * Principes

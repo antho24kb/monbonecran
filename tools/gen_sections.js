@@ -1,5 +1,5 @@
 // Génère les pages de rubriques (une URL par rubrique) à partir de index.html, qui reste la source unique.
-//   node tools/gen_sections.js            -> écrit les dossiers de rubriques, le sitemap et les liens des pages /reglages/
+//   node tools/gen_sections.js            -> écrit les dossiers de rubriques et le sitemap
 //   OUT=/chemin/temporaire node tools/gen_sections.js   -> écrit ailleurs (test, rien n'est modifié dans le dépôt)
 //
 // Chaque page de rubrique = le même site (même design, même JavaScript) avec :
@@ -8,7 +8,7 @@
 //   - un bloc de texte spécifique (<section class="seo">) calculé à partir des données de l'appli ;
 //   - des données structurées (JSON-LD).
 //
-// AJOUTER UNE PAGE MARQUE OU TECHNO PLUS TARD : voir BRAND_PAGES / TECH_PAGES en bas de ce fichier.
+// Le site est recentré sur « Trouver sa télé » : plus de pages de réglages (archive : étiquette git archive-reglages-avant-recentrage).
 const fs = require("fs"), path = require("path"), { execSync } = require("child_process");
 const { chromium } = require("playwright");
 
@@ -25,8 +25,6 @@ const today = new Date().toISOString().slice(0, 10);
 const APP_PAGES = [
   { path: "/choisir-sa-tele/", mode: "buy", name: "Choisir sa télé",
     desc: "Quelle TV choisir en 2026 ? Répondez à 4 questions (budget, taille d'écran, jeu vidéo, technologie) et obtenez un top 3 clair, noté sur 10." },
-  { path: "/regler-sa-tele/", mode: "set", name: "Régler sa télé",
-    desc: "Meilleur réglage image TV : choisissez votre modèle pour obtenir des valeurs de départ ou des conseils, avec un niveau de fiabilité indiqué pour chaque réglage." },
   { path: "/classements-par-budget/", mode: "rank", name: "Classements par budget",
     desc: "La meilleure TV qualité-prix pour chaque budget, de moins de 500 € à plus de 2 500 € : top 3, notes sur 10, technologie conseillée et points forts." },
   { path: "/comparateur/", mode: "cmp", name: "Comparateur",
@@ -41,9 +39,7 @@ async function readApp(page) {
     const d = {};
     d.budgets = BUDGETS.map(b => ({ l: b.l, h: b.h }));
     d.sizes = BSIZES.map(s => ({ l: s.l, h: s.h }));
-    d.usages = Object.keys(USAGES).map(k => ({ l: USAGES[k].label, h: USAGES[k].hint }));
     d.brands = Object.keys(BRANDS);
-    d.families = Array.from(new Set(Object.keys(DEVICES).map(k => DEVICES[k].family)));
     d.pool = poolModels().map(m => ({ k: m.k, c: m.c, p: m.p }));
     d.ranks = BUDGETS.map((b, k) => {
       state = freshState("rank"); state.rb = k; renderCore();
@@ -76,31 +72,7 @@ async function prerender(page, mode) {
 }
 
 /* ---------- blocs de texte spécifiques ---------- */
-const brandOf = n => n.split(" ")[0];
-/* Pages pivots de marque (/reglages/<marque>/) : une entrée par marque à publier. En ajouter une ici suffit. */
-const HUBS = [
-  { brand: "Samsung", slug: "samsung", kw: "Réglage TV Samsung" },
-  { brand: "LG", slug: "lg", kw: "Réglage TV LG" },
-  { brand: "TCL", slug: "tcl", kw: "Réglage TV TCL" }
-];
-const HUB_SLUGS = HUBS.map(h => h.slug);
-/* Écran d'ordinateur : pages modèle avec Cinéma, Jeu vidéo et Sport côte à côte ; pages de marque plus larges. Rien ne change sur téléphone. */
-const DESK_MODEL = `<style id="desk">@media (min-width:1000px) and (hover:hover){body{background:radial-gradient(900px 600px at -10% -10%,rgba(255,138,31,.16),transparent 60%),radial-gradient(800px 600px at 110% 0%,rgba(139,77,255,.12),transparent 60%),var(--bg)}main{max-width:1240px;padding:36px 32px 64px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:20px;align-items:start}main>*{grid-column:1/-1}main>nav.crumb{grid-row:1;justify-self:start}main>section.card:nth-of-type(-n+3){grid-column:auto;margin:6px 0}h1{font-size:40px;margin-top:22px}.lead{font-size:19px;max-width:60ch}main>section.card:nth-of-type(n+4),main>.note,main>.cta{max-width:820px}.cta{max-width:420px!important}}</style>`;
-const DESK_HUB = `<style id="desk">@media (min-width:1000px) and (hover:hover){body{background:radial-gradient(900px 600px at -10% -10%,rgba(255,138,31,.16),transparent 60%),radial-gradient(800px 600px at 110% 0%,rgba(139,77,255,.12),transparent 60%),var(--bg)}main{max-width:1100px;padding:36px 32px 64px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:20px;align-items:start}main>*{grid-column:1/-1}main>nav.crumb{grid-row:1;justify-self:start}main>section.card:nth-of-type(1),main>section.card:nth-of-type(2){grid-column:auto}h1{font-size:40px;margin-top:22px}.lead{font-size:19px;max-width:62ch}.cta{max-width:420px}}</style>`;
-const hubOf = brand => HUBS.find(h => h.brand === brand);
-function modelPages() {
-  const dir = path.join(root, "reglages");
-  return fs.readdirSync(dir).filter(f => !HUB_SLUGS.includes(f) && fs.existsSync(path.join(dir, f, "index.html"))).sort().map(f => {
-    const h = fs.readFileSync(path.join(dir, f, "index.html"), "utf8");
-    const name = (/<h1>Réglages ([^<]+)<\/h1>/.exec(h) || [])[1] || f;
-    const lead = (/<p class="lead">([^<]*?)\./.exec(h) || [])[1] || "";
-    /* carte Cinéma de la page publiée : chemin de menu et deux repères (déjà échappés en HTML) */
-    const cine = (/<section class="card"><h2>Cinéma<\/h2>([\s\S]*?)<\/section>/.exec(h) || [])[1] || "";
-    const sets = Array.from(cine.matchAll(/<div class="set"><span>([^<]*)<\/span><b>([^<]*)<\/b>/g)).map(x => ({ n: x[1].split(" &gt; ").pop(), full: x[1], v: x[2] }));
-    const lum = sets.find(i => /luminosité/i.test(i.n) && !/HDR|maximale|noir|dynamique|logo|IA/i.test(i.full)), net = sets.find(i => /nettet/i.test(i.n));
-    return { slug: f, name, lead, brand: brandOf(name), cpath: (/<p class="path">([^<]*)<\/p>/.exec(cine) || [])[1] || "", keys: [lum, net].filter(Boolean) };
-  });
-}
+
 const fr = s => s.replace(/ /g, " ");
 
 function seoBuy(d) {
@@ -117,37 +89,7 @@ function seoBuy(d) {
 <p>LED pour les petits budgets, QLED pour des couleurs plus vives, Mini LED pour un salon très lumineux et les films en HDR, OLED pour des noirs parfaits le soir. Le détail est dans notre <a href="/guide-des-technologies/">guide des technologies</a>.</p>
 <h3>Comment nous notons les modèles</h3>
 <p>La note sur 10 est indicative : image 50 %, jeu vidéo 30 %, son 20 %. Elle est calculée d'après la fiche technique (type de dalle, formats HDR, fréquence, HDMI 2.1, audio), pas d'après des mesures en laboratoire.</p>
-<p>Pour aller plus vite, consultez nos <a href="/classements-par-budget/">classements par budget</a> ou le <a href="/comparateur/">comparateur</a>. Une fois la télé choisie, voyez comment la <a href="/regler-sa-tele/">régler</a>.</p>`;
-}
-function seoSet(d) {
-  const mp = modelPages();
-  const groups = {};
-  mp.forEach(m => (groups[m.brand] = groups[m.brand] || []).push(m));
-  const order = d.brands.filter(b => groups[b]).concat(Object.keys(groups).filter(b => !d.brands.includes(b)));
-  const hubs = HUBS.filter(h => groups[h.brand]);
-  return `<h1>Meilleur réglage image TV 4K : par modèle, selon le niveau de fiabilité</h1>
-<p>Le meilleur réglage image dépend de votre téléviseur : chaque marque a ses menus et chaque modèle ses valeurs. Choisissez votre télé (marque, modèle, taille) puis l'usage qui vous intéresse. Nous affichons des valeurs de départ ou des conseils de mode : mode d'image, luminosité, contraste, couleurs, netteté et fluidité des mouvements. Le meilleur réglage dépend du modèle : chaque page indique son niveau de fiabilité (menus relevés sur la télé, test spécialisé ou valeurs de départ non calibrées), et aucune valeur n'est une calibration professionnelle. Les noms de menus changent un peu selon la version du logiciel de votre téléviseur.</p>
-<h2>Les réglages de base à vérifier sur toute TV 4K</h2>
-<p>Avant les valeurs propres à votre modèle, quatre réglages changent déjà l'image sur n'importe quelle télé :</p>
-<ul>
-<li><b>Le mode d'image</b> : pour les films et les séries, choisissez Cinéma, Film ou Filmmaker Mode plutôt que Dynamique ou Vif.</li>
-<li><b>La température de couleur</b> : le réglage Chaud est le plus proche de l'image voulue par les réalisateurs. Elle paraît un peu jaune au début, puis l'œil s'habitue.</li>
-<li><b>Le lissage des mouvements</b> : désactivez-le pour les films (il donne l'effet « feuilleton »), gardez-le faible pour le sport.</li>
-<li><b>La réduction de bruit et la netteté</b> : coupez la réduction de bruit sur une source de bonne qualité et gardez une netteté basse, sinon l'image paraît artificielle.</li>
-</ul>
-<p>Pour le jeu vidéo, activez le mode Jeu de la télé : il réduit le retard à l'affichage. Ce sont des points de départ, pas une calibration à la sonde : ajustez selon votre pièce et vos goûts.</p>
-${hubs.length ? `<h2>Réglages par marque</h2>
-<ul>${hubs.map(h => `<li><a href="/reglages/${h.slug}/">${esc(h.kw)}</a> : les menus de la marque et les ${groups[h.brand].length > 1 ? groups[h.brand].length + " modèles détaillés" : "modèles détaillés"}</li>`).join("")}</ul>` : ""}
-<h2>Trois usages, trois jeux de réglages</h2>
-<ul>${d.usages.map(u => `<li><b>${esc(u.l)}</b> : ${esc(u.h.charAt(0).toLowerCase() + u.h.slice(1))}</li>`).join("")}</ul>
-<h2>Console de jeu ou box</h2>
-<p>Une console ou une box peut aussi demander des réglages : ${d.families.map(esc).join(", ")}. Le réglage de la sortie vidéo (HDR, 4K, mode jeu) dépend de l'appareil et de la télé. Pour la PlayStation 5, suivez notre <a href=\"/regler-sa-tv-pour-la-ps5/\">guide pour régler sa TV pour la PS5</a>.</p>
-<h2>Marques couvertes</h2>
-<p>${d.brands.map(esc).join(", ")}. Vous ne trouvez pas votre modèle ? Le nom exact figure sur l'étiquette au dos de la télé ou dans les réglages (Assistance, À propos).</p>
-<h2>Réglages par modèle</h2>
-<p>Une page dédiée existe pour ces modèles, avec les valeurs de départ pour un écran de 55 pouces :</p>
-${order.map(b => `<h3>${esc(b)}</h3><ul>${groups[b].map(m => `<li><a href="/reglages/${m.slug}/">Réglages ${esc(m.name)}</a>${m.lead ? " (" + esc(m.lead) + ")" : ""}</li>`).join("")}</ul>`).join("\n")}
-<p>Pas encore de télé ? Commencez par <a href="/choisir-sa-tele/">choisir la bonne</a>.</p>`;
+<p>Pour aller plus vite, consultez nos <a href="/classements-par-budget/">classements par budget</a> ou le <a href="/comparateur/">comparateur</a>.</p>`;
 }
 function seoRank(d) {
   return `<h1>Meilleure TV qualité-prix : notre top 3 pour chaque budget</h1>
@@ -194,7 +136,8 @@ function seoTech(d) {
 <ul>${d.techFacts.map(t => `<li><b>${esc(t.l)}</b> : ${esc(t.f.budget || "")}</li>`).join("")}</ul>
 <p>Prêt à choisir ? Voyez les <a href="/classements-par-budget/">classements par budget</a> ou laissez-vous guider par <a href="/choisir-sa-tele/">Choisir sa télé</a>.</p>`;
 }
-const SEO = { buy: seoBuy, set: seoSet, rank: seoRank, cmp: seoCmp, tech: seoTech };
+const SEO = { buy: seoBuy, rank: seoRank, cmp: seoCmp, tech: seoTech };
+
 
 /* ---------- données structurées ---------- */
 function crumbsLD(items) {
@@ -202,7 +145,7 @@ function crumbsLD(items) {
     itemListElement: items.map((it, i) => ({ "@type": "ListItem", position: i + 1, name: it[0], item: SITE + it[1] })) };
 }
 const WEBSITE_LD = { "@context": "https://schema.org", "@type": "WebSite", name: "Mon Bon Écran", url: SITE + "/", inLanguage: "fr-FR",
-  description: "Choisir et régler sa télé : conseils d'achat, comparateur et réglages image." };
+  description: "Trouver sa télé et identifier son modèle : conseils d'achat, comparateur et classements par budget." };
 
 function ldFor(pg, d) {
   pg.title = d.routeTitles[pg.path];
@@ -258,248 +201,16 @@ function buildPage(pg, d, pre, seoHtml, ld) {
   return h;
 }
 
+
 /* ---------- sitemap ---------- */
 function gitDate(rel) {
   try { const s = execSync(`git log -1 --format=%cs -- "${rel}"`, { cwd: root }).toString().trim(); return s || today; } catch (e) { return today; }
 }
-function sitemap(extraPaths) {
+function sitemap() {
   const urls = [["/", today]].concat(APP_PAGES.map(p => [p.path, today]),
-    ["mentions-legales.html", "confidentialite.html", "methodologie.html"].filter(f => fs.existsSync(path.join(root, f))).map(f => ["/" + f, gitDate(f)]),
-    modelPages().map(m => ["/reglages/" + m.slug + "/", gitDate("reglages/" + m.slug + "/index.html")]),
-    extraPaths.map(p => [p, today]));
+    ["mentions-legales.html", "confidentialite.html", "methodologie.html"].filter(f => fs.existsSync(path.join(root, f))).map(f => ["/" + f, gitDate(f)]));
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
     urls.map(([p, d]) => `<url><loc>${SITE}${p}</loc><lastmod>${d}</lastmod></url>`).join("\n") + `\n</urlset>\n`;
-}
-
-/* ---------- pages /reglages/<modèle>/ : lien de retour vers la rubrique + fil d'Ariane (idempotent) ---------- */
-
-/* ---------- amélioration de navigation, commune aux pages /reglages/ et aux pages de contenu (idempotent) ----------
-   1. fil d'Ariane visible, construit à partir du BreadcrumbList de la page (affichage = données structurées) ;
-   2. sommaire sur les pages d'au moins 5 sections ; 3. zones de toucher d'au moins 44 px pour les liens de navigation et de listes. */
-const NAV_CSS = '<style id="nav-ux">.crumb{display:flex;flex-wrap:wrap;align-items:center;gap:0 6px;font:700 14px Manrope,sans-serif;color:var(--muted,#7A6E92)}.crumb a{color:var(--accent,#F26A1B);text-decoration:none;display:inline-flex;align-items:center;min-height:44px}.crumb a:hover,.crumb a:focus-visible{text-decoration:underline}.crumb [aria-current]{color:var(--fg,#2A1B4D)}.crumb i{font-style:normal;opacity:.6}' +
-  '.toc{margin:0 0 14px;font-size:15px}.toc summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center}.toc summary::before{content:"▸";margin-right:8px;color:var(--accent,#F26A1B)}.toc[open] summary::before{content:"▾"}.toc ol{margin:0;padding-left:22px}.toc li a{display:inline-flex;align-items:center;min-height:44px;color:var(--fg,#2A1B4D)}' +
-  '.card li a,.lvl-legend summary{display:inline-flex;align-items:center;min-height:44px}.card li{margin:0}' +
-  'a:focus-visible,summary:focus-visible{outline:3px solid #8B4DFF;outline-offset:2px;border-radius:4px}section.card[id]{scroll-margin-top:12px}</style>\n';
-function enhanceNav(h) {
-  /* fil d'Ariane : mêmes libellés et mêmes URL que le BreadcrumbList de la page */
-  let crumbs = null;
-  for (const m of h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
-    try { const j = JSON.parse(m[1]); if (j["@type"] === "BreadcrumbList") crumbs = j.itemListElement; } catch (e) {}
-  }
-  h = h.replace(/<nav class="crumb"[\s\S]*?<\/nav>\n?/, "");
-  const oldTop = /<a class="top" href="\/">‹ Mon Bon Écran<\/a> <a class="top"[^>]*>· [^<]*<\/a>\n?/;
-  if (crumbs && crumbs.length >= 2 && (oldTop.test(h) || h.includes('<h1'))) {
-    const last = crumbs.length - 1;
-    const nav = '<nav class="crumb" aria-label="Fil d\'Ariane">' + crumbs.map((c, i) => {
-      const u = c.item.replace(SITE, "") || "/";
-      return (i ? "<i aria-hidden=\"true\">›</i>" : "") + (i === last ? `<span aria-current="page">${esc(c.name)}</span>` : `<a href="${u}">${esc(c.name)}</a>`);
-    }).join("") + "</nav>\n";
-    h = oldTop.test(h) ? h.replace(oldTop, () => nav) : h.replace(/<main>\n?/, (a) => a + nav);
-  }
-  /* sommaire : au moins 5 sections repérées par un titre h2 */
-  h = h.replace(/<details class="toc"[\s\S]*?<\/details>\n?/, "");
-  const secs = [...h.matchAll(/<section class="card"([^>]*)><h2>([\s\S]*?)<\/h2>/g)];
-  if (secs.length >= 5) {
-    const used = new Set([...h.matchAll(/\bid="([^"]+)"/g)].map(x => x[1]));
-    const items = [];
-    for (const m of secs) {
-      const text = m[2].replace(/<[^>]+>/g, "").trim();
-      let id = (/ id="([^"]+)"/.exec(m[1]) || [])[1];
-      if (!id) {
-        id = "s-" + text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40);
-        while (used.has(id)) id += "-b"; used.add(id);
-        h = h.replace(m[0], () => `<section class="card" id="${id}"${m[1]}><h2>${m[2]}</h2>`);
-      }
-      items.push(`<li><a href="#${id}">${text}</a></li>`);
-    }
-    const toc = `<details class="toc" id="sommaire"><summary>Sommaire de la page</summary><ol>${items.join("")}</ol></details>\n`;
-    h = h.replace(/<section class="card"/, (a) => toc + a);
-  }
-  h = h.replace(/<style id="nav-ux">[\s\S]*?<\/style>\n/, "").replace("</head>", () => NAV_CSS + "</head>");
-  return h;
-}
-
-
-/* ---------- résumé rapide d'une fiche : uniquement des informations déjà visibles sur la page (idempotent) ----------
-   Technologie et gamme (chapô), niveau de fiabilité (encadré), contenu de la fiche (titres des sections). Rien d'ajouté, aucune difficulté ni valeur inventée. */
-const SUM_CSS = '<style id="sum-css">.sum{background:#fff;border:1px solid rgba(90,50,160,.12);border-radius:18px;padding:14px 16px;margin:0 0 14px}.sum h2{font:800 16px Manrope,sans-serif;margin:0 0 6px}.sum dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:15px}.sum dt{color:var(--muted,#7A6E92)}.sum dd{margin:0;font-weight:600}.sum a.go{display:inline-flex;align-items:center;justify-content:center;min-height:44px;margin-top:10px;padding:0 18px;border-radius:999px;background:var(--accent,#F26A1B);color:#fff;font:800 15px Manrope,sans-serif;text-decoration:none}.sum a.go:focus-visible{outline:3px solid #8B4DFF;outline-offset:2px}</style>\n';
-function enhanceSummary(h) {
-  h = h.replace(/<aside class="sum"[\s\S]*?<\/aside>\n?/, "").replace(/<style id="sum-css">[\s\S]*?<\/style>\n/, "");
-  const lead = /<p class="lead">([^<]*?) · gamme (\d{4})/.exec(h);
-  const lv = /<p class="lvl" data-level="(\d)"/.exec(h);
-  if (!lead || !lv) return h;
-  const LABEL = { "Quel mode d'image choisir ?": "Modes d'image", "Traitements d'image": "Traitements d'image", "HDR et Dolby Vision": "HDR et Dolby Vision", "Cinéma": "Cinéma", "Sport en direct": "Sport", "Jeu vidéo": "Jeu vidéo", "HDR": "HDR" };
-  const found = [...h.matchAll(/<section class="card"([^>]*)><h2>([\s\S]*?)<\/h2>/g)].map(m => ({ attrs: m[1], t: m[2].replace(/<[^>]+>/g, "").trim(), raw: m[0] })).filter(x => LABEL[x.t] && !/Réglages non documentés/.test(h.slice(h.indexOf(x.raw), h.indexOf("</section>", h.indexOf(x.raw)))));
-  if (!found.length) return h;
-  const first = found[0];
-  let id = (/ id="([^"]+)"/.exec(first.attrs) || [])[1];
-  if (!id) { id = "reglages"; h = h.replace(first.raw, () => first.raw.replace('<section class="card"', '<section class="card" id="reglages"')); }
-  const aside = '<aside class="sum" aria-label="Résumé rapide"><h2>Résumé rapide</h2><dl>' +
-    `<dt>Technologie</dt><dd>${lead[1]}</dd><dt>Gamme</dt><dd>${lead[2]}</dd><dt>Fiabilité</dt><dd>Niveau ${lv[1]}</dd>` +
-    `<dt>Dans la fiche</dt><dd>${found.map(x => esc(LABEL[x.t])).join(", ")}</dd></dl><a class="go" href="#${id}">Aller aux réglages</a></aside>\n`;
-  h = h.replace("</head>", () => SUM_CSS + "</head>");
-  const leg = /<details class="lvl-legend"[\s\S]*?<\/details>\n?/;
-  return leg.test(h) ? h.replace(leg, (a) => a + aside) : h.replace(/(<p class="lvl"[^>]*>[\s\S]*?<\/p>\n?)/, (a) => a + aside);
-}
-
-function patchModelPages() {
-  let n = 0;
-  for (const m of modelPages()) {
-    const f = path.join(root, "reglages", m.slug, "index.html");
-    let h = fs.readFileSync(f, "utf8"), changed = false;
-    const top = '<a class="top" href="/">‹ Mon Bon Écran</a>';
-    if (!h.includes('data-crumb="regler"') && h.includes(top)) {
-      h = h.replace(top, () => top + ' <a class="top" data-crumb="regler" href="/regler-sa-tele/" style="margin-left:10px">· Régler sa télé</a>');
-      const ld = jsonld(crumbsLD([["Accueil", "/"], ["Régler sa télé", "/regler-sa-tele/"], ["Réglages " + m.name, "/reglages/" + m.slug + "/"]]));
-      h = h.replace("</head>", () => ld + "\n</head>"); changed = true;
-    }
-    /* titre court (moins de 60 caractères quand c'est possible) */
-    const t2 = h.replace(/(<title>[^<]*?|<meta property="og:title" content="[^"]*?) : cinéma, jeu vidéo et sport/g, "$1 : cinéma, jeu, sport");
-    if (t2 !== h) { h = t2; changed = true; }
-    const t3 = h.includes("Guide de réglage non calibré") ? h : h.replace(/<title>([^<]{45,}) \| Mon Bon Écran<\/title>/, (all, t) => (t.length + 16 > 60 ? `<title>${t}</title>` : all));
-    if (t3 !== h) { h = t3; changed = true; }
-    /* liens internes : page de la marque, autres modèles de la marque, sinon modèles de même technologie */
-    const all = modelPages(), fam = x => /OLED/.test(x.lead) ? "OLED" : /Mini LED|Neo QLED/.test(x.lead) ? "Mini LED" : /QLED|QNED/.test(x.lead) ? "QLED" : "LED";
-    const sib = all.filter(x => x.brand === m.brand && x.slug !== m.slug), hub = hubOf(m.brand);
-    const other = sib.length >= 2 ? [] : all.filter(x => x.brand !== m.brand && fam(x) === fam(m)).filter((x, i, arr) => arr.findIndex(y => y.brand === x.brand) === i).slice(0, 4);
-    const li = x => `<li><a href="/reglages/${x.slug}/">Réglages ${esc(x.name)}</a></li>`;
-    const block = `<section class="card" id="autres-reglages" data-rel="liens"><h2>Autres réglages</h2>` +
-      (hub ? `<p><a href="/reglages/${hub.slug}/">${esc(hub.kw)}</a> : les menus et les modes de la marque.</p>` : "") +
-      (sib.length ? `<p class="hint">Autres modèles ${esc(m.brand)}</p><ul>${sib.map(li).join("")}</ul>` : "") +
-      (other.length ? `<p class="hint">Même technologie, autres marques</p><ul>${other.map(li).join("")}</ul>` : "") + `</section>\n`;
-    const h3 = h.replace(/<section class="card" id="autres-reglages" data-rel="liens">[\s\S]*?<\/section>\n/, "");
-    const cta = '<a class="cta" href="/">';
-    if (h3.includes(cta)) { const h4 = h3.replace(cta, () => block + cta); if (h4 !== h) { h = h4; changed = true; } }
-    { const h5 = h.replace(/<style id="desk">[\s\S]*?<\/style>\n/, "").replace("</head>", () => DESK_MODEL + "\n</head>"); if (h5 !== h) { h = h5; changed = true; } }
-    /* niveau de fiabilité des réglages (1 : relevé sur la télé · 2 : test spécialisé identifiable · 3 : non calibré) */
-    {
-      const LVL_CSS = '<style id="lvl">.lvl{background:#F4EEFF;border-left:4px solid #8B4DFF;border-radius:10px;padding:8px 12px;font-size:14px;margin:0 0 14px}.lvl[data-level="1"]{border-color:#2E9E5B}.lvl[data-level="3"]{border-color:#F26A1B}</style>\n';
-      let lvl = null;
-      if ((/data-level="3"/.test(h) && h.includes("Guide de réglage non calibré")) || /data-level="2"/.test(h) || h.includes("Réglages non documentés pour ce modèle")) lvl = null;
-      else if (h.includes("relevés sur une vraie télé") || m.slug === "philips-oled849") lvl = ['1', "Niveau 1</b> · Menus relevés sur le téléviseur. Les valeurs chiffrées restent des points de départ, non calibrées à la sonde."];
-      else if (h.includes("tirées d'une vidéo") || h.includes("tirées d’une vidéo")) lvl = ['3', "Niveau 3</b> · Valeurs indicatives tirées d'une vidéo (source non identifiée), non calibrées : à tester sur un film que vous connaissez."];
-      else lvl = ['3', "Niveau 3</b> · Valeurs de départ non calibrées, à ajuster selon votre pièce et vos goûts."];
-      let h6 = h.replace(/<style id="lvl">[\s\S]*?<\/style>\n/, "");
-      h6 = h6.replace("</head>", () => LVL_CSS + "</head>");
-      if (lvl) {
-        h6 = h6.replace(/<p class="lvl"[^>]*>[\s\S]*?<\/p>\n?/, "");
-        h6 = h6.replace(/(<p class="lead">[^<]*<\/p>\n?)/, (all) => all.replace(/\n?$/, "\n") + `<p class="lvl" data-level="${lvl[0]}"><b>` + lvl[1] + "</p>\n");
-      }
-      if (h6 !== h) { h = h6; changed = true; }
-    }
-    /* légende des niveaux, descriptions et chapô cohérents avec le niveau réel (idempotent) */
-    {
-      const LEGEND = '<details class="lvl-legend" id="niveaux"><summary>Comprendre nos niveaux de fiabilité</summary>' +
-        '<p><b>Niveau 1</b> : menus relevés directement sur le téléviseur. Ce ne sont pas nécessairement des réglages calibrés à la sonde.</p>' +
-        '<p><b>Niveau 2</b> : réglages issus d\'un test spécialisé identifiable, avec source citée et modèle exact précisé.</p>' +
-        '<p><b>Niveau 3</b> : conseils généraux ou valeurs de départ non vérifiés spécifiquement pour le modèle.</p></details>\n';
-      const LEG_CSS = '<style id="lvl-legend-css">.lvl-legend{margin:-6px 0 14px;font-size:14px}.lvl-legend summary{cursor:pointer;color:#7A6E92;text-decoration:underline}.lvl-legend p{margin:6px 0}</style>\n';
-      let h7 = h.replace(/<details class="lvl-legend"[\s\S]*?<\/details>\n?/, "").replace(/<style id="lvl-legend-css">[\s\S]*?<\/style>\n/, "");
-      h7 = h7.replace("</head>", () => LEG_CSS + "</head>");
-      h7 = h7.replace(/(<p class="lvl"[^>]*>[\s\S]*?<\/p>\n?)/, (all) => all.replace(/\n?$/, "\n") + LEGEND);
-      const isGuide = h7.includes("Guide de réglage non calibré") || /data-level="2"/.test(h7);
-      if (!isGuide) {
-        const lead = /<p class="lead">([^<]*?) · gamme (\d{4})/.exec(h7);
-        const lv = (/<p class="lvl" data-level="(\d)"/.exec(h7) || [])[1];
-        if (lead) {
-          const vid = h7.includes("tirées d'une vidéo");
-          /* B+ : seuls les usages qui affichent réellement des valeurs sont cités (les autres : « Réglages non documentés ») */
-          const us = [["cinéma", "Cinéma"], ["jeu", "Jeu vidéo"], ["sport", "Sport en direct"]].filter(([, t]) => new RegExp("<h2>" + t + "</h2>(?:(?!</section>)[\\s\\S])*class=\"set\"").test(h7)).map(x => x[0]);
-          const lst = us.length > 1 ? us.slice(0, -1).join(", ") + " et " + us[us.length - 1] : us[0];
-          const desc = !us.length
-            ? `${m.name} (${lead[1]}, ${lead[2]}) : réglages non documentés pour ce modèle, aucune valeur affichée.`
-            : lv === "1"
-            ? `${m.name} (${lead[1]}, ${lead[2]}) : menus relevés sur le téléviseur, valeurs de départ pour ${lst}. Non calibrées à la sonde.`
-            : `${m.name} (${lead[1]}, ${lead[2]}) : valeurs indicatives pour ${lst}, ${vid ? "tirées d'une vidéo (source non identifiée), " : ""}non calibrées.`;
-          h7 = h7.replace(/(name="description" content=")[^"]*"/, (all, p1) => p1 + esc(desc) + '"').replace(/(property="og:description" content=")[^"]*"/, (all, p1) => p1 + esc(desc) + '"');
-        }
-        h7 = h7.replace("Choisissez votre usage et recopiez les valeurs dans le menu de la télé.", "Choisissez votre usage : valeurs de départ à ajuster dans le menu de la télé.");
-      }
-      if (h7 !== h) { h = h7; changed = true; }
-    }
-    /* mesure d'audience + consentement : script commun à toutes les pages */
-    if (!h.includes("/mbe-analytics.js")) { h = h.replace("</body>", () => ANALYTICS_TAG + "</body>"); changed = true; }
-    { const h8 = enhanceNav(enhanceSummary(h)); if (h8 !== h) { h = h8; changed = true; } }
-    if (!changed) continue;
-    const out = path.join(OUT, "reglages", m.slug); fs.mkdirSync(out, { recursive: true });
-    fs.writeFileSync(path.join(out, "index.html"), h); n++;
-  }
-  return n;
-}
-
-/* ---------- pages de contenu légères (marques, technologies) : prêtes à l'emploi, pas encore utilisées ----------
-   Ajouter une entrée dans BRAND_PAGES ou TECH_PAGES, puis relancer ce script. Exemple d'entrée :
-   { path: "/marques/philips/", name: "Philips", title: "Télévisions Philips : Ambilight, OLED, notre avis | Mon Bon Écran",
-     desc: "…", html: "<h2>…</h2><p>…</p><ul><li><a href='/reglages/philips-oled849/'>…</a></li></ul>" }
-   La page est générée avec le même habillage que les pages /reglages/, un fil d'Ariane et son entrée dans le sitemap. */
-const BRAND_PAGES = [
-  { path: "/regler-sa-tv-pour-la-ps5/", name: "Régler sa TV pour la PS5", h1: "Régler sa TV pour la PS5",
-    title: "Régler sa TV pour la PS5 : mode jeu, 120 Hz, HDR | Mon Bon Écran",
-    desc: "Réglages PS5 et TV à vérifier : HDMI 2.1, mode jeu, VRR, 4K 120 Hz, HDR et OLED. Diagnostic pas à pas d'après l'assistance officielle.",
-    html: fs.readFileSync(path.join(__dirname, "pages", "ps5.html"), "utf8") }
-];
-const TECH_PAGES = [];
-/* Page pivot d'une marque : tout vient des données de l'appli et des pages modèle déjà publiées (aucune valeur inventée). */
-function hubPage(hub, d) {
-  const B = d.brandInfo[hub.brand], mp = modelPages().filter(m => m.brand === hub.brand);
-  const years = Object.keys(B.years).sort().reverse();
-  const covered = years.reduce((n, y) => n + B.years[y].length, 0);
-  const rows = mp.map(m => {
-    return `<tr><td><a href="/reglages/${m.slug}/">${esc(m.name.slice(hub.brand.length + 1))}</a></td><td>${esc(m.lead.replace(" · gamme ", ", "))}</td><td>${m.keys.length ? m.keys.map(k => `${k.n} : <b>${k.v}</b>`).join("<br>") : "voir la page"}</td></tr>`;
-  }).join("");
-  const seen = new Set(), paths = mp.map(m => m.cpath).filter(p => { const k = p.toLowerCase().replace(/s\b/g, ""); if (!p || seen.has(k)) return false; seen.add(k); return true; });
-  const one = mp.length === 1;
-  const html = `<p class="lead">Les menus image des téléviseurs ${esc(hub.brand)}, les modes à choisir pour le cinéma, le jeu vidéo et le sport, et ${one ? "la page de réglages détaillée du " + esc(mp[0].name) : "les pages de réglages détaillées de " + mp.length + " modèles"}.</p>
-<section class="card"><h2>Où se trouvent les réglages image sur une TV ${esc(hub.brand)} ?</h2>
-<p>Sur la plupart des téléviseurs ${esc(hub.brand)}, le chemin est :</p><p class="path">${esc(B.path)}</p>
-${paths.length ? `<p>Sur les modèles que nous détaillons, nous avons relevé ${paths.length > 1 ? "ces chemins" : "ce chemin"} :</p>${paths.map(p => `<p class="path">${p}</p>`).join("")}` : ""}
-<p class="note">Les noms de menus changent selon l'année du téléviseur et la version de son logiciel. Cherchez l'intitulé le plus proche.</p></section>
-<section class="card"><h2>Quel mode d'image choisir sur une TV ${esc(hub.brand)} ?</h2>
-<div class="set"><span>Films et séries</span><b>${esc(B.modes.cinema)}</b></div>
-<div class="set"><span>Jeu vidéo (console, PC)</span><b>${esc(B.modes.jeu)}</b></div>
-<div class="set"><span>Sport en direct</span><b>${esc(B.modes.sport)}</b></div>
-<p>Le mode d'image est le réglage qui change le plus le rendu : il fixe d'un coup les couleurs, le contraste et les traitements. Pour un film, évitez les modes Dynamique ou Vif. Pour le jeu, le mode Jeu réduit le retard à l'affichage.</p>
-<p>Ensuite, vérifiez trois réglages : la température de couleur sur Chaud pour les films, le lissage des mouvements désactivé pour les films et faible pour le sport, la réduction de bruit coupée sur une source de bonne qualité.</p></section>
-<section class="card"><h2>${one ? "Réglages détaillés du " + esc(mp[0].name) : "Réglages " + esc(hub.brand) + " par modèle"}</h2>
-<p>${one ? "Cette page donne" : "Chaque page donne"} les valeurs documentées pour ce modèle, menu par menu. Quand un usage (cinéma, jeu vidéo, sport) n'est pas documenté pour le modèle exact, la page l'indique : « Réglages non documentés ».</p>
-<div class="tw"><table><thead><tr><th>Modèle</th><th>Technologie, gamme</th><th>Repères en mode cinéma</th></tr></thead><tbody>${rows}</tbody></table></div></section>
-<section class="card"><h2>Votre TV ${esc(hub.brand)} n'est pas dans la liste ?</h2>
-<p>Notre outil couvre ${covered} modèles ${esc(hub.brand)} de ${years[years.length - 1]} à ${years[0]}. Sans page dédiée, il affiche des valeurs de départ communes à la marque, à adapter à votre télé.</p>
-${years.map(y => B.years[y].length ? `<p><b>Gamme ${y}</b> : ${B.years[y].map(m => esc(m.n)).join(", ")}.</p>` : "").join("")}
-<a class="cta" href="/regler-sa-tele/">Trouver les réglages de ma TV ${esc(hub.brand)}</a>
-<p class="note">Le nom exact du modèle figure sur l'étiquette au dos de la télé ou dans les réglages (Assistance, À propos).</p></section>
-<p class="note">Valeurs de départ, à ajuster selon votre pièce et vos goûts : ce n'est pas une calibration à la sonde. Mon Bon Écran est un guide indépendant, non affilié au fabricant ${esc(hub.brand)}.</p>`;
-  const title = `${hub.kw} : menus et modes d'image | Mon Bon Écran`;
-  return { path: `/reglages/${hub.slug}/`, name: hub.kw, h1: `${hub.kw} : menus et modes d'image`, title,
-    desc: `Réglage image d'une TV ${hub.brand} : où trouver les menus, quel mode choisir (cinéma, jeu vidéo, sport) et ${one ? "la page du " + mp[0].name : "les pages de " + mp.length + " modèles"}, avec leur niveau de fiabilité.`, html };
-}
-function contentPage(pg, parent) {
-  const url = SITE + pg.path;
-  return `<!doctype html>
-<html lang="fr"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${esc(pg.title)}</title>
-<meta name="description" content="${esc(pg.desc)}">
-<link rel="canonical" href="${url}">
-<meta name="theme-color" content="#FFF8F1">
-<meta property="og:type" content="article"><meta property="og:locale" content="fr_FR"><meta property="og:site_name" content="Mon Bon Écran">
-<meta property="og:title" content="${esc(pg.title)}"><meta property="og:description" content="${esc(pg.desc)}"><meta property="og:url" content="${url}"><meta property="og:image" content="${SITE}/icon-512.png">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/icon-180.png">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>:root{--bg:#FFFAF6;--fg:#2A1B4D;--muted:#7A6E92;--accent:#F26A1B}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.55 Inter,-apple-system,Helvetica,Arial,sans-serif}main{max-width:640px;margin:0 auto;padding:20px 16px 48px}a{color:var(--accent)}.top{font:800 15px Manrope,sans-serif;text-decoration:none}h1{font:800 26px/1.2 Manrope,sans-serif;margin:16px 0 8px}h2{font:800 20px Manrope,sans-serif;margin:22px 0 6px}
-.lead{color:var(--muted);margin:0 0 18px}.card{background:#fff;border:1px solid rgba(90,50,160,.12);border-radius:18px;padding:16px;margin:14px 0}.card h2{margin:0 0 8px}.card p{margin:0 0 10px}
-.path{background:#F4EEFF;border-radius:10px;padding:8px 10px;font-size:14px}.set{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid rgba(90,50,160,.12)}.set b{text-align:right}
-.note{color:var(--muted);font-size:14px}.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:15px}th,td{text-align:left;padding:8px 6px;border-bottom:1px solid rgba(90,50,160,.12);vertical-align:top}th{font-size:13px;color:var(--muted);font-weight:600}
-.cta{display:block;text-align:center;background:var(--accent);color:#fff;font:800 16px Manrope,sans-serif;text-decoration:none;padding:14px;border-radius:999px;margin:16px 0 12px}</style>
-${DESK_HUB}
-${jsonld(WEBSITE_LD)}
-${jsonld(crumbsLD([["Accueil", "/"], [parent[0], parent[1]], [pg.name, pg.path]]))}
-</head><body><main>
-<a class="top" href="/">‹ Mon Bon Écran</a> <a class="top" href="${parent[1]}" style="margin-left:10px">· ${esc(parent[0])}</a>
-<h1>${esc(pg.h1 || pg.name)}</h1>
-${pg.html}
-<p style="font-size:14px;color:var(--muted)">Site indépendant, non affilié aux marques citées. <a href="/mentions-legales.html" style="color:inherit">Mentions légales</a></p>
-</main><script src="/mbe-analytics.js" defer></script></body></html>`;
 }
 
 /* ---------- exécution ---------- */
@@ -518,16 +229,8 @@ ${pg.html}
     fs.writeFileSync(path.join(dir, "index.html"), html);
     console.log("OK", pg.path, (html.length / 1024).toFixed(0) + " Ko");
   }
-  const extra = [];
-  HUBS.filter(hb => modelPages().some(m => m.brand === hb.brand)).forEach(hb => BRAND_PAGES.push(hubPage(hb, d)));
-  for (const [list, parent] of [[BRAND_PAGES, ["Régler sa télé", "/regler-sa-tele/"]], [TECH_PAGES, ["Guide des technologies", "/guide-des-technologies/"]]]) {
-    for (const pg of list) {
-      const dir = path.join(OUT, pg.path); fs.mkdirSync(dir, { recursive: true });
-      fs.writeFileSync(path.join(dir, "index.html"), enhanceNav(contentPage(pg, parent))); extra.push(pg.path); console.log("OK", pg.path);
-    }
-  }
-  fs.writeFileSync(path.join(OUT, "sitemap.xml"), sitemap(extra));
-  console.log("sitemap.xml OK ; pages /reglages/ mises à jour :", patchModelPages());
+  fs.writeFileSync(path.join(OUT, "sitemap.xml"), sitemap());
+  console.log("sitemap.xml OK");
   await br.close();
   if (errors.length) { console.error("Erreurs JS :", errors); process.exit(1); }
 })();

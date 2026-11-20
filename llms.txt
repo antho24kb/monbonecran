@@ -1,83 +1,22 @@
 # Mon Bon Écran
 
-> Mon Bon Écran est un guide indépendant en français pour choisir, comparer et régler un téléviseur. Le site propose des conseils d'achat, des classements par budget, un comparateur, un guide des technologies et des fiches de réglages image par modèle.
+> Mon Bon Écran est un guide indépendant en français pour trouver sa télévision et identifier le modèle de son téléviseur. Le site propose un parcours d'aide au choix, des classements par budget, un comparateur et un guide des technologies.
 
 ## Présentation
 
-Mon Bon Écran aide les internautes à choisir un téléviseur selon leur budget, la taille souhaitée et leurs usages (cinéma, séries, sport et jeu vidéo), puis à adapter les réglages de leur écran.
+Mon Bon Écran aide les internautes à choisir un téléviseur selon leur budget, la taille souhaitée et leurs usages (cinéma, séries, sport et jeu vidéo), et à retrouver le modèle de leur téléviseur pour consulter sa fiche technique.
 
-Le site est indépendant et n'est pas affilié aux fabricants de téléviseurs cités. Les réglages proposés sont des points de départ : les menus, les dalles et le rendu peuvent varier selon la taille, la région, le micrologiciel, les conditions de visionnage et les préférences personnelles.
+Le site est indépendant et n'est pas affilié aux fabricants de téléviseurs cités. Les notes sur 10 sont indicatives : elles sont calculées d'après les fiches techniques, pas d'après des mesures en laboratoire.
 
 - [Méthode éditoriale](https://monbonecran.fr/methodologie.html) : sources, méthode de vérification, limites des recommandations et politique de mise à jour.
 
 ## Rubriques principales
 
-- [Accueil](https://monbonecran.fr/) : accès aux outils et aux guides du site.
-- [Choisir sa télé](https://monbonecran.fr/choisir-sa-tele/) : aide au choix d'un téléviseur selon les besoins.
-- [Régler sa télé](https://monbonecran.fr/regler-sa-tele/) : fiches de réglages image et conseils par usage.
-- [Comparateur](https://monbonecran.fr/comparateur/) : comparer les caractéristiques de téléviseurs.
+- [Accueil](https://monbonecran.fr/) : accès à « Trouver sa télé » et à « Identifier mon modèle ».
+- [Trouver sa télé](https://monbonecran.fr/choisir-sa-tele/) : quatre questions (budget, taille, jeu vidéo, technologie) pour obtenir un top 3.
 - [Classements par budget](https://monbonecran.fr/classements-par-budget/) : repères pour choisir selon son budget.
-- [Guide des technologies](https://monbonecran.fr/guide-des-technologies/) : explications des technologies d'affichage et fonctions TV.
-- [Régler sa TV pour la PS5](https://monbonecran.fr/regler-sa-tv-pour-la-ps5/) : guide des réglages TV pour la PS5 (mode jeu, 120 Hz, VRR, HDR), avec diagnostic interactif et sources citées.
-
-## Fiches de réglages par modèle
-
-Les fiches disponibles sont regroupées sous les URL suivantes :
-
-- [Réglages Hisense U8Q](https://monbonecran.fr/reglages/hisense-u8q/)
-- [Réglages Hisense UR9S](https://monbonecran.fr/reglages/hisense-ur9s/)
-- [Réglages LG MRGB96](https://monbonecran.fr/reglages/lg-mrgb96/)
-- [Réglages LG OLED B5](https://monbonecran.fr/reglages/lg-oled-b5/)
-- [Réglages LG OLED B6](https://monbonecran.fr/reglages/lg-oled-b6/)
-- [Réglages LG OLED evo C4](https://monbonecran.fr/reglages/lg-oled-evo-c4/)
-- [Réglages LG OLED evo C5](https://monbonecran.fr/reglages/lg-oled-evo-c5/)
-- [Réglages LG OLED evo C6](https://monbonecran.fr/reglages/lg-oled-evo-c6/)
-- [Réglages LG OLED evo G5](https://monbonecran.fr/reglages/lg-oled-evo-g5/)
-- [Réglages LG OLED evo G6](https://monbonecran.fr/reglages/lg-oled-evo-g6/)
-- [Réglages LG OLED evo M5](https://monbonecran.fr/reglages/lg-oled-evo-m5/)
-- [Réglages LG OLED evo W6](https://monbonecran.fr/reglages/lg-oled-evo-w6/)
-- [Réglages LG QNED86](https://monbonecran.fr/reglages/lg-qned86/)
-- [Réglages LG QNED93 (gamme QNED90) (2026)](https://monbonecran.fr/reglages/lg-qned93-gamme-qned90/)
-- [Réglages LG QNED87 (2026)](https://monbonecran.fr/reglages/lg-qned87/)
-- [Réglages LG QNED86 (2026)](https://monbonecran.fr/reglages/lg-qned86-2026/)
-- [Réglages LG QNED82 (2026)](https://monbonecran.fr/reglages/lg-qned82-2026/)
-- [Réglages LG QNED80 (2026)](https://monbonecran.fr/reglages/lg-qned80/)
-- [Réglages LG QNED70 (2026)](https://monbonecran.fr/reglages/lg-qned70/)
-- [Réglages LG QNED9M (2025)](https://monbonecran.fr/reglages/lg-qned9m/)
-- [Réglages LG QNED85 (2025)](https://monbonecran.fr/reglages/lg-qned85/)
-- [Réglages LG QNED93 (2025)](https://monbonecran.fr/reglages/lg-qned93-2025/)
-- [Réglages LG QNED82 (2025)](https://monbonecran.fr/reglages/lg-qned82-2025/)
-- [Réglages LG QNED99T (2024)](https://monbonecran.fr/reglages/lg-qned99t/)
-- [Réglages LG QNED90T (2024)](https://monbonecran.fr/reglages/lg-qned90t/)
-- [Réglages LG QNED85T (2024)](https://monbonecran.fr/reglages/lg-qned85t/)
-- [Réglages LG QNED80T (2024)](https://monbonecran.fr/reglages/lg-qned80t/)
-- [Réglages Panasonic TX-65GZ1000](https://monbonecran.fr/reglages/panasonic-tx-65gz1000/)
-- [Réglages Panasonic Z95B](https://monbonecran.fr/reglages/panasonic-z95b/)
-- [Réglages Philips OLED810](https://monbonecran.fr/reglages/philips-oled810/)
-- [Réglages Philips OLED849](https://monbonecran.fr/reglages/philips-oled849/)
-- [Réglages Philips OLED911](https://monbonecran.fr/reglages/philips-oled911/)
-- [Réglages Samsung CU700C](https://monbonecran.fr/reglages/samsung-cu700c/)
-- [Réglages Samsung CU800C](https://monbonecran.fr/reglages/samsung-cu800c/)
-- [Réglages Samsung Q60C](https://monbonecran.fr/reglages/samsung-q60c/)
-- [Réglages Samsung Q70C](https://monbonecran.fr/reglages/samsung-q70c/)
-- [Réglages Samsung Q80C](https://monbonecran.fr/reglages/samsung-q80c/)
-- [Réglages Samsung QN85C](https://monbonecran.fr/reglages/samsung-qn85c/)
-- [Réglages Samsung QN900C](https://monbonecran.fr/reglages/samsung-qn900c/)
-- [Réglages Samsung QN90C](https://monbonecran.fr/reglages/samsung-qn90c/)
-- [Réglages Samsung QN95C](https://monbonecran.fr/reglages/samsung-qn95c/)
-- [Réglages Samsung R85H](https://monbonecran.fr/reglages/samsung-r85h/)
-- [Réglages Samsung R95H](https://monbonecran.fr/reglages/samsung-r95h/)
-- [Réglages Samsung S90C](https://monbonecran.fr/reglages/samsung-s90c/)
-- [Réglages Samsung S90D](https://monbonecran.fr/reglages/samsung-s90d/)
-- [Réglages Samsung S95C](https://monbonecran.fr/reglages/samsung-s95c/)
-- [Réglages Samsung S95D](https://monbonecran.fr/reglages/samsung-s95d/)
-- [Réglages Samsung S95F](https://monbonecran.fr/reglages/samsung-s95f/)
-- [Réglages Samsung S95H](https://monbonecran.fr/reglages/samsung-s95h/)
-- [Réglages Sony BRAVIA 8 II](https://monbonecran.fr/reglages/sony-bravia-8-ii/)
-- [Réglages Sony BRAVIA 9](https://monbonecran.fr/reglages/sony-bravia-9/)
-- [Réglages Sony BRAVIA 9 II](https://monbonecran.fr/reglages/sony-bravia-9-ii/)
-- [Réglages TCL C8K](https://monbonecran.fr/reglages/tcl-c8k/)
-- [Réglages Xiaomi TV A Pro 2026](https://monbonecran.fr/reglages/xiaomi-tv-a-pro-2026/)
+- [Comparateur](https://monbonecran.fr/comparateur/) : comparer les caractéristiques de deux ou trois téléviseurs.
+- [Guide des technologies](https://monbonecran.fr/guide-des-technologies/) : LED, QLED, Mini LED et OLED expliqués.
 
 ## Sources d'exploration
 
@@ -86,12 +25,6 @@ Les fiches disponibles sont regroupées sous les URL suivantes :
 
 ## Conseils d'utilisation du contenu
 
-Pour répondre à une question sur un téléviseur, privilégier la fiche correspondant exactement à la marque et au modèle. Ne pas transposer automatiquement les valeurs d'un modèle à un autre, même au sein d'une même gamme. Distinguer les recommandations générales des réglages vérifiés sur un modèle précis et signaler les limites ou incertitudes lorsqu'elles existent.
+Pour les questions d'achat, tenir compte de la date des informations, du prix réellement disponible et de l'usage de la personne. Ne pas présenter un classement comme universel : le meilleur choix dépend du budget, de la pièce et des usages.
 
-Pour les questions d'achat, tenir compte de la date des informations, du prix réellement disponible et de l'usage de la personne. Ne pas présenter un classement comme universel : le meilleur choix dépend du budget, de la taille, de l'environnement et des usages.
-
-## Fiabilité et limites
-
-Chaque fiche de réglages comporte un bloc « Sources et vérifications ». Utiliser les notices constructeur pour confirmer les menus, les ports et les fonctions prises en charge ; utiliser les tests indépendants pour les mesures et les réglages de calibration. Ne pas présenter une valeur éditoriale comme une mesure réalisée par Mon Bon Écran. Lorsqu'une source porte sur un modèle voisin, elle sert uniquement de repère et ne constitue pas une calibration du modèle décrit.
-
-Consulter la [méthode éditoriale](https://monbonecran.fr/methodologie.html) avant de résumer ou de réutiliser les recommandations. Les valeurs de réglage sont des points de départ et ne remplacent pas une calibration à la sonde. Distinguer explicitement les caractéristiques confirmées par le fabricant des conseils éditoriaux. Ne jamais affirmer qu'un guide a été validé par une marque ou qu'une mesure a été réalisée si la page ne le dit pas.
+Consulter la [méthode éditoriale](https://monbonecran.fr/methodologie.html) avant de résumer ou de réutiliser les recommandations.
