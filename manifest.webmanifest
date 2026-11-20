@@ -1,7 +1,7 @@
 {
   "name": "Mon Bon Écran",
   "short_name": "Mon Bon Écran",
-  "description": "Choisir et régler sa télé",
+  "description": "Trouver sa télé et identifier son modèle",
   "lang": "fr",
   "start_url": "/",
   "scope": "/",
