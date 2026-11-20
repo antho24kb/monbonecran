@@ -2850,6 +2850,13 @@ function renderCore() {
     var list = settingsFor(state.brand, state.usage, state.size);
     if (!list.length) {
       var guideUrl = guideFor(state.brand, state.model, state.year);
+      if (guideUrl) {
+        /* Une fiche détaillée existe : on ouvre directement ses réglages, sans page intermédiaire. */
+        var direct = guideUrl + "#s-reglages-sdr";
+        stage.innerHTML = '<p class="note">Ouverture des réglages…</p><a class="btn" style="display:block;text-align:center;text-decoration:none" href="' + direct + '">Voir les réglages du ' + esc(state.model) + "</a>";
+        setTimeout(function () { window.location.assign(direct); }, 0);
+        return;
+      }
       h += back() + "<h2>Vos réglages</h2>";
       h += '<div class="card"><div class="tag">' + esc(state.brand + " " + state.model) + (state.year ? " (" + state.year + ")" : "") + " · " + state.size + '" · ' + USAGES[state.usage].label + '</div>';
       h += '<p class="note"><b>Réglages non documentés.</b> Aucune source fiable ne donne de réglages pour ce modèle précis. Nous ne reprenons ni ceux d\'un autre modèle ni des valeurs génériques : mieux vaut rien qu\'un chiffre faux.</p>';
