@@ -503,7 +503,7 @@ var BRANDS = {
     modes: {cinema: "Cinéma / Filmmaker", jeu: "Jeu", sport: "Sport"},
     path: "Paramètres > Image > Mode Image",
     models: {
-      "2026": [["OLED evo W6","OLED"],["OLED evo G6","OLED"],["OLED evo C6","OLED"],["OLED B6","OLED"],["MRGB96","Micro RGB"],["MRGB9M","RGB Mini LED",1],["MRGB86","RGB Mini LED",1],["MRGB87","RGB Mini LED",1],["MRGB88","RGB Mini LED"],["QNED90","QNED"],["QNED87","QNED Mini LED"],["QNED86","QNED"],["QNED81","QNED",1],["QNED80","QNED"],["QNED70","QNED"]],
+      "2026": [["OLED evo W6","OLED"],["OLED evo G6","OLED"],["OLED evo C6","OLED"],["OLED B6","OLED"],["MRGB96","Micro RGB"],["MRGB9M","RGB Mini LED",1],["MRGB86","RGB Mini LED",1],["MRGB87","RGB Mini LED",1],["MRGB88","RGB Mini LED"],["QNED93 (gamme QNED90)","QNED"],["QNED87","QNED Mini LED"],["QNED86","QNED"],["QNED82","QNED Mini LED"],["QNED81","QNED",1],["QNED80","QNED"],["QNED70","QNED"]],
       "2025": [["OLED evo M5","OLED"],["OLED evo G5","OLED"],["OLED evo C5","OLED"],["OLED B5","OLED"],["QNED9M","QNED Mini LED"],["QNED90","QNED",1],["QNED85","QNED"],["QNED86","QNED"],["QNED93","QNED"],["QNED80","QNED",1],["UHD UA80 / UA82","LED",1],["NanoCell NANO80 / NANO81","LED NanoCell",1],["QNED82","QNED"]],
       "2024": [["OLED evo M4","OLED"],["OLED evo G4","OLED"],["OLED evo C4","OLED"],["OLED B4","OLED"],["QNED99T","QNED"],["QNED90T","QNED"],["QNED85T","QNED"],["QNED80T","QNED"],["Signature OLED T","Lifestyle"],["UHD UT80 / UT81","LED",1],["NanoCell NANO80T / NANO81T / NANO82T","LED NanoCell",1],["QNED86T / QNED87T","QNED",1]],
       "2023": [["OLED evo Z3 (8K)","OLED"],["OLED evo M3","OLED"],["OLED evo G3","OLED"],["OLED evo C3","OLED"],["OLED B3","OLED"],["OLED A3","OLED"],["UHD UR78 / UR80","LED",1],["NanoCell NANO75 / NANO76","LED NanoCell",1],["QNED75 / QNED81 / QNED82","QNED",1]]
@@ -2549,11 +2549,23 @@ var SPEC = {
   "sm": "Google TV ; Dolby Atmos",
   "ta": "55, 65, 75, 86 pouces"
  },
+ "LG QNED93 (gamme QNED90) 2026": {
+  "ta": "115 pouces (115QNED93B6.AEUQ), seule diagonale confirmée sur LG France",
+  "nt": "Série 2026 : LG France la nomme QNED93, son nom commercial est QNED90. À ne pas confondre avec le QNED93 de 2025. Réglages non documentés : aucune valeur n'est donnée pour ce modèle."
+ },
+ "LG QNED82 2026": {
+  "ec": "QNED MiniLED 4K, Dynamic QNED Color Pro, 120 Hz natif (VRR jusqu'à 144 Hz), HDR10 et HLG (Dolby Vision non mentionné par LG France)",
+  "jeu": "3 HDMI (4K 120 Hz, eARC sur HDMI 2), VRR, ALLM, QMS, QFT",
+  "sm": "webOS 26 ; processeur Alpha 8 AI 4K Gen3 ; son 2.0, 20 W",
+  "ta": "55 et 65 pouces (55QNED82B6B, 65QNED82B6B) ; 75 et 85 pouces (75QNED82B6A, 85QNED82B6A)",
+  "nt": "Série 2026, à ne pas confondre avec le QNED82 de 2025. Réglages non documentés : aucune valeur n'est donnée pour ce modèle."
+ },
  "LG OLED evo C6": {
   "ec": "OLED evo 4K, 120 Hz (VRR jusqu'à 165 Hz), Dolby Vision",
   "jeu": "4 HDMI 2.1 (4K 120 Hz), FreeSync Premium, G-Sync",
   "sm": "webOS 26 ; 2 × 10 W + caisson, Dolby Atmos",
-  "ta": "42, 48, 55, 65, 77, 83 pouces"
+  "ta": "Proposées par LG France : 42, 48, 55, 65, 77 et 83 pouces. Testé par nos sources : 77 pouces (Expert Reviews, version britannique) ; Digital Trends ne précise pas la taille.",
+  "nt": "Les réglages ne sont pas vérifiés sur toutes les tailles. Le « C6H » est une désignation américaine : en France, les versions 77 et 83 pouces sont vendues sous le nom C6 (OLED77C64LA, OLED83C64LA), et l'équivalence entre les deux n'est pas confirmée. Les tests du C6H ne sont pas transposables automatiquement. Les réglages propres aux 77 et 83 pouces restent à documenter."
  },
  "LG OLED evo G6": {
   "ec": "OLED evo Primary RGB Tandem 2.0 4K, 120 Hz (VRR jusqu'à 165 Hz), Dolby Vision",
@@ -2587,13 +2599,14 @@ var SPEC = {
  }
 };
 function specHtml(c) {
-  var d = SPEC[c[0] + " " + c[1]];
+  var d = SPEC[c[0] + " " + c[1] + " " + c[2]] || SPEC[c[0] + " " + c[1]];
   if (!d) return "";
   var h = '<div class="specp" hidden>';
   if (d.ec) h += "<p><b>Écran et image :</b> " + esc(d.ec) + "</p>";
   if (d.jeu) h += "<p><b>Jeu vidéo :</b> " + esc(d.jeu) + "</p>";
   if (d.sm) h += "<p><b>Smart TV et son :</b> " + esc(d.sm) + "</p>";
   if (d.ta) h += "<p><b>Tailles :</b> " + esc(d.ta) + "</p>";
+  if (d.nt) h += '<p class="note warn"><b>À savoir :</b> ' + esc(d.nt) + "</p>";
   return h + '<p class="specn">Fiche établie d\'après les sites des fabricants et la presse spécialisée ; elle peut varier selon la taille. Vérifiez sur la fiche du marchand.</p></div>';
 }
 var BRANDEDGE = {
@@ -2624,7 +2637,7 @@ function pickCard(c, n, sz) {
       (ed ? '<a class="shop" href="' + edLink(ed.url) + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="electrodepot" data-l="' + nm + '"><span class="lg"><img src="/electrodepot-logo.png" alt="ElectroDepot" width="96" height="27" loading="lazy"></span><span class="info"><b>' + (ed.size === sz ? "Ce modèle" : "Ce modèle en " + ed.size + " pouces") + '</b>Vérifiez la dispo et le prix</span><span class="go">Voir</span></a>' : "") +
       (jy ? '<a class="shop" href="' + joyLink(jy.url) + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="joybuy" data-l="' + nm + '"><span class="lg"><img src="/joybuy-logo.png" alt="Joybuy" width="74" height="20" loading="lazy"></span><span class="info"><b>' + (jy.size === sz ? "Ce modèle" : "Ce modèle en " + jy.size + " pouces") + '</b>Vérifiez la dispo et le prix</span><span class="go">Voir</span></a>' : "") + "</div>"
     : "";
-  return '<div class="opt usage pick"><span class="rk">' + (n + 1) + '</span><span><b>' + esc(c[0] + " " + c[1]) + "</b>" + (scoreOf(c) != null ? '<em class="sc">' + fr1(scoreOf(c)) + "/10</em>" : "") + "<small>" + esc(c[2] + " · " + c[3]) + " · " + esc(c[4]) + '</small>' + (BRANDEDGE[c[0]] ? '<small class="edge">★ ' + esc(BRANDEDGE[c[0]]) + "</small>" : "") + '</span><div class="acts">' + buyBtn + (SPEC[c[0] + " " + c[1]] ? '<button class="spect" type="button" data-act="spec" aria-expanded="false">Caractéristiques</button>' : "") + "</div>" + shops + specHtml(c) + "</div>";
+  return '<div class="opt usage pick"><span class="rk">' + (n + 1) + '</span><span><b>' + esc(c[0] + " " + c[1]) + "</b>" + (scoreOf(c) != null ? '<em class="sc">' + fr1(scoreOf(c)) + "/10</em>" : "") + "<small>" + esc(c[2] + " · " + c[3]) + " · " + esc(c[4]) + '</small>' + (BRANDEDGE[c[0]] ? '<small class="edge">★ ' + esc(BRANDEDGE[c[0]]) + "</small>" : "") + '</span><div class="acts">' + buyBtn + ((SPEC[c[0] + " " + c[1] + " " + c[2]] || SPEC[c[0] + " " + c[1]]) ? '<button class="spect" type="button" data-act="spec" aria-expanded="false">Caractéristiques</button>' : "") + "</div>" + shops + specHtml(c) + "</div>";
 }
 function accHtml(gamer) {
   var items = [
