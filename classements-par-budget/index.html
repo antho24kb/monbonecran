@@ -511,8 +511,8 @@ body.is-flow footer{padding:0 12px 6px!important; font-size:.68rem!important}
 </div>
 
 <script>
-/* Modèles : [nom, technologie, 1 si la fiche est à confirmer]. Gammes principales seulement, 2023 à 2026. */
-var YEARS = ["2026", "2025", "2024", "2023", "2019"];
+/* Modèles : [nom, technologie, 1 si la fiche est à confirmer]. Gammes principales seulement, 2024 à 2026. */
+var YEARS = ["2026", "2025", "2024"];
 
 var BRANDS = {
   "Samsung": {
@@ -522,7 +522,6 @@ var BRANDS = {
       "2026": [["R95H","Micro RGB"],["R85H","Micro RGB"],["S95H","OLED"],["S92H","OLED"],["S85H","OLED"],["S99H","OLED"],["QN990H","Neo QLED 8K",1],["QN900H","Neo QLED 8K",1],["QN800H","Neo QLED 8K",1],["QN80H","Neo QLED"],["QN70H","Neo QLED"],["M80H","Mini LED"],["M70H","Mini LED"],["Q80H","QLED",1],["Q70H","QLED",1],["Q60H","QLED",1],["The Frame Pro","Lifestyle"],["The Frame","Lifestyle"],["U9005H","Crystal UHD"],["U8005H","Crystal UHD"],["U7005H","Crystal UHD"]],
       "2025": [["QN990F","Neo QLED 8K"],["QN950F","Neo QLED 8K",1],["QN900F","Neo QLED 8K"],["QN95F","Neo QLED",1],["QN90F","Neo QLED"],["QN85F","Neo QLED",1],["QN800F","Neo QLED 8K",1],["QN80F","Neo QLED"],["QN70F","Neo QLED"],["S95F","OLED"],["S90F","OLED"],["S85F","OLED"],["Q8F","QLED"],["Q7F","QLED"],["Q80F","QLED",1],["Q70F","QLED",1],["Q60F","QLED",1],["U8000F","Crystal UHD"],["DU9000F","Crystal UHD",1],["DU8000F","Crystal UHD",1],["The Frame (LS03F)","Lifestyle"]],
       "2024": [["S95D","OLED"],["S90D","OLED"],["S85D","OLED"],["QN900D","Neo QLED 8K"],["QN800D","Neo QLED 8K"],["QN95D","Neo QLED"],["QN90D","Neo QLED"],["QN85D","Neo QLED"],["Q70D","QLED"],["Q60D","QLED"],["Q80D","QLED",1],["The Frame (LS03D)","Lifestyle"],["DU9000D","Crystal UHD",1],["DU8000D","Crystal UHD",1],["DU7000D","Crystal UHD",1]],
-      "2023": [["S95C","OLED"],["S90C","OLED"],["QN900C","Neo QLED 8K"],["QN800C","Neo QLED 8K"],["QN95C","Neo QLED"],["QN90C","Neo QLED"],["QN85C","Neo QLED"],["QN700C","Neo QLED"],["Q80C","QLED"],["Q70C","QLED"],["Q60C","QLED"],["The Frame (LS03C)","Lifestyle"],["CU8000","Crystal UHD",1],["CU800C","Crystal UHD"],["CU7000","Crystal UHD",1],["CU700C","Crystal UHD"]]
     }
   },
   "TCL": {
@@ -532,7 +531,6 @@ var BRANDS = {
       "2026": [["X11L","Mini LED"],["RM9L","RGB Mini LED"],["RM8L","RGB Mini LED",1],["C8L","Mini LED"],["C7L","Mini LED"],["C89L","Mini LED"],["C79L","Mini LED"],["P8L","Mini LED"],["P89L","QLED",1],["P6L","LED"],["S5L","QLED",1],["P7L","QLED"],["V6D","LED"],["C6L","Mini LED",1],["C6K Pro / C69K Pro","QLED"],["A400 Pro NXTVISION","Lifestyle"],["A400U","Mini LED"],["A400","QLED"]],
       "2025": [["X11K","Mini LED",1],["C9K","Mini LED",1],["C8K","Mini LED"],["C89K","Mini LED",1],["C7K","Mini LED"],["98MQLED75K","Mini LED",1],["C6K","Mini LED"],["C6K Pro","QLED",1],["C6KS","Mini LED"],["NXTVISION A300 Pro","Lifestyle",1],["NXTVISION A400","Lifestyle",1],["P8K","QLED"],["P7K","QLED"],["P6K","QLED"],["S5K","LED"],["S4K","LED"],["T6C","QLED"],["V6C","LED"]],
       "2024": [["115X955 Max","Mini LED",1],["C89B","Mini LED"],["C655 Pro","QLED"],["C655","QLED"],["P755","LED"],["C855","Mini LED",1],["C805","Mini LED",1],["C755","Mini LED",1]],
-      "2023": [["C845","Mini LED"],["C745","QLED"],["C645","QLED"],["P745","LED",1]]
     }
   },
   "LG": {
@@ -542,7 +540,6 @@ var BRANDS = {
       "2026": [["OLED evo W6","OLED"],["OLED evo G6","OLED"],["OLED evo C6","OLED"],["OLED B6","OLED"],["MRGB96","Micro RGB"],["MRGB9M","RGB Mini LED",1],["MRGB86","RGB Mini LED",1],["MRGB87","RGB Mini LED",1],["MRGB88","RGB Mini LED"],["QNED93 (gamme QNED90)","QNED"],["QNED87","QNED Mini LED"],["QNED86","QNED"],["QNED82","QNED Mini LED"],["QNED81","QNED",1],["QNED80","QNED"],["QNED70","QNED"]],
       "2025": [["OLED evo M5","OLED"],["OLED evo G5","OLED"],["OLED evo C5","OLED"],["OLED B5","OLED"],["QNED9M","QNED Mini LED"],["QNED90","QNED",1],["QNED85","QNED"],["QNED86","QNED"],["QNED93","QNED"],["QNED80","QNED",1],["UHD UA80 / UA82","LED",1],["NanoCell NANO80 / NANO81","LED NanoCell",1],["QNED82","QNED"]],
       "2024": [["OLED evo M4","OLED"],["OLED evo G4","OLED"],["OLED evo C4","OLED"],["OLED B4","OLED"],["QNED99T","QNED"],["QNED90T","QNED"],["QNED85T","QNED"],["QNED80T","QNED"],["Signature OLED T","Lifestyle"],["UHD UT80 / UT81","LED",1],["NanoCell NANO80T / NANO81T / NANO82T","LED NanoCell",1],["QNED86T / QNED87T","QNED",1]],
-      "2023": [["OLED evo Z3 (8K)","OLED"],["OLED evo M3","OLED"],["OLED evo G3","OLED"],["OLED evo C3","OLED"],["OLED B3","OLED"],["OLED A3","OLED"],["UHD UR78 / UR80","LED",1],["NanoCell NANO75 / NANO76","LED NanoCell",1],["QNED75 / QNED81 / QNED82","QNED",1]]
     }
   },
   "Hisense": {
@@ -552,7 +549,6 @@ var BRANDS = {
       "2026": [["UR9S","RGB Mini LED"],["UR8S","RGB Mini LED"],["116UXS","RGB Mini LED",1],["163MX","Micro LED",1],["U7S Pro","Mini LED"],["U7SE","Mini LED",1],["E8S","Mini LED",1],["CanvasTV S7","Lifestyle"],["DécoTV S5","Lifestyle"],["E7S Pro","QLED",1],["E7S","QLED",1],["A7S","LED",1],["A6S","LED",1]],
       "2025": [["U8Q","Mini LED"],["U7Q","Mini LED"],["U7Q Pro","Mini LED"],["A85Q","OLED"],["E7Q Pro","QLED"],["E7Q","QLED"],["A7Q","QLED"],["A5Q","LED"],["A4Q","LED"],["UX 2025 (100-116\")","RGB Mini LED",1],["U65QF","Mini LED",1],["A6Q","LED",1]],
       "2024": [["110UX","ULED X"],["98UX","ULED X"],["U9N","Mini LED"],["U8N","Mini LED"],["U7N","Mini LED"],["U6N","Mini LED"],["U76N","QLED"],["E7NQ Pro","QLED",1],["E7NQ","QLED",1],["A7NQ","LED",1],["A6N","LED",1],["A4N","LED",1]],
-      "2023": [["UX","ULED X"],["U8K","Mini LED"],["U7K","Mini LED"],["U6K","QLED"],["E7KQ Pro","QLED",1],["E7KQ","QLED",1],["A6K","LED",1],["A5KQ","LED",1]]
     }
   },
   "Xiaomi": {
@@ -562,7 +558,6 @@ var BRANDS = {
       "2026": [["TV S Pro Mini LED 2026","Mini LED"],["TV S Pro 98\" (2026)","Mini LED"],["TV FX Mini LED 2026","Mini LED"],["TV A Pro 2026","QLED"],["TV S Mini LED 2026","Mini LED"],["TV F Pro 2026 (Fire TV)","QLED"],["TV F 2026 (Fire TV)","LED"]],
       "2025": [["TV S Mini LED 2025","QD Mini LED"],["TV A Pro 2025","QLED"],["TV A 2025","LED"],["TV Max 2025","LED",1]],
       "2024": [["TV F Pro (Fire TV)","QLED",1],["TV F (Fire TV)","LED",1],["TV Max 85 / 100","LED",1]],
-      "2023": [["TV Q2","QLED"],["TV F2 (Fire TV)","LED"],["TV A2 / A2 XL","LED"],["TV Max 86\" (2023)","LED",1]]
     }
   },
   "Sony": {
@@ -572,7 +567,6 @@ var BRANDS = {
       "2026": [["Bravia 9 II","True RGB Mini LED"],["Bravia 7 II","True RGB Mini LED"],["Bravia 6","OLED"],["Bravia 3 II","LED"],["Bravia 2 II","LED"]],
       "2025": [["Bravia 8 II","QD-OLED"],["Bravia 5","Mini LED"],["Bravia 3","LED"],["Bravia 9","Mini LED"],["Bravia 7","Mini LED"]],
       "2024": [["Bravia 9","Mini LED"],["Bravia 8","OLED"],["Bravia 7","Mini LED"],["Bravia 3","LED",1],["Bravia 2","LED",1]],
-      "2023": [["A95L","QD-OLED"],["A80L","OLED"],["X95L","Mini LED"],["X90L","LED"],["X85L","LED"],["X80L","LED",1],["X75WL","LED",1]]
     }
   },
   "Philips": {
@@ -582,7 +576,6 @@ var BRANDS = {
       "2026": [["OLED951","OLED+"],["OLED911","OLED+"],["OLED811","OLED"],["OLED761","OLED"],["MLED981","RGB Mini LED"],["The One PQS9001","QLED"],["QLED 8000 (8701, 8601, 8501)","QLED",1],["PUS8550","QLED",1]],
       "2025": [["OLED950","OLED+"],["OLED910","OLED+"],["OLED810","OLED"],["OLED760","OLED"],["OLED750","OLED"],["MLED950","Mini LED"],["MLED910","Mini LED"],["The One PUS9000","QLED"]],
       "2024": [["OLED959","OLED+"],["OLED909","OLED+"],["OLED809","OLED"],["OLED849","OLED"],["PML9009 (The Xtra)","Mini LED"],["PML9049 (The Xtra)","Mini LED"],["PUS8909 (The One)","LED"],["PUS8949 (The One)","LED"],["PUS8109","LED",1],["PUS8309","LED",1],["PUS8359","LED",1]],
-      "2023": [["OLED908","OLED"],["OLED808","OLED"],["OLED937","OLED"],["PUS8808 (The One)","LED"],["PUS8508 (The One)","LED"],["PML9308 (The Xtra)","Mini LED"],["PML9008 (The Xtra)","Mini LED"],["PUS7608","LED",1]]
     }
   },
   "Panasonic": {
@@ -592,8 +585,6 @@ var BRANDS = {
       "2026": [["Z85C","OLED"],["W95C","QD Mini LED"],["W92C","QD Mini LED"],["W91C","QD Mini LED"],["W85B","QLED"],["W83C","QLED"],["W80C","QLED"],["W60C","LED 4K"],["S65C","LED"],["S45C","LED"],["S40C","LED"]],
       "2025": [["Z95B","OLED"],["Z90B","OLED"],["Z80B","OLED"],["W95B","Mini LED"],["W93B","Mini LED"],["W85B","QLED"],["W61B","LED",1]],
       "2024": [["Z95A","OLED"],["Z93A","OLED"],["Z90A","OLED"],["Z85A","OLED",1],["Z80A","OLED",1],["W95A","Mini LED"],["W90A","LED"],["W80A","LED",1],["W70A","LED",1],["W60A","LED",1]],
-      "2023": [["MZ2000","OLED"],["MZ1500","OLED"],["MZ980","OLED"],["MZ800","OLED"],["MX950","Mini LED"],["MX940","LED"],["MX800","LED"],["MX700","LED"],["MX600","LED"]],
-      "2019": [["TX-65GZ1000","OLED"]]
     }
   },
   "Thomson": {
@@ -603,7 +594,6 @@ var BRANDS = {
       "2026": [],
       "2025": [["MG7C15","Mini LED"],["QG3S15","Technologie à confirmer"],["UG5X15","LED"]],
       "2024": [["QG5C14","QLED"]],
-      "2023": []
     }
   },
   "Toshiba": {
@@ -613,7 +603,6 @@ var BRANDS = {
       "2026": [],
       "2025": [["QV3363DG","QLED"]],
       "2024": [],
-      "2023": []
     }
   }
 };
@@ -687,7 +676,7 @@ function modelsHtml(filter) {
       return !q || nm.indexOf(q) !== -1 || nm.indexOf(q2) !== -1;
     });
     if (!items.length) {
-      if (y !== "2019" && !q && !state.tech && !visibleModels(state.brand, y).length) {
+      if (!q && !state.tech && !visibleModels(state.brand, y).length) {
         h += '<div class="year">' + y + '</div><p class="note">Gamme ' + y + " bientôt disponible. Sélectionnez « Autre modèle » en attendant.</p>";
       }
       return;
