@@ -259,6 +259,15 @@ em.sc{font-style:normal; display:inline-block; margin-left:8px; padding:2px 8px;
 .specp[hidden]{display:none}
 .specp p{margin:4px 0; font-family:inherit; font-size:.84rem; font-weight:400; color:var(--muted)}
 .specp b{font-family:inherit; font-size:.84rem; font-weight:700; background:none; -webkit-text-fill-color:#3B1A8F; color:#3B1A8F; letter-spacing:0}
+.fiche{margin-top:8px}
+.fsz{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px}
+.fchip{font:inherit; font-size:.8rem; font-weight:600; padding:5px 10px; border-radius:999px; border:1px solid rgba(139,77,255,.35); background:transparent; color:#3B1A8F; cursor:pointer}
+.fchip.on{background:#3B1A8F; color:#fff; border-color:#3B1A8F}
+.ftab{width:100%; border-collapse:collapse; font-size:.8rem}
+.ftab[hidden]{display:none}
+.ftab th{text-align:left; font-weight:700; padding:5px 6px; border-bottom:1px solid rgba(139,77,255,.3); color:#3B1A8F}
+.ftab td{padding:5px 6px; border-bottom:1px solid rgba(139,77,255,.15); vertical-align:top; color:var(--muted)}
+.ftab td:first-child{font-weight:600; width:38%; color:#3B1A8F}
 .specp .specn{color:var(--muted); font-size:.74rem; margin-top:8px}
 .cmpbar{position:sticky; bottom:12px; z-index:20; display:flex; justify-content:center; padding:10px 0 0; margin-top:10px}
 .cmpbar .btn{width:100%; box-shadow:0 8px 24px rgba(139,77,255,.35)}
@@ -692,7 +701,7 @@ function homeHtml() {
   h += '<a class="opt usage main-cta" href="/choisir-sa-tele/" data-act="mode" data-v="buy"><b>Trouver sa télé</b><small>Quelques questions : budget, taille, usage. Vous obtenez 3 modèles adaptés.</small></a>';
   h += '<button class="opt usage" type="button" data-act="mode" data-v="tv"><b>Identifier mon modèle</b><small>Vous avez déjà une télé ? Retrouvez son modèle et sa fiche technique.</small></button>';
   h += "</div>";
-  h += '<div class="more"><a class="link" href="/classements-par-budget/" data-act="mode" data-v="rank">Classements par budget</a><a class="link" href="/comparateur/" data-act="mode" data-v="cmp">Comparateur</a><a class="link" href="/guide-des-technologies/" data-act="mode" data-v="tech">Guide des technologies</a></div>';
+  h += '<div class="more"><a class="link" href="/classements-par-budget/" data-act="mode" data-v="rank">Classements par budget</a><a class="link" href="/comparateur/" data-act="mode" data-v="cmp">Comparateur</a><a class="link" href="/regler-sa-tele/">Réglages TV</a><a class="link" href="/guide-des-technologies/" data-act="mode" data-v="tech">Guide des technologies</a></div>';
   h += '<p class="note" style="text-align:center">Nos conseils sont indépendants : aucun constructeur ne les finance. Certains liens sont des liens d\'affiliation (Partenaire Amazon, ElectroDepot, Joybuy) : ils nous rémunèrent sans surcoût pour vous.</p>';
   return h;
 }
@@ -1150,17 +1159,312 @@ var SPEC = {
   "ta": "55, 65, 77 pouces"
  }
 };
-function specHtml(c) {
-  var d = SPEC[c[0] + " " + c[1] + " " + c[2]] || SPEC[c[0] + " " + c[1]];
-  if (!d) return "";
-  var h = '<div class="specp" hidden>';
-  if (d.ec) h += "<p><b>Écran et image :</b> " + esc(d.ec) + "</p>";
-  if (d.jeu) h += "<p><b>Jeu vidéo :</b> " + esc(d.jeu) + "</p>";
-  if (d.sm) h += "<p><b>Smart TV et son :</b> " + esc(d.sm) + "</p>";
-  if (d.ta) h += "<p><b>Tailles :</b> " + esc(d.ta) + "</p>";
-  if (d.nt) h += '<p class="note warn"><b>À savoir :</b> ' + esc(d.nt) + "</p>";
-  return h + '<p class="specn">Fiche établie d\'après les sites des fabricants et la presse spécialisée ; elle peut varier selon la taille. Vérifiez sur la fiche du marchand.</p></div>';
+var FLBL = [["ref", "Référence"], ["t", "Taille"], ["tech", "Technologie d'écran"], ["res", "Résolution"], ["cpu", "Processeur"], ["hz", "Fréquence"], ["hdr", "HDR"], ["hdmi", "HDMI"], ["usb", "USB"], ["son", "Son"], ["dim", "Dimensions"], ["poids", "Poids"], ["vesa", "VESA"]];
+function ficheHtml(c, want) {
+  var f = FICHE[c[0] + " " + c[1] + " " + c[2]];
+  if (!f) return "";
+  var ks = Object.keys(f.s).sort(function (a, b) { return a - b; });
+  var w = parseInt(want, 10), pick = ks[Math.floor(ks.length / 2)];
+  if (w) { var bd = 1e9; ks.forEach(function (k) { var d = Math.abs(k - w); if (d < bd) { bd = d; pick = k; } }); }
+  var h = '<div class="fiche"><div class="fsz" role="group" aria-label="Taille">';
+  ks.forEach(function (k) { h += '<button type="button" class="fchip' + (k === pick ? " on" : "") + '" data-act="fsz" data-v="' + k + '" aria-pressed="' + (k === pick) + '">' + k + '"</button>'; });
+  h += "</div>";
+  ks.forEach(function (k) {
+    var e = f.s[k], o = {};
+    for (var i in f.c) o[i] = f.c[i];
+    for (var j in e) o[j] = e[j];
+    h += '<table class="ftab" data-s="' + k + '"' + (k === pick ? "" : " hidden") + '><thead><tr><th>Caractéristique</th><th>Détail</th></tr></thead><tbody>';
+    FLBL.forEach(function (r) { h += "<tr><td>" + r[1] + "</td><td>" + esc(o[r[0]] || "—") + "</td></tr>"; });
+    h += "</tbody></table>";
+  });
+  return h + "</div>";
 }
+function specHtml(c, want) {
+  var d = SPEC[c[0] + " " + c[1] + " " + c[2]] || SPEC[c[0] + " " + c[1]];
+  var f = ficheHtml(c, want);
+  if (!d && !f) return "";
+  var h = '<div class="specp" hidden>';
+  if (d) {
+    if (d.ec) h += "<p><b>Écran et image :</b> " + esc(d.ec) + "</p>";
+    if (d.jeu) h += "<p><b>Jeu vidéo :</b> " + esc(d.jeu) + "</p>";
+    if (d.sm) h += "<p><b>Smart TV et son :</b> " + esc(d.sm) + "</p>";
+    if (d.ta) h += "<p><b>Tailles :</b> " + esc(d.ta) + "</p>";
+    if (d.nt) h += '<p class="note warn"><b>À savoir :</b> ' + esc(d.nt) + "</p>";
+  }
+  h += f;
+  return h + '<p class="specn">' + (f ? "Valeurs relevées sur le site officiel du fabricant ; « — » = information non publiée. Vérifiez sur la fiche du marchand." : "Fiche établie d\'après les sites des fabricants et la presse spécialisée ; elle peut varier selon la taille. Vérifiez sur la fiche du marchand.") + "</p></div>";
+}
+var FICHE = {
+ "Sony Bravia 9 II 2026": {
+  "c": {
+   "tech": "LCD True RGB Mini LED, gradation locale",
+   "res": "3 840 × 2 160 (4K)",
+   "cpu": "XR Processor",
+   "hz": "120 Hz",
+   "hdr": "HDR10, HLG, Dolby Vision",
+   "hdmi": "4 (2 en HDMI 2.1, 2 en HDMI 2.0 ; ARC)",
+   "usb": "2 (sur le côté)",
+   "son": "—"
+  },
+  "s": {
+   "65": {
+    "ref": "K-65XR95M2",
+    "t": "65 pouces (164 cm)",
+    "dim": "144,5 × 90,6 × 34,1 cm (avec pied)",
+    "poids": "30,6 kg (avec pied) · 26,6 kg (sans pied)",
+    "vesa": "30 × 30 cm",
+    "son": "80 W, Dolby Atmos"
+   },
+   "75": {
+    "ref": "K-75XR95M2",
+    "t": "75 pouces (189 cm)",
+    "dim": "166,9 × 103,3 × 38,6 cm (avec pied)",
+    "poids": "43,5 kg (avec pied) · 38,1 kg (sans pied)",
+    "vesa": "30 × 30 cm",
+    "son": "80 W, Dolby Atmos"
+   },
+   "85": {
+    "ref": "K-85XR95M2",
+    "t": "85 pouces (215 cm)",
+    "dim": "189,2 × 115,8 × 44,1 cm (avec pied)",
+    "poids": "55,8 kg (avec pied) · 48,2 kg (sans pied)",
+    "vesa": "40 × 40 cm",
+    "son": "80 W, Dolby Atmos"
+   },
+   "115": {
+    "ref": "K-115XR95M2",
+    "t": "115 pouces (291 cm)",
+    "dim": "256,5 × 153,5 × 54,0 cm (avec pied)",
+    "poids": "111,8 kg (avec pied) · 106,8 kg (sans pied)",
+    "vesa": "100 × 70 cm",
+    "son": "90 W, Dolby Atmos"
+   }
+  }
+ },
+ "Sony Bravia 7 II 2026": {
+  "c": {
+   "tech": "LCD rétroéclairage RGB LED, gradation locale",
+   "res": "3 840 × 2 160 (4K)",
+   "cpu": "XR Processor",
+   "hz": "120 Hz",
+   "hdr": "HDR10, HLG, Dolby Vision",
+   "hdmi": "4 (2 en HDMI 2.1, 2 en HDMI 2.0 ; eARC, VRR, ALLM)",
+   "usb": "2 (sur le côté)",
+   "son": "—"
+  },
+  "s": {
+   "50": {
+    "ref": "K-50XR79M2",
+    "t": "50 pouces (126 cm)",
+    "dim": "111,4 × 72,0 × 18,3 cm (avec pied)",
+    "poids": "19,3 kg (avec pied) · 15,7 kg (sans pied)",
+    "vesa": "20 × 20 cm",
+    "son": "40 W (4 haut-parleurs), Dolby Atmos"
+   },
+   "55": {
+    "ref": "K-55XR75M2",
+    "t": "55 pouces (139 cm)",
+    "dim": "122,8 × 78,4 × 20,9 cm (avec pied)",
+    "poids": "21,4 kg (avec pied) · 18,4 kg (sans pied)",
+    "vesa": "30 × 30 cm",
+    "son": "40 W, Dolby Atmos"
+   },
+   "65": {
+    "ref": "K-65XR75M2",
+    "t": "65 pouces (164 cm)",
+    "dim": "144,7 × 90,7 × 34,1 cm (avec pied)",
+    "poids": "30,7 kg (avec pied) · 26,6 kg (sans pied)",
+    "vesa": "30 × 30 cm",
+    "son": "40 W (4 haut-parleurs), Dolby Atmos"
+   },
+   "75": {
+    "ref": "K-75XR75M2",
+    "t": "75 pouces (189 cm)",
+    "dim": "167,1 × 103,4 × 38,6 cm (avec pied)",
+    "poids": "42,1 kg (avec pied) · 36,6 kg (sans pied)",
+    "vesa": "30 × 30 cm",
+    "son": "40 W, Dolby Atmos"
+   },
+   "85": {
+    "ref": "K-85XR75M2",
+    "t": "85 pouces (215 cm)",
+    "dim": "189,5 × 115,9 × 44,1 cm (avec pied)",
+    "poids": "53,6 kg (avec pied) · 45,9 kg (sans pied)",
+    "vesa": "40 × 40 cm",
+    "son": "40 W, Dolby Atmos"
+   },
+   "98": {
+    "ref": "K-98XR75M2",
+    "t": "98 pouces (248 cm)",
+    "dim": "218,0 × 131,5 × 54,0 cm (avec pied)",
+    "poids": "67,2 kg (avec pied) · 62,2 kg (sans pied)",
+    "vesa": "60 × 40 cm",
+    "son": "65 W, Dolby Atmos"
+   }
+  }
+ },
+ "Sony Bravia 6 2026": {
+  "c": {
+   "tech": "OLED",
+   "res": "3 840 × 2 160 (4K)",
+   "cpu": "Processeur 4K (sans XR)",
+   "hz": "120 Hz",
+   "hdr": "HDR10, HLG, Dolby Vision",
+   "hdmi": "4 (HDMI 2.1 : 2 sur le côté, 2 en bas)",
+   "usb": "2 (sur le côté)",
+   "son": "20 W (2.0), Dolby Atmos"
+  },
+  "s": {
+   "48": {
+    "ref": "K-48A62 / A65 / A69",
+    "t": "48 pouces (121 cm)",
+    "dim": "107,1 × 65,3 × 27,5 cm (avec pied)",
+    "poids": "13,1 kg (avec pied) · 12,5 kg (sans pied)",
+    "vesa": "30 × 20 cm"
+   },
+   "55": {
+    "ref": "K-55A62 / A65 / A69",
+    "t": "55 pouces (139 cm)",
+    "dim": "122,4 × 73,9 × 28,0 cm (avec pied)",
+    "poids": "14,3 kg (avec pied) · 13,7 kg (sans pied)",
+    "vesa": "30 × 20 cm"
+   },
+   "65": {
+    "ref": "K-65A62 / A65 / A69",
+    "t": "65 pouces (164 cm)",
+    "dim": "144,3 × 86,2 × 30,2 cm (avec pied)",
+    "poids": "18 kg (avec pied) · 17,3 kg (sans pied)",
+    "vesa": "40 × 20 cm"
+   },
+   "77": {
+    "ref": "K-77A62 / A65 / A69",
+    "t": "77 pouces (195 cm)",
+    "dim": "171,4 × 101,7 × 35,7 cm (avec pied)",
+    "poids": "25,9 kg (avec pied) · 25,1 kg (sans pied)",
+    "vesa": "40 × 30 cm"
+   },
+   "83": {
+    "ref": "K-83A62 / A65 / A69",
+    "t": "83 pouces (210 cm)",
+    "dim": "184,5 × 109,1 × 39,9 cm (avec pied)",
+    "poids": "27 kg (avec pied) · 25,9 kg (sans pied)",
+    "vesa": "40 × 40 cm"
+   }
+  }
+ },
+ "Sony Bravia 3 II 2026": {
+  "c": {
+   "tech": "LCD Direct LED",
+   "res": "3 840 × 2 160 (4K)",
+   "cpu": "XR Processor",
+   "hz": "120 Hz",
+   "hdr": "HDR10, HLG, Dolby Vision",
+   "hdmi": "4 (HDMI 2.1 : 4K 120 Hz, eARC, VRR, ALLM)",
+   "usb": "2 (sur le côté)",
+   "son": "20 W (2 haut-parleurs)"
+  },
+  "s": {
+   "43": {
+    "ref": "K-43XR32M2 / XR35M2 / XR39M2",
+    "t": "43 pouces (108 cm)",
+    "dim": "95,8 × 62,7 × 24,6 cm (avec pied)",
+    "poids": "9,5 kg (avec pied) · 9,1 kg (sans pied)",
+    "vesa": "20 × 20 cm"
+   },
+   "50": {
+    "ref": "K-50XR32M2 / XR35M2 / XR39M2",
+    "t": "50 pouces (126 cm)",
+    "dim": "111,1 × 71,4 × 24,6 cm (avec pied)",
+    "poids": "11,4 kg (avec pied) · 11,1 kg (sans pied)",
+    "vesa": "30 × 30 cm"
+   },
+   "55": {
+    "ref": "K-55XR32M2 / XR35M2 / XR39M2",
+    "t": "55 pouces (139 cm)",
+    "dim": "122,5 × 78,0 × 26,2 cm (avec pied)",
+    "poids": "14,2 kg (avec pied) · 13,9 kg (sans pied)",
+    "vesa": "30 × 30 cm"
+   },
+   "65": {
+    "ref": "K-65XR32M2 / XR35M2 / XR39M2",
+    "t": "65 pouces (164 cm)",
+    "dim": "144,7 × 90,4 × 29,0 cm (avec pied)",
+    "poids": "21,8 kg (avec pied) · 21,4 kg (sans pied)",
+    "vesa": "30 × 30 cm"
+   },
+   "75": {
+    "ref": "K-75XR32M2 / XR35M2 / XR39M2",
+    "t": "75 pouces (189 cm)",
+    "dim": "167,0 × 103,0 × 34,9 cm (avec pied)",
+    "poids": "33,0 kg (avec pied) · 31,8 kg (sans pied)",
+    "vesa": "40 × 40 cm"
+   },
+   "85": {
+    "ref": "K-85XR35M2",
+    "t": "85 pouces (215 cm)",
+    "dim": "189,2 × 115,5 × 45,0 cm (avec pied)",
+    "poids": "37,9 kg (avec pied) · 36,4 kg (sans pied)",
+    "vesa": "40 × 40 cm"
+   },
+   "100": {
+    "ref": "K-100XR35M2",
+    "t": "100 pouces (253 cm)",
+    "dim": "223,0 × 134,7 × 49,4 cm (avec pied)",
+    "poids": "54,6 kg (avec pied) · 53,0 kg (sans pied)",
+    "vesa": "60 × 40 cm"
+   }
+  }
+ },
+ "Sony Bravia 2 II 2026": {
+  "c": {
+   "tech": "LCD Direct LED",
+   "res": "3 840 × 2 160 (4K)",
+   "cpu": "Processeur 4K X1",
+   "hz": "60 Hz",
+   "hdr": "HDR10, HLG",
+   "hdmi": "4 (sur le côté, sans VRR)",
+   "usb": "2 (sur le côté)",
+   "son": "2 × 10 W"
+  },
+  "s": {
+   "43": {
+    "ref": "K-43S20M2 / S25M2",
+    "t": "43 pouces (108 cm)",
+    "dim": "95,8 × 62,8 × 25,5 cm (avec pied)",
+    "poids": "8 kg (avec pied) · 7,8 kg (sans pied)",
+    "vesa": "20 × 20 cm"
+   },
+   "50": {
+    "ref": "K-50S20M2 / S25M2",
+    "t": "50 pouces (126 cm)",
+    "dim": "111,1 × 71,4 × 25,5 cm (avec pied)",
+    "poids": "10 kg (avec pied) · 9,8 kg (sans pied)",
+    "vesa": "20 × 20 cm"
+   },
+   "55": {
+    "ref": "K-55S20M2 / S25M2",
+    "t": "55 pouces (139 cm)",
+    "dim": "122,7 × 78,2 × 28,8 cm (avec pied)",
+    "poids": "13,5 kg (avec pied) · 13,2 kg (sans pied)",
+    "vesa": "30 × 30 cm"
+   },
+   "65": {
+    "ref": "K-65S20M2 / S25M2",
+    "t": "65 pouces (164 cm)",
+    "dim": "144,7 × 90,4 × 32,7 cm (avec pied)",
+    "poids": "20 kg (avec pied) · 19,7 kg (sans pied)",
+    "vesa": "30 × 30 cm"
+   },
+   "75": {
+    "ref": "K-75S20M2 / S25M2",
+    "t": "75 pouces (189 cm)",
+    "dim": "167 × 103,3 × 39,3 cm (avec pied)",
+    "poids": "29 kg (avec pied) · 28 kg (sans pied)",
+    "vesa": "30 × 30 cm"
+   }
+  }
+ }
+};
 var BRANDEDGE = {
   "Philips": "Ambilight : l'éclairage qui prolonge l'image sur le mur",
   "Samsung": "Gaming Hub et jusqu'à 7 ans de mises à jour",
@@ -1405,7 +1709,7 @@ function resultHtml() {
   if (tech) h += '<p class="note"><b>Technologie :</b> ' + esc(tech) + "</p>";
   var sc = known ? scoreOf(c) : null;
   if (sc != null) h += '<p class="note"><b>Note indicative :</b> ' + fr1(sc) + "/10</p>";
-  var sp = known ? specHtml(c) : "";
+  var sp = known ? specHtml(c, sz) : "";
   if (sp) h += sp.replace('<div class="specp" hidden>', '<div class="specp">');
   else h += '<p class="note">' + (known ? "Nous n\'avons pas encore de fiche détaillée pour ce modèle." : "Modèle non listé : vérifiez la référence sur l\'étiquette au dos de votre télé.") + "</p>";
   h += "</div>";
@@ -1506,6 +1810,7 @@ stage.addEventListener("click", function (e) {
   var v = t.getAttribute("data-v");
   navDir = (act === "back" || act === "dback" || act === "hback") ? "back" : "fwd";
   if (act === "shops") { var sh = t.closest(".pick").querySelector(".shops"); var sho = sh.hidden; sh.hidden = !sho; t.setAttribute("aria-expanded", sho ? "true" : "false"); return; }
+  if (act === "fsz") { var fb = t.closest(".fiche"); fb.querySelectorAll(".ftab").forEach(function (x) { x.hidden = x.getAttribute("data-s") !== v; }); fb.querySelectorAll(".fchip").forEach(function (x) { var on = x.getAttribute("data-v") === v; x.classList.toggle("on", on); x.setAttribute("aria-pressed", on ? "true" : "false"); }); return; }
   if (act === "spec") { var sp = t.closest(".pick").querySelector(".specp"); var so = sp.hidden; sp.hidden = !so; t.setAttribute("aria-expanded", so ? "true" : "false"); return; }
   if (act === "rbud") { state.rb = parseInt(v, 10); }
   else if (act === "rback") { state.rb = null; }
