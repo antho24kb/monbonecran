@@ -1804,7 +1804,7 @@ function aliasWarnHtml() {
    Aucune valeur héritée d'un modèle voisin (VALIAS) ni valeur générique n'est présentée comme celle du modèle.
    Les deux interrupteurs ci-dessous existent uniquement pour pouvoir revenir en arrière en une ligne. */
 var ALLOW_INHERITED = false;
-var SHOW_GENERIC_SETTINGS = false;
+var SHOW_GENERIC_SETTINGS = true;
 /* Années : une fiche documentée n'est valable que pour les années listées ici (liste vide ou absente = refusée).
    Un même nom de modèle réutilisé une autre année (ex. QNED86 2026) n'hérite donc jamais de la fiche d'une année précédente.
    Sony Bravia 9 : 2025 retiré provisoirement (identité des réglages 2024/2025, firmware compris, non démontrée) ; à rétablir sur confirmation solide. */
@@ -1841,7 +1841,8 @@ function verifiedFor() {
   if (state.usage === "sport") return sportSheet(state.brand, isOledModel(state.brand, state.model));
   if (state.usage === "jeu") return gameSheet(state.brand, isOledModel(state.brand, state.model));
   if (ALLOW_INHERITED && VALIAS[k]) { k = VALIAS[k]; window._avKey = state.brand + "|" + state.model; window._av = true; window._avBase = k.replace("|", " "); window._avKeyBase = k; }
-  return VERIFIED[k + "|" + state.usage] || null;
+  /* Fiche propre déjà testée plus haut (docEntry) : jamais de fiche hors année ou suspendue présentée comme celle du modèle. */
+  return ALLOW_INHERITED ? (VERIFIED[k + "|" + state.usage] || null) : null;
 }
 
 /* Modèles sans valeurs affichées dans l'outil : aucune source fiable pour des réglages chiffrés, on renvoie vers leur guide. */
@@ -1932,15 +1933,8 @@ function sizeTip(size) {
 var TECH_ORDER = ["OLED", "Mini LED", "RGB / Micro LED", "QLED", "QNED", "LED", "Lifestyle", "À confirmer"];
 
 /* Un modèle dont la 3e valeur vaut 1 est « non confirmé » : conservé dans le catalogue, masqué du sélecteur. Il redevient visible dès que cette valeur est retirée. */
-/* Seuls les modèles pour lesquels nous avons de vrais réglages documentés sont proposés. */
-function hasDocSettings(brand, m, y) {
-  return Object.keys(USAGES).some(function (u) { return !!docEntry(brand, m[0], y, u); });
-}
 function visibleModels(brand, y) {
-  return (BRANDS[brand].models[y] || []).filter(function (m) { return !m[2] && hasDocSettings(brand, m, y); });
-}
-function brandHasDoc(brand) {
-  return YEARS.some(function (y) { return visibleModels(brand, y).length > 0; });
+  return (BRANDS[brand].models[y] || []).filter(function (m) { return !m[2]; });
 }
 function techCat(t) {
   if (/confirmer/.test(t)) return "À confirmer";
@@ -1997,6 +1991,9 @@ function modelsHtml(filter) {
       return !q || nm.indexOf(q) !== -1 || nm.indexOf(q2) !== -1;
     });
     if (!items.length) {
+      if (y !== "2019" && !q && !state.tech && !visibleModels(state.brand, y).length) {
+        h += '<div class="year">' + y + '</div><p class="note">Gamme ' + y + " bientôt disponible. Sélectionnez « Autre modèle » en attendant.</p>";
+      }
       return;
     }
     shown += items.length;
@@ -2006,8 +2003,8 @@ function modelsHtml(filter) {
     });
     h += "</div>";
   });
-  if (q && !shown) h += '<p class="note">Aucun modèle trouvé parmi les modèles documentés.</p>';
-  h += '<p class="note">Seuls les modèles dont nous avons les vrais réglages sont listés. D\'autres seront ajoutés au fur et à mesure.</p>';
+  if (q && !shown) h += '<p class="note">Aucun modèle trouvé. Essayez « Autre modèle » juste en dessous.</p>';
+  h += '<button class="opt" type="button" data-act="model" data-v="Autre modèle" data-y=""><span class="mn">Autre modèle</span><small>Je ne trouve pas mon modèle</small></button>';
   return h;
 }
 
@@ -2849,7 +2846,7 @@ function renderCore() {
   if (state.step === 0) {
     h += back() + "<h2>Quelle est la marque de votre téléviseur ?</h2>";
     h += '<div class="grid">';
-    Object.keys(BRANDS).filter(brandHasDoc).forEach(function (k) {
+    Object.keys(BRANDS).forEach(function (k) {
       h += '<button class="opt has-ic" type="button" data-act="brand" data-v="' + k + '">' + icBrand(k) + "<span>" + k + "</span></button>";
     });
     h += "</div>";
@@ -2911,7 +2908,7 @@ function renderCore() {
       ? '<p class="note"><b>Niveau 3 · Réglages non vérifiés spécifiquement pour ce modèle.</b> Ces valeurs viennent du modèle proche « ' + esc(aliasBase) + ' » : prenez-les comme point de départ et ajustez-les.</p>'
       : vf
       ? vf.game ? '<p class="note"><b>Niveau 3 · Recommandations générales non calibrées.</b> Réglages pour le jeu et le sport en direct. Les noms de menus peuvent varier selon la version du logiciel de votre téléviseur.</p>' : vf.note ? '<p class="note">' + vf.note + '</p>' : vf.unverified ? '<p class="note"><b>Niveau 3 · Valeurs indicatives non calibrées</b> (tirées d\'une vidéo, source non identifiée) : à tester sur un film que vous connaissez. Les noms de menus peuvent varier selon la version du logiciel.</p>' : '<p class="note"><b>Niveau 1 · Noms de menus relevés sur une vraie télé de ce modèle.</b> Les valeurs restent des points de départ, non calibrées à la sonde : ajustez-les selon votre pièce et ce que vous regardez.</p>'
-      : '<p class="note"><b>Niveau 3 · Valeurs de départ non calibrées</b>, affichées à titre d\'exemple. Les noms de menus changent selon la version du logiciel de votre téléviseur.</p>';
+      : '<p class="note"><b>Niveau 3 · Valeurs de départ génériques de la marque, non vérifiées pour ce modèle.</b> Elles ne sont pas calibrées : prenez-les comme point de départ et ajustez-les à votre goût. Les noms de menus changent selon la version du logiciel de votre téléviseur.</p>';
     h += aliasWarn + LEVELS_HTML;
     h += '<div class="row-actions"><button class="btn ghost" type="button" data-act="share"><svg class="shi" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4M6 12v7a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-7"/></svg>Partager</button><button class="btn ghost" type="button" data-act="reset">Recommencer</button></div>';
     h += feedbackHtml();
