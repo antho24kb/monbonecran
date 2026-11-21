@@ -1932,8 +1932,15 @@ function sizeTip(size) {
 var TECH_ORDER = ["OLED", "Mini LED", "RGB / Micro LED", "QLED", "QNED", "LED", "Lifestyle", "À confirmer"];
 
 /* Un modèle dont la 3e valeur vaut 1 est « non confirmé » : conservé dans le catalogue, masqué du sélecteur. Il redevient visible dès que cette valeur est retirée. */
+/* Seuls les modèles pour lesquels nous avons de vrais réglages documentés sont proposés. */
+function hasDocSettings(brand, m, y) {
+  return Object.keys(USAGES).some(function (u) { return !!docEntry(brand, m[0], y, u); });
+}
 function visibleModels(brand, y) {
-  return (BRANDS[brand].models[y] || []).filter(function (m) { return !m[2]; });
+  return (BRANDS[brand].models[y] || []).filter(function (m) { return !m[2] && hasDocSettings(brand, m, y); });
+}
+function brandHasDoc(brand) {
+  return YEARS.some(function (y) { return visibleModels(brand, y).length > 0; });
 }
 function techCat(t) {
   if (/confirmer/.test(t)) return "À confirmer";
@@ -1990,9 +1997,6 @@ function modelsHtml(filter) {
       return !q || nm.indexOf(q) !== -1 || nm.indexOf(q2) !== -1;
     });
     if (!items.length) {
-      if (y !== "2019" && !q && !state.tech && !visibleModels(state.brand, y).length) {
-        h += '<div class="year">' + y + '</div><p class="note">Gamme ' + y + " bientôt disponible. Sélectionnez « Autre modèle » en attendant.</p>";
-      }
       return;
     }
     shown += items.length;
@@ -2002,8 +2006,8 @@ function modelsHtml(filter) {
     });
     h += "</div>";
   });
-  if (q && !shown) h += '<p class="note">Aucun modèle trouvé. Essayez « Autre modèle » juste en dessous.</p>';
-  h += '<button class="opt" type="button" data-act="model" data-v="Autre modèle" data-y=""><span class="mn">Autre modèle</span><small>Je ne trouve pas mon modèle</small></button>';
+  if (q && !shown) h += '<p class="note">Aucun modèle trouvé parmi les modèles documentés.</p>';
+  h += '<p class="note">Seuls les modèles dont nous avons les vrais réglages sont listés. D\'autres seront ajoutés au fur et à mesure.</p>';
   return h;
 }
 
@@ -2845,7 +2849,7 @@ function renderCore() {
   if (state.step === 0) {
     h += back() + "<h2>Quelle est la marque de votre téléviseur ?</h2>";
     h += '<div class="grid">';
-    Object.keys(BRANDS).forEach(function (k) {
+    Object.keys(BRANDS).filter(brandHasDoc).forEach(function (k) {
       h += '<button class="opt has-ic" type="button" data-act="brand" data-v="' + k + '">' + icBrand(k) + "<span>" + k + "</span></button>";
     });
     h += "</div>";
