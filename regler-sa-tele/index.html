@@ -906,6 +906,21 @@ var VERIFIED = {
       {name: "Motionflow", val: "Non"}
     ]
   },
+  "Sony|Bravia 9 II|cinema": {
+    path: "Réglages rapides > Paramètres > Affichage et son > Image",
+    note: "<b>Niveau 2 · Réglages issus d\'un test spécialisé</b> (RTINGS, Sony BRAVIA 9 II, version 65 pouces, valables pour les 65, 75, 85 et 115 pouces). Valeurs de départ pour le cinéma en SDR et en HDR10 : ajustez selon votre pièce. Les noms de menus peuvent varier selon la version du logiciel.",
+    items: [
+      {name: "Mode d'image", val: "Professionnel (SDR et HDR10)"},
+      {name: "Température de couleur", val: "Expert 1 (SDR) / Expert 2 (HDR10)"},
+      {name: "Contraste", val: "90 (SDR et HDR10)"},
+      {name: "Gradation locale (Local Dimming)", val: "Moyen (SDR et HDR10)"},
+      {name: "Mode d'éclairage du rétroéclairage (Backlight Lighting Mode)", val: "Couleur (SDR et HDR10)"},
+      {name: "Gamma", val: "0 (SDR) / non indiqué (HDR10)"},
+      {name: "Luminosité maximale (Peak Luminance)", val: "Élevé (SDR et HDR10)"},
+      {name: "Luminosité", val: "SDR : 2 à 100 nits / HDR10 : Maximum"},
+      {name: "Mappage des tons HDR", val: "Gradation préférée (HDR10)"}
+    ]
+  },
   "Sony|Bravia 9|cinema": {
     unverified: true,
     path: "Réglages rapides > Paramètres > Affichage et son > Image",
@@ -1808,7 +1823,7 @@ var SHOW_GENERIC_SETTINGS = true;
 /* Années : une fiche documentée n'est valable que pour les années listées ici (liste vide ou absente = refusée).
    Un même nom de modèle réutilisé une autre année (ex. QNED86 2026) n'hérite donc jamais de la fiche d'une année précédente.
    Sony Bravia 9 : 2025 retiré provisoirement (identité des réglages 2024/2025, firmware compris, non démontrée) ; à rétablir sur confirmation solide. */
-var DOC_YEARS = {"Hisense|U8Q": ["2025"], "LG|MRGB96": ["2026"], "LG|OLED evo C4": ["2024"], "LG|QNED86": ["2025"], "Panasonic|TX-65GZ1000": ["2019"], "Panasonic|Z95B": ["2025"], "Philips|OLED810": ["2025"], "Philips|OLED849": ["2024"], "Philips|OLED911": ["2026"], "Samsung|CU700C": ["2023"], "Samsung|CU800C": ["2023"], "Samsung|Q60C": ["2023"], "Samsung|Q70C": ["2023"], "Samsung|Q80C": ["2023"], "Samsung|QN85C": ["2023"], "Samsung|QN900C": ["2023"], "Samsung|QN90C": ["2023"], "Samsung|QN95C": ["2023"], "Samsung|R85H": ["2026"], "Samsung|R95H": ["2026"], "Samsung|S90C": ["2023"], "Samsung|S90D": ["2024"], "Samsung|S95C": ["2023"], "Samsung|S95D": ["2024"], "Samsung|S95F": ["2025"], "Sony|Bravia 8 II": ["2025"], "Sony|Bravia 9": ["2024"], "TCL|C8K": ["2025"], "Xiaomi|TV A Pro 2026": ["2026"]};
+var DOC_YEARS = {"Sony|Bravia 9 II": ["2026"], "Hisense|U8Q": ["2025"], "LG|MRGB96": ["2026"], "LG|OLED evo C4": ["2024"], "LG|QNED86": ["2025"], "Panasonic|TX-65GZ1000": ["2019"], "Panasonic|Z95B": ["2025"], "Philips|OLED810": ["2025"], "Philips|OLED849": ["2024"], "Philips|OLED911": ["2026"], "Samsung|CU700C": ["2023"], "Samsung|CU800C": ["2023"], "Samsung|Q60C": ["2023"], "Samsung|Q70C": ["2023"], "Samsung|Q80C": ["2023"], "Samsung|QN85C": ["2023"], "Samsung|QN900C": ["2023"], "Samsung|QN90C": ["2023"], "Samsung|QN95C": ["2023"], "Samsung|R85H": ["2026"], "Samsung|R95H": ["2026"], "Samsung|S90C": ["2023"], "Samsung|S90D": ["2024"], "Samsung|S95C": ["2023"], "Samsung|S95D": ["2024"], "Samsung|S95F": ["2025"], "Sony|Bravia 8 II": ["2025"], "Sony|Bravia 9": ["2024"], "TCL|C8K": ["2025"], "Xiaomi|TV A Pro 2026": ["2026"]};
 /* Fiches propres suspendues par décision (données conservées) : S95D et S90D (valeurs strictement identiques, sans source propre) ; GZ1000 (valeurs proposées non vérifiées) ;
    Samsung 2023 (S95C, S90C, QN90C, QN95C, QN900C, QN85C, CU700C, CU800C) : provenance non identifiable (« source non identifiée »). */
 var DOC_SUSPENDED = {"Samsung|S95D|cinema": 1, "Samsung|S90D|cinema": 1, "Panasonic|TX-65GZ1000|cinema": 1, "Samsung|S95C|cinema": 1, "Samsung|S90C|cinema": 1, "Samsung|QN90C|cinema": 1, "Samsung|QN95C|cinema": 1, "Samsung|QN900C|cinema": 1, "Samsung|QN85C|cinema": 1, "Samsung|CU700C|cinema": 1, "Samsung|CU800C|cinema": 1};
