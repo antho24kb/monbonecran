@@ -951,6 +951,34 @@ var VERIFIED = {
       {name: "VRR", val: "Activé (activable depuis la Game Bar)"}
     ]
   },
+  "LG|QNED70|cinema": {
+    note: "<b>Niveau 2 · Réglages issus d'un test spécialisé sur un modèle voisin</b> (RTINGS, LG QNED75B, modèle voisin du QNED70, pas identique garanti). Testé en 75\" ; RTINGS indique des réglages valables aussi pour les 43\", 50\", 55\", 65\" et 85\". Valeurs de départ, non calibrées sur votre exemplaire.",
+    path: "Paramètres > Tous les paramètres > Image > Paramètres du mode image > Paramètres avancés",
+    items: [
+      {name: "SDR · Mode d'image", val: "Filmmaker Mode"},
+      {name: "SDR · Ajuster le contraste", val: "95"},
+      {name: "SDR · Température des couleurs", val: "Chaud 40"},
+      {name: "SDR · Gamma", val: "2.2"},
+      {name: "SDR · Luminosité du panneau (Panel Brightness)", val: "31 (100 nits) ; 72 pour 200 nits"},
+      {name: "HDR10 · Mode d'image", val: "Filmmaker Mode"},
+      {name: "HDR10 · Ajuster le contraste", val: "100"},
+      {name: "HDR10 · Contraste dynamique automatique", val: "Désactivé"},
+      {name: "HDR10 · Luminosité du panneau", val: "100"},
+      {name: "HDR10 · Mappage des tons dynamique", val: "Désactivé"},
+      {name: "HDR10 image plus lumineuse", val: "Mappage des tons dynamique Activé, Luminosité du panneau 100"},
+      {name: "Cinéma originel (Real Cinema)", val: "Activé"},
+      {name: "De-Judder", val: "3 (RTINGS signale que cela peut créer une cadence irrégulière)"}
+    ]
+  },
+  "LG|QNED70|jeu": {
+    note: "<b>Niveau 2 · Réglages jeu issus du test RTINGS du modèle voisin LG QNED75B.</b> Pas identique garanti au QNED70.",
+    path: "Paramètres > Tous les paramètres > Image > Paramètres du mode image",
+    items: [
+      {name: "Mode d'image", val: "Optimiseur de jeu (Game Optimizer)"},
+      {name: "ALLM", val: "Activé depuis la Game Bar"},
+      {name: "VRR", val: "Activé depuis la Game Bar"}
+    ]
+  },
   "LG|OLED evo C4|cinema": {
     unverified: true,
     path: "Paramètres > Tous les paramètres > Image > Paramètres du mode image > Paramètres avancés",
@@ -1948,7 +1976,7 @@ var SHOW_GENERIC_SETTINGS = true;
 /* Années : une fiche documentée n'est valable que pour les années listées ici (liste vide ou absente = refusée).
    Un même nom de modèle réutilisé une autre année (ex. QNED86 2026) n'hérite donc jamais de la fiche d'une année précédente.
    Sony Bravia 9 : 2025 retiré provisoirement (identité des réglages 2024/2025, firmware compris, non démontrée) ; à rétablir sur confirmation solide. */
-var DOC_YEARS = {"Samsung|S95H": ["2026"], "LG|OLED evo C6": ["2026"], "Hisense|UR9S": ["2026"], "LG|OLED evo G6": ["2026"], "Sony|Bravia 9 II": ["2026"], "Hisense|U8Q": ["2025"], "LG|MRGB96": ["2026"], "LG|OLED evo C4": ["2024"], "LG|QNED86": ["2025"], "Panasonic|TX-65GZ1000": ["2019"], "Panasonic|Z95B": ["2025"], "Philips|OLED810": ["2025"], "Philips|OLED849": ["2024"], "Philips|OLED911": ["2026"], "Samsung|CU700C": ["2023"], "Samsung|CU800C": ["2023"], "Samsung|Q60C": ["2023"], "Samsung|Q70C": ["2023"], "Samsung|Q80C": ["2023"], "Samsung|QN85C": ["2023"], "Samsung|QN900C": ["2023"], "Samsung|QN90C": ["2023"], "Samsung|QN95C": ["2023"], "Samsung|R85H": ["2026"], "Samsung|R95H": ["2026"], "Samsung|S90C": ["2023"], "Samsung|S90D": ["2024"], "Samsung|S95C": ["2023"], "Samsung|S95D": ["2024"], "Samsung|S95F": ["2025"], "Sony|Bravia 8 II": ["2025"], "Sony|Bravia 9": ["2024"], "TCL|C8K": ["2025"], "Xiaomi|TV A Pro 2026": ["2026"]};
+var DOC_YEARS = {"LG|QNED70": ["2026"], "Samsung|S95H": ["2026"], "LG|OLED evo C6": ["2026"], "Hisense|UR9S": ["2026"], "LG|OLED evo G6": ["2026"], "Sony|Bravia 9 II": ["2026"], "Hisense|U8Q": ["2025"], "LG|MRGB96": ["2026"], "LG|OLED evo C4": ["2024"], "LG|QNED86": ["2025"], "Panasonic|TX-65GZ1000": ["2019"], "Panasonic|Z95B": ["2025"], "Philips|OLED810": ["2025"], "Philips|OLED849": ["2024"], "Philips|OLED911": ["2026"], "Samsung|CU700C": ["2023"], "Samsung|CU800C": ["2023"], "Samsung|Q60C": ["2023"], "Samsung|Q70C": ["2023"], "Samsung|Q80C": ["2023"], "Samsung|QN85C": ["2023"], "Samsung|QN900C": ["2023"], "Samsung|QN90C": ["2023"], "Samsung|QN95C": ["2023"], "Samsung|R85H": ["2026"], "Samsung|R95H": ["2026"], "Samsung|S90C": ["2023"], "Samsung|S90D": ["2024"], "Samsung|S95C": ["2023"], "Samsung|S95D": ["2024"], "Samsung|S95F": ["2025"], "Sony|Bravia 8 II": ["2025"], "Sony|Bravia 9": ["2024"], "TCL|C8K": ["2025"], "Xiaomi|TV A Pro 2026": ["2026"]};
 /* Fiches propres suspendues par décision (données conservées) : S95D et S90D (valeurs strictement identiques, sans source propre) ; GZ1000 (valeurs proposées non vérifiées) ;
    Samsung 2023 (S95C, S90C, QN90C, QN95C, QN900C, QN85C, CU700C, CU800C) : provenance non identifiable (« source non identifiée »). */
 var DOC_SUSPENDED = {"Samsung|S95D|cinema": 1, "Samsung|S90D|cinema": 1, "Panasonic|TX-65GZ1000|cinema": 1, "Samsung|S95C|cinema": 1, "Samsung|S90C|cinema": 1, "Samsung|QN90C|cinema": 1, "Samsung|QN95C|cinema": 1, "Samsung|QN900C|cinema": 1, "Samsung|QN85C|cinema": 1, "Samsung|CU700C|cinema": 1, "Samsung|CU800C|cinema": 1};
