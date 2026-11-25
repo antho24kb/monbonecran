@@ -1765,7 +1765,6 @@ function pathFor(s) {
     var p = "/fiches/";
     if (s.brand) p += ficheSlug(s.brand) + "/";
     if (s.model && s.model !== "Autre modèle") p += ficheSlug(s.model) + "/";
-    if (s.size) p += String(s.size) + "/";
     return p;
   }
   if (s.mode === "buy") {
