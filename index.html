@@ -1767,7 +1767,7 @@ function pathFor(s) {
     if (s.size) p += String(s.size) + "/";
     return p;
   }
-  var m = s.mode; if (!m) return "/"; return ROUTES[m] || "/";
+  if (s.mode === "buy") {\n    var buyPath = "/choisir-sa-tele/";\n    if (s.budget != null && BUDGETS[s.budget]) buyPath += ficheSlug(BUDGETS[s.budget].l) + "/";\n    if (s.bsize != null && BSIZES[s.bsize]) buyPath += ficheSlug(BSIZES[s.bsize].l) + "/";\n    if (s.bstep >= 4) buyPath += ficheSlug(s.btech || "conseil") + "/";\n    return buyPath;\n  }\n  var m = s.mode; if (!m) return "/"; return ROUTES[m] || "/";
 }
 function freshState(mode) {
   var s = {mode: mode || null, step: 0, brand: null, tech: null, model: null, year: null, size: null, help: null};
