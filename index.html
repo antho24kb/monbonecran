@@ -1758,7 +1758,7 @@ var ROUTE_MODE = {};
 Object.keys(ROUTES).forEach(function (k) { ROUTE_MODE[ROUTES[k]] = k; });
 var CAN_ROUTE = /^https?:$/.test(location.protocol) && /^(www\.)?monbonecran\.fr$|^localhost$|^127\.0\.0\.1$/.test(location.hostname);
 function normPath(p) { p = p.replace(/index\.html$/, ""); return p.slice(-1) === "/" ? p : p + "/"; }
-function pathFor(s) { var m = s.mode; if (!m) return "/"; return ROUTES[m] || "/"; }
+function ficheSlug(v) { return String(v || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); }\nfunction pathFor(s) {\n  if (s.mode === "tv") {\n    var p = "/fiches/";\n    if (s.brand) p += ficheSlug(s.brand) + "/";\n    if (s.model && s.model !== "Autre modèle") p += ficheSlug(s.model) + "/";\n    if (s.size) p += String(s.size) + "/";\n    return p;\n  }\n  var m = s.mode; if (!m) return "/"; return ROUTES[m] || "/";\n}
 function freshState(mode) {
   var s = {mode: mode || null, step: 0, brand: null, tech: null, model: null, year: null, size: null, help: null};
   if (mode) { s.family = null; s.bstep = 0; s.budget = null; s.bsize = null; s.btech = null; s.bgame = []; s.rb = null; s.cmpSel = []; s.cgo = false; }
