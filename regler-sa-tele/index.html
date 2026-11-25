@@ -3896,7 +3896,6 @@ function pathFor(s) {
     var p = "/reglages/";
     if (s.brand) p += ficheSlug(s.brand) + "/";
     if (s.model && s.model !== "Autre modèle") p += ficheSlug(s.model) + "/";
-    if (s.size) p += String(s.size) + "/";
     if (s.usage) p += ficheSlug(s.usage) + "/";
     return p;
   }
