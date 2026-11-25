@@ -1760,7 +1760,12 @@ var CAN_ROUTE = /^https?:$/.test(location.protocol) && /^(www\.)?monbonecran\.fr
 function normPath(p) { p = p.replace(/index\.html$/, ""); return p.slice(-1) === "/" ? p : p + "/"; }
 function ficheSlug(v) { return String(v || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); }
 function pathFor(s) {
-  if (s.mode === "tv") {\n    var p = "/fiches/";\n    if (s.brand) p += ficheSlug(s.brand) + "/";\n    if (s.model && s.model !== "Autre modèle") p += ficheSlug(s.model) + "/";\n    if (s.size) p += String(s.size) + "/";\n    return p;
+  if (s.mode === "tv") {
+    var p = "/fiches/";
+    if (s.brand) p += ficheSlug(s.brand) + "/";
+    if (s.model && s.model !== "Autre modèle") p += ficheSlug(s.model) + "/";
+    if (s.size) p += String(s.size) + "/";
+    return p;
   }
   var m = s.mode; if (!m) return "/"; return ROUTES[m] || "/";
 }
