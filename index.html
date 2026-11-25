@@ -1131,6 +1131,18 @@ var SPEC = {
  }
 };
 var FLBL = [["ref", "Référence"], ["t", "Taille"], ["tech", "Technologie d'écran"], ["res", "Résolution"], ["cpu", "Processeur"], ["hz", "Fréquence"], ["hdr", "HDR"], ["hdmi", "HDMI"], ["usb", "USB"], ["son", "Son"], ["dim", "Dimensions"], ["poids", "Poids"], ["vesa", "VESA"]];
+function ficheUrl(c) {
+  var k = c[0] + " " + c[1] + " " + c[2];
+  var u = {
+    "Samsung QN70H 2026": "/fiches/samsung-qn70h/",
+    "Samsung R85H 2026": "/fiches/samsung-r85h/",
+    "Samsung R95H 2026": "/fiches/samsung-r95h/",
+    "Sony Bravia 3 II 2026": "/fiches/sony-bravia-3-ii/",
+    "TCL X11L 2026": "/fiches/tcl-x11l/",
+    "Xiaomi TV A Pro 2026": "/fiches/xiaomi-tv-a-pro-2026/"
+  };
+  return u[k] || null;
+}
 function ficheHtml(c, want) {
   var f = FICHE[c[0] + " " + c[1] + " " + c[2]];
   if (!f) return "";
@@ -1148,7 +1160,8 @@ function ficheHtml(c, want) {
     FLBL.forEach(function (r) { h += "<tr><td>" + r[1] + "</td><td>" + esc(o[r[0]] || "—") + "</td></tr>"; });
     h += "</tbody></table>";
   });
-  return h + "</div>";
+  var url = ficheUrl(c);
+  return h + (url ? '<p><a class="full-sheet" href="' + url + '">Voir la fiche technique complète</a></p>' : "") + "</div>";
 }
 function specHtml(c, want) {
   var d = SPEC[c[0] + " " + c[1] + " " + c[2]] || SPEC[c[0] + " " + c[1]];
