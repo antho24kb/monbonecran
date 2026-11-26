@@ -516,7 +516,7 @@ body.is-flow footer{padding:0 12px 6px!important; font-size:.68rem!important}
 <p>Note indicative sur 10 : image 50 %, jeu vidéo 30 %, son 20 %, calculée d'après la fiche technique (type de dalle, formats HDR, fréquence, HDMI 2.1, audio). Ce ne sont pas des mesures en laboratoire.</p>
 <p>Besoin d'aide pour trancher ? Lisez le <a href="/guide-des-technologies/">guide des technologies</a>, utilisez le <a href="/comparateur/">comparateur</a>, ou laissez-vous guider par <a href="/choisir-sa-tele/">Choisir sa télé</a>.</p>
 </section>
-  <footer style="text-align:center; font-size:.76rem; line-height:1.5; color:var(--muted); padding:4px 12px 18px">Marques citées appartenant à leurs propriétaires respectifs. Site indépendant, non affilié.<br><a href="mentions-legales.html" style="color:inherit">Mentions légales</a> · <a href="confidentialite.html" style="color:inherit">Confidentialité</a></footer>
+  <footer style="text-align:center; font-size:.76rem; line-height:1.5; color:var(--muted); padding:4px 12px 18px">Marques citées appartenant à leurs propriétaires respectifs. Site indépendant, non affilié.<br><a href="/mentions-legales.html" style="color:inherit">Mentions légales</a> · <a href="/confidentialite.html" style="color:inherit">Confidentialité</a></footer>
 </div>
 
 <script>
@@ -591,7 +591,7 @@ var BRANDS = {
     modes: {cinema: "Cinéma Professionnel", jeu: "Jeu", sport: "Standard"},
     path: "Menu > Image > Mode d'affichage",
     models: {
-      "2026": [["Z85C","OLED"],["W95C","QD Mini LED"],["W92C","QD Mini LED"],["W90C","QD Mini LED",1],["W91C","QD Mini LED"],["W85B","QLED"],["W83C","QLED"],["W80C","QLED"],["W60C","LED 4K"],["S65C","LED"],["S45C","LED"],["S40C","LED"]],
+      "2026": [["Z85C","OLED"],["W95C","QD Mini LED"],["W92C","QD Mini LED"],["W90C","QD Mini LED",1],["W85B","QLED"],["W83C","QLED"],["W80C","QLED"],["W60C","LED 4K"],["S65C","LED"],["S45C","LED"],["S40C","LED"]],
       "2025": [["Z95B","OLED"],["Z90B","OLED"],["Z80B","OLED"],["W95B","Mini LED"],["W93B","Mini LED"],["W85B","QLED"],["W61B","LED",1]],
       "2024": [["Z95A","OLED"],["Z93A","OLED"],["Z90A","OLED"],["Z85A","OLED",1],["Z80A","OLED",1],["W95A","Mini LED"],["W90A","LED"],["W80A","LED",1],["W70A","LED",1],["W60A","LED",1]],
     }
@@ -1500,7 +1500,7 @@ function pickCard(c, n, sz) {
       (ed ? '<a class="shop" href="' + edLink(ed.url) + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="electrodepot" data-l="' + nm + '"><span class="lg"><img src="/electrodepot-logo.png" alt="ElectroDepot" width="96" height="27" loading="lazy"></span><span class="info"><b>' + (ed.size === sz ? "Ce modèle" : "Ce modèle en " + ed.size + " pouces") + '</b>Vérifiez la dispo et le prix</span><span class="go">Voir</span></a>' : "") +
       (jy ? '<a class="shop" href="' + joyLink(jy.url) + '" target="_blank" rel="sponsored nofollow noopener noreferrer" data-shop="joybuy" data-l="' + nm + '"><span class="lg"><img src="/joybuy-logo.png" alt="Joybuy" width="74" height="20" loading="lazy"></span><span class="info"><b>' + (jy.size === sz ? "Ce modèle" : "Ce modèle en " + jy.size + " pouces") + '</b>Vérifiez la dispo et le prix</span><span class="go">Voir</span></a>' : "") + "</div>"
     : "";
-  return '<div class="opt usage pick"><span class="rk">' + (n + 1) + '</span><span><b>' + esc(c[0] + " " + c[1]) + "</b>" + (scoreOf(c) != null ? '<em class="sc">' + fr1(scoreOf(c)) + "/10</em>" : "") + "<small>" + esc(c[2] + " · " + c[3]) + " · " + esc(c[4]) + '</small>' + (BRANDEDGE[c[0]] ? '<small class="edge">★ ' + esc(BRANDEDGE[c[0]]) + "</small>" : "") + '</span><div class="acts">' + buyBtn + ((SPEC[c[0] + " " + c[1] + " " + c[2]] || SPEC[c[0] + " " + c[1]]) ? '<button class="spect" type="button" data-act="spec" aria-expanded="false">Caractéristiques</button>' : "") + "</div>" + shops + specHtml(c) + "</div>";
+  return '<div class="opt usage pick"><span class="rk">' + (n + 1) + '</span><span><b>' + esc(c[0] + " " + c[1]) + "</b>" + (scoreOf(c) != null ? '<em class="sc">' + fr1(scoreOf(c)) + "<span>/10</span></em>" : "") + "<small>" + esc(c[2] + " · " + c[3]) + " · " + esc(c[4]) + '</small>' + (BRANDEDGE[c[0]] ? '<small class="edge">★ ' + esc(BRANDEDGE[c[0]]) + "</small>" : "") + '</span><div class="acts">' + buyBtn + ((SPEC[c[0] + " " + c[1] + " " + c[2]] || SPEC[c[0] + " " + c[1]]) ? '<button class="spect" type="button" data-act="spec" aria-expanded="false">Caractéristiques</button>' : "") + "</div>" + shops + specHtml(c) + "</div>";
 }
 function accHtml(gamer) {
   var items = [
@@ -1603,7 +1603,7 @@ function renderCmp() {
   var sel = state.cmpSel || [];
   if (!state.cgo) {
     h += homeBack() + "<h2>Comparateur</h2>";
-    h += '<p class="note">Choisissez 2 ou 3 modèles de notre sélection (' + sel.length + "/3).</p>";
+    h += '<p class="note">Choisissez 2 ou 3 modèles de notre sélection (' + sel.length + "<span>/3).</span></p>";
     var last = -1;
     pool.forEach(function (m) {
       if (m.p !== last) { h += '<div class="set-name" style="margin:14px 0 6px">' + esc(BUDGETS[m.p].l) + "</div>"; last = m.p; }
@@ -1622,7 +1622,7 @@ function renderCmp() {
     row("Année", function (m) { return esc(m.c[2]); });
     row("Budget", function (m) { return esc(BUDGETS[m.p].h); });
     function cd(m, i) { var d = CMPD[m.c[0] + " " + m.c[1]]; return d ? esc(d[i]) : "—"; }
-    row("Note", function (m) { var v = scoreOf(m.c); return v != null ? "<b>" + fr1(v) + "/10</b>" : "—"; });
+    row("Note", function (m) { var v = scoreOf(m.c); return v != null ? "<b>" + fr1(v) + "<span>/10</span></b>" : "—"; });
     row("Fréquence", function (m) { return cd(m, 0); });
     row("HDMI et jeu", function (m) { return cd(m, 1); });
     row("Son", function (m) { return cd(m, 2); });
@@ -1715,7 +1715,7 @@ function resultHtml() {
   h += '<div class="card"><div class="tag">' + nm + (known && y ? " (" + esc(y) + ")" : "") + " · " + sz + '"</div>';
   if (tech) h += '<p class="note"><b>Technologie :</b> ' + esc(tech) + "</p>";
   var sc = known ? scoreOf(c) : null;
-  if (sc != null) h += '<p class="note"><b>Note indicative :</b> ' + fr1(sc) + "/10</p>";
+  if (sc != null) h += '<p class="note"><b>Note indicative :</b> ' + fr1(sc) + "<span>/10</span></p>";
   var sp = known ? specHtml(c, sz) : "";
   if (sp) h += sp.replace('<div class="specp" hidden>', '<div class="specp">');
   else h += '<p class="note">' + (known ? "Nous n\'avons pas encore de fiche détaillée pour ce modèle." : "Modèle non listé : vérifiez la référence sur l\'étiquette au dos de votre télé.") + "</p>";
