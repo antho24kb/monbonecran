@@ -1795,10 +1795,8 @@ function render() {
 
 document.getElementById("top").addEventListener("click", function (e) {
   if (!e.target.closest(".bm, .mark")) return;
-  navDir = "back";
-  state = {mode: null, step: 0, brand: null, tech: null, model: null, year: null, size: null, help: null};
-  render();
-  window.scrollTo(0, 0);
+  /* Le titre ramène à la vraie page d'accueil du site. */
+  window.location.href = "/";
 });
 document.querySelector("#top .bm").addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); this.click(); } });
 stage.addEventListener("click", function (e) {
